@@ -21,27 +21,21 @@
 
         <!-- Section header -->
         <header class="text-center mb-20 relative">
-            <h1 class="font-display text-[15vw] leading-[0.8] font-bold tracking-tighter text-white mb-6 uppercase drop-shadow-2xl opacity-0 animate-fade-in-up"
+            <h1 class="font-display text-[15vw] leading-[0.8] font-bold tracking-tighter text-white mb-6 uppercase drop-shadow-2xl opacity-100 animate-fade-in-up"
                 style="animation-delay: 0.1s;">
                 SHOWS
             </h1>
             <div
                 class="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto mb-8">
             </div>
-            <p class="text-white/80 text-lg md:text-xl font-light tracking-[0.5em] uppercase animate-fade-in-up"
+            <p class="text-white/80 text-lg md:text-xl font-light tracking-[0.5em] uppercase opacity-100 animate-fade-in-up"
                 style="animation-delay: 0.3s;">
-                DATES & TICKETS
+                TUPATANE
             </p>
         </header>
 
-        <div id="tour-list" hx-get="{% url 'tour' %}?partial=true" hx-trigger="load delay:100ms" hx-target="this"
-            hx-swap="innerHTML">
-            <!-- Loading State -->
-            <div class="space-y-3">
-                <div class="h-24 bg-white/5 rounded-sm animate-pulse border border-white/5"></div>
-                <div class="h-24 bg-white/5 rounded-sm animate-pulse border border-white/5"></div>
-                <div class="h-24 bg-white/5 rounded-sm animate-pulse border border-white/5"></div>
-            </div>
+        <div id="tour-list">
+            {% include 'web/partials/tour_list.html' with tour_dates=tour_dates %}
         </div>
 
         <!-- Home Button at Bottom -->

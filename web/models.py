@@ -2,7 +2,7 @@ from django.db import models
 
 class Album(models.Model):
     title = models.CharField(max_length=200)
-    release_date = models.DateField()
+    release_date = models.DateField(db_index=True)
     cover_art = models.ImageField(upload_to='covers/')
     spotify_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True, help_text="YouTube link for the release")
@@ -23,24 +23,27 @@ class Track(models.Model):
         return self.title
 
 class TourDate(models.Model):
-    date = models.DateTimeField()
+    date = models.DateTimeField(db_index=True)
     venue = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     ticket_link = models.URLField(blank=True)
-    is_sold_out = models.BooleanField(default=False)
+    is_sold_out = models.BooleanField(default=False, db_index=True)
 
     def __str__(self):
         return f"{self.date.strftime('%Y-%m-%d')} - {self.venue}"
 
     class Meta:
         ordering = ['date']
+        indexes = [
+            models.Index(fields=['date', 'is_sold_out']),
+        ]
 
 class ShopItem(models.Model):
     title = models.CharField(max_length=200, help_text="Product title or name")
     image = models.ImageField(upload_to='shop/', help_text="Thumbnail image (transparent PNG recommended)")
     shop_link = models.URLField(help_text="Link to product page")
-    is_active = models.BooleanField(default=True, help_text="Show this item in the merch section")
-    display_order = models.PositiveIntegerField(default=0, help_text="Order in which items are displayed (lower numbers first)")
+    is_active = models.BooleanField(default=True, db_index=True, help_text="Show this item in the merch section")
+    display_order = models.PositiveIntegerField(default=0, db_index=True, help_text="Order in which items are displayed (lower numbers first)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

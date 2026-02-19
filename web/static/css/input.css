@@ -90,6 +90,36 @@ footer {
     will-change: auto;
 }
 
+/* Prevent parallax from shifting merch grid over "SHOP HERE" on mobile */
+#merch .parallax-content {
+    transform: none !important;
+    will-change: auto;
+    /* Guaranteed spacing between "SHOP HERE" text and product grid */
+    padding-top: 18rem !important; /* 288px - mobile first */
+}
+@media (min-width: 640px) {
+    #merch .parallax-content {
+        padding-top: 16rem !important; /* 256px */
+    }
+}
+@media (min-width: 768px) {
+    #merch .parallax-content {
+        padding-top: 12rem !important; /* 192px */
+    }
+}
+@media (min-width: 1024px) {
+    #merch .parallax-content {
+        padding-top: 14rem !important; /* 224px */
+    }
+}
+
+/* Disable all animations and transitions in the merch section only */
+#merch,
+#merch * {
+    transition: none !important;
+    animation: none !important;
+}
+
 /* Ensure Latest section content doesn't shift */
 #latest .max-w-7xl {
     position: relative;

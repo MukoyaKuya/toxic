@@ -45,7 +45,8 @@ class ViewTests(TestCase):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'web/index.html')
-        self.assertEqual(response.context['latest_album'], self.album)
+        self.assertIn('latest_releases', response.context)
+        self.assertIn(self.album, list(response.context['latest_releases']))
 
     def test_music_view(self):
         response = self.client.get(reverse('music'))
