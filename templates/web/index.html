@@ -65,8 +65,7 @@
             {% for tour in upcoming_tours %}
             <!-- Ticket Card -->
             <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden hover:border-toxicAccent/50 transition-all duration-700 ease-out shadow-2xl origin-bottom cursor-pointer select-none"
-                style="opacity: 1; visibility: visible;"
-                onclick="rotateTourCard(this)">
+                style="opacity: 1; visibility: visible;" onclick="rotateTourCard(this)">
 
                 <!-- Ticket Visuals (Notches) -->
                 <!-- Top Notch -->
@@ -97,20 +96,27 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
-                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
                         <div class="flex flex-col justify-center h-full pt-4">
                             <span
                                 class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">TUPATANE</span>
-                            <h3 class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                            <h3
+                                class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
                                 {{ tour.venue }}
                             </h3>
                             <div class="flex items-center gap-3">
                                 <span class="w-12 h-0.5 bg-toxicAccent"></span>
-                                <p class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">{{ tour.location }}</p>
+                                <p
+                                    class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
+                                    {{ tour.location }}</p>
                             </div>
                         </div>
                     </div>
@@ -127,7 +133,8 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}
@@ -153,13 +160,17 @@
         </div>
 
         <!-- Hint text -->
-        <p id="tour-hint-text" class="mt-8 text-white/30 text-xs tracking-[0.3em] uppercase animate-pulse">Tap card see next dates</p>
+        <p id="tour-hint-text" class="mt-8 text-white/30 text-xs tracking-[0.3em] uppercase animate-pulse">Tap card see
+            next dates</p>
 
         <!-- Home Button at Bottom -->
-        <div class="flex justify-center mt-12 mb-8 pb-8" style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+        <div class="flex justify-center mt-12 mb-8 pb-8"
+            style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
+            <a href="{% url 'index' %}"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 HOME
             </a>
@@ -175,10 +186,13 @@
             </a>
         </div>
         <!-- Home Button at Bottom (when no tours) -->
-        <div class="flex justify-center mt-12 mb-8 pb-8" style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+        <div class="flex justify-center mt-12 mb-8 pb-8"
+            style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
+            <a href="{% url 'index' %}"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 HOME
             </a>
@@ -198,7 +212,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {% for release in latest_releases %}
-            <div onclick="window.location.href='{% url 'album_detail' release.id %}'" class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
+            <div onclick="window.location.href='{% url 'album_detail' release.id %}'"
+                class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10"></div>
                 {% if release.cover_art %}
                 <img src="{{ release.cover_art.url }}" alt="{{ release.title }}"
@@ -214,7 +229,8 @@
                         <a href="{{ release.spotify_link }}" target="_blank"
                             class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
                             <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.36.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+                                <path
+                                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.36.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
                             </svg>
                             <span>Spotify</span>
                         </a>
@@ -223,7 +239,8 @@
                         <a href="{{ release.youtube_link }}" target="_blank"
                             class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
                             <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                             </svg>
                             <span>YouTube</span>
                         </a>
@@ -246,18 +263,20 @@
     class="snap-section relative min-h-screen flex flex-col pt-6 md:pt-12 pb-12 md:pb-8 border-t border-white/5 overflow-hidden bg-black">
     <!-- Background -->
     <div class="absolute inset-0 bg-black flex items-start justify-center pt-6 md:pt-8">
-        <span class="text-toxicAccent font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.25em] uppercase">SHOP HERE</span>
+        <span
+            class="text-toxicAccent font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.25em] uppercase">SHOP
+            HERE</span>
     </div>
 
-    <div class="parallax-content relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-56 sm:pt-52 md:pt-40 lg:pt-44 flex flex-col flex-grow" data-parallax-speed="-0.25">
+    <div class="parallax-content relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-40 sm:pt-32 md:pt-32 lg:pt-40 flex flex-col flex-grow"
+        data-parallax-speed="-0.25">
         <!-- Product grid - aligned top, even spacing -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-10 items-start justify-items-center md:justify-items-start">
+        <div
+            class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-10 items-start justify-items-center md:justify-items-start">
             {% for item in shop_items %}
-            <button type="button" 
+            <button type="button"
                 class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
-                data-item-id="{{ item.id }}"
-                data-item-title="{{ item.title }}"
-                data-item-link="{{ item.shop_link }}"
+                data-item-id="{{ item.id }}" data-item-title="{{ item.title }}" data-item-link="{{ item.shop_link }}"
                 data-item-images="{% if item.image %}{{ item.image.url }}{% if item.images.all %},{% endif %}{% endif %}{% for img in item.images.all %}{{ img.image.url }}{% if not forloop.last %},{% endif %}{% endfor %}">
                 <div
                     class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
@@ -303,7 +322,7 @@
 <div id="shop-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-sm">
     <div class="relative w-full h-full max-w-5xl mx-auto px-4 py-4 md:py-6 flex flex-col items-center justify-center">
         <!-- Close Button -->
-        <button onclick="closeShopModal()" 
+        <button onclick="closeShopModal()"
             class="absolute top-2 right-2 md:top-4 md:right-4 z-50 text-white/80 hover:text-white transition-colors p-2">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -315,15 +334,15 @@
             <div id="shop-modal-image-container" class="relative w-full h-full flex items-center justify-center">
                 <img id="shop-modal-image" src="" alt="" class="max-w-full max-h-[55vh] md:max-h-[65vh] object-contain">
             </div>
-            
+
             <!-- Navigation Arrows -->
-            <button id="shop-modal-prev" onclick="changeShopImage(-1)" 
+            <button id="shop-modal-prev" onclick="changeShopImage(-1)"
                 class="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <button id="shop-modal-next" onclick="changeShopImage(1)" 
+            <button id="shop-modal-next" onclick="changeShopImage(1)"
                 class="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -343,7 +362,8 @@
                 class="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 bg-toxicAccent text-white font-display font-bold text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 border-2 border-toxicAccent hover:border-white rounded-sm">
                 <span>ADD TO WALLET</span>
                 <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
             </a>
         </div>
@@ -613,12 +633,12 @@
 
     // Initialize shop item buttons
     document.querySelectorAll('.shop-item-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const title = this.getAttribute('data-item-title');
             const link = this.getAttribute('data-item-link');
             const imagesStr = this.getAttribute('data-item-images');
             const images = imagesStr ? imagesStr.split(',').filter(url => url.trim()) : [];
-            
+
             openShopModal(title, link, images);
         });
     });
@@ -627,17 +647,17 @@
         shopModalImages = images;
         shopModalCurrentIndex = 0;
         shopModalLink = shopLink;
-        
+
         const modal = document.getElementById('shop-modal');
         const modalTitle = document.getElementById('shop-modal-title');
         const modalLink = document.getElementById('shop-modal-link');
         const modalImage = document.getElementById('shop-modal-image');
         const indicators = document.getElementById('shop-modal-indicators');
         const mainNav = document.getElementById('main-nav');
-        
+
         modalTitle.textContent = title;
         modalLink.href = shopLink;
-        
+
         // Generate indicators
         indicators.innerHTML = '';
         shopModalImages.forEach((_, index) => {
@@ -646,20 +666,20 @@
             indicator.onclick = () => goToShopImage(index);
             indicators.appendChild(indicator);
         });
-        
+
         // Show first image
         updateShopModalImage();
-        
+
         // Show modal first
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
-        
+
         // Hide navigation bar and mobile menu - use setTimeout to ensure it happens after modal is shown
         setTimeout(() => {
             const mainNav = document.getElementById('main-nav');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             if (mainNav) {
                 mainNav.style.display = 'none';
                 mainNav.style.opacity = '0';
@@ -681,12 +701,12 @@
         const modal = document.getElementById('shop-modal');
         const mainNav = document.getElementById('main-nav');
         const mobileMenu = document.getElementById('mobile-menu');
-        
+
         // Hide modal first
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
-        
+
         // Show navigation bar and mobile menu
         setTimeout(() => {
             if (mainNav) {
@@ -708,14 +728,14 @@
 
     function changeShopImage(direction) {
         if (shopModalImages.length === 0) return;
-        
+
         shopModalCurrentIndex += direction;
         if (shopModalCurrentIndex < 0) {
             shopModalCurrentIndex = shopModalImages.length - 1;
         } else if (shopModalCurrentIndex >= shopModalImages.length) {
             shopModalCurrentIndex = 0;
         }
-        
+
         updateShopModalImage();
     }
 
@@ -726,15 +746,15 @@
 
     function updateShopModalImage() {
         if (shopModalImages.length === 0) return;
-        
+
         const modalImage = document.getElementById('shop-modal-image');
         const prevBtn = document.getElementById('shop-modal-prev');
         const nextBtn = document.getElementById('shop-modal-next');
         const indicators = document.getElementById('shop-modal-indicators');
-        
+
         modalImage.src = shopModalImages[shopModalCurrentIndex];
         modalImage.alt = `Design ${shopModalCurrentIndex + 1}`;
-        
+
         // Update navigation buttons
         if (shopModalImages.length <= 1) {
             prevBtn.disabled = true;
@@ -743,7 +763,7 @@
             prevBtn.disabled = false;
             nextBtn.disabled = false;
         }
-        
+
         // Update indicators
         const indicatorButtons = indicators.querySelectorAll('button');
         indicatorButtons.forEach((btn, index) => {
@@ -756,7 +776,7 @@
     }
 
     // Close modal on escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const modal = document.getElementById('shop-modal');
             if (!modal.classList.contains('hidden')) {
@@ -766,7 +786,7 @@
     });
 
     // Close modal on background click
-    document.getElementById('shop-modal')?.addEventListener('click', function(e) {
+    document.getElementById('shop-modal')?.addEventListener('click', function (e) {
         if (e.target === this) {
             closeShopModal();
         }
@@ -775,13 +795,13 @@
     // Observer to watch for modal visibility changes
     const shopModal = document.getElementById('shop-modal');
     if (shopModal) {
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const isVisible = shopModal.classList.contains('flex') && !shopModal.classList.contains('hidden');
                     const mainNav = document.getElementById('main-nav');
                     const mobileMenu = document.getElementById('mobile-menu');
-                    
+
                     if (isVisible) {
                         // Hide nav when modal is visible
                         if (mainNav) {
@@ -802,7 +822,7 @@
                 }
             });
         });
-        
+
         observer.observe(shopModal, {
             attributes: true,
             attributeFilter: ['class']

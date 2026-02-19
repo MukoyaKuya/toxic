@@ -95,21 +95,21 @@ footer {
     transform: none !important;
     will-change: auto;
     /* Guaranteed spacing between "SHOP HERE" text and product grid */
-    padding-top: 18rem !important; /* 288px - mobile first */
+    padding-top: 10rem !important; /* 160px - mobile first */
 }
 @media (min-width: 640px) {
     #merch .parallax-content {
-        padding-top: 16rem !important; /* 256px */
+        padding-top: 8rem !important; /* 128px */
     }
 }
 @media (min-width: 768px) {
     #merch .parallax-content {
-        padding-top: 12rem !important; /* 192px */
+        padding-top: 8rem !important; /* 128px */
     }
 }
 @media (min-width: 1024px) {
     #merch .parallax-content {
-        padding-top: 14rem !important; /* 224px */
+        padding-top: 10rem !important; /* 160px */
     }
 }
 

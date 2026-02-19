@@ -120,18 +120,27 @@ UNFOLD = {
 
 import sys
 
-# Redis Caching (use dummy cache for tests)
+# Redis Caching (fall back to LocMemCache or DummyCache if Redis is not configured)
+redis_url = os.environ.get('REDIS_URL')
+
 if 'test' in sys.argv:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
-else:
+elif redis_url:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379/1'),
+            'LOCATION': redis_url,
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'toxic-cache',
         }
     }
 
