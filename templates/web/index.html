@@ -1,0 +1,811 @@
+{% extends 'base.html' %}
+{% load static tz %}
+
+{% block html_class %}snap-page{% endblock %}
+
+{% block content %}
+<div class="snap-section relative w-full h-[100vh] bg-black overflow-hidden flex flex-col items-center justify-center"
+    style="z-index: 1;">
+
+    <!-- Hero Image (Centered Background) -->
+    <div id="hero-image-container" class="absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out">
+        <div class="w-full h-full relative">
+            <img src="{% static 'images/Section one HR.jpg' %}" alt="Toxic Lyrically"
+                class="parallax-bg w-full h-full object-cover object-center" data-parallax-speed="0.8">
+            <!-- Subtle gradient for text readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70"></div>
+        </div>
+    </div>
+
+    <!-- Hero Typography (Nas Style - Centered, Large, Solid White, Pushed Down) -->
+    <div class="parallax-content relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-end h-full pb-12"
+        data-parallax-speed="-0.4">
+
+        <!-- Main Artist Name -->
+        <div class="parallax-content relative group cursor-default text-center" data-parallax-speed="-0.5">
+            <h1
+                class="font-grandover text-[12vw] md:text-[8vw] leading-none tracking-tighter text-white select-none drop-shadow-2xl">
+                TOXIC
+            </h1>
+        </div>
+
+        <!-- Secondary Text -->
+        <div id="hero-lyrically"
+            class="parallax-content mt-4 flex flex-col items-center animate-fade-in-up transition-opacity duration-300"
+            data-parallax-speed="-0.3">
+            <h2 class="text-xl md:text-2xl font-light tracking-[0.5em] text-white/90 uppercase">
+                Lyrically
+            </h2>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div id="scroll-indicator"
+        class="absolute bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce z-50 transition-opacity duration-300">
+        <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+</div>
+
+<!-- TOUR SECTION -->
+<section id="tour"
+    class="snap-section relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black pt-8 md:pt-12"
+    style="z-index: 2;">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0 bg-black"></div>
+
+    <!-- Content Container -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-center text-center">
+        <!-- Details & CTA -->
+        {% if upcoming_tours %}
+        <!-- Stacked Tour Cards Container -->
+        <div id="tour-stack"
+            class="relative w-full max-w-7xl mx-auto mt-8 h-[500px] md:h-[450px] group perspective-1000">
+            {% for tour in upcoming_tours %}
+            <!-- Ticket Card -->
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden hover:border-toxicAccent/50 transition-all duration-700 ease-out shadow-2xl origin-bottom cursor-pointer select-none"
+                style="opacity: 1; visibility: visible;"
+                onclick="rotateTourCard(this)">
+
+                <!-- Ticket Visuals (Notches) -->
+                <!-- Top Notch -->
+                <div
+                    class="absolute top-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mt-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-b border-white/10">
+                </div>
+                <!-- Bottom Notch -->
+                <div
+                    class="absolute bottom-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mb-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-t border-white/10">
+                </div>
+                <!-- Dashed Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-4 bottom-4 left-[70%] w-px border-l-2 border-dashed border-white/10 -ml-px z-10">
+                </div>
+                <!-- Dashed Line (Mobile) -->
+                <div
+                    class="md:hidden absolute left-4 right-4 top-[70%] h-px border-t-2 border-dashed border-white/10 z-10">
+                </div>
+
+                <!-- Main Info Section (Left/Top) -->
+                <div
+                    class="relative flex-1 p-8 md:p-12 flex flex-col justify-center gap-6 md:gap-8 group-hover:bg-zinc-900/50 transition-colors">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -top-20 -left-20 w-96 h-96 bg-toxicAccent/10 rounded-full blur-[100px] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                        <!-- Huge Date -->
+                        <div class="flex flex-col leading-[0.8]">
+                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
+                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                        </div>
+
+                        <!-- Venue Details -->
+                        <div class="flex flex-col justify-center h-full pt-4">
+                            <span
+                                class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">Live
+                                Tour 2026</span>
+                            <h3 class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                                {{ tour.venue }}
+                            </h3>
+                            <div class="flex items-center gap-3">
+                                <span class="w-12 h-0.5 bg-toxicAccent"></span>
+                                <p class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">{{ tour.location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stub/Action Section (Right/Bottom) -->
+                <div
+                    class="relative w-full md:w-[30%] bg-zinc-950/50 p-6 md:p-0 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-white/5">
+                    <!-- Vertical Text Texture (Desktop) -->
+                    <div
+                        class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/5 font-display font-bold text-9xl leading-none rotate-90 select-none pointer-events-none">
+                        ADMIT ONE</div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-4">
+                        <div class="text-center">
+                            <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
+                        </div>
+
+                        {% if tour.is_sold_out %}
+                        <span
+                            class="inline-block px-8 py-3 bg-transparent text-white/30 text-sm font-bold tracking-[0.2em] border-2 border-white/10 select-none rotate-0 md:-rotate-90 md:mt-8">
+                            SOLD OUT
+                        </span>
+                        {% else %}
+                        <a href="{{ tour.ticket_link }}" target="_blank"
+                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto">
+                            GET TICKETS
+                        </a>
+                        {% endif %}
+
+                        <!-- Barcode Visual -->
+                        <div class="h-8 md:h-12 w-full max-w-[120px] mt-4 opacity-30"
+                            style="background-image: repeating-linear-gradient(90deg, white, white 2px, transparent 2px, transparent 4px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Hint text -->
+        <p id="tour-hint-text" class="mt-8 text-white/30 text-xs tracking-[0.3em] uppercase animate-pulse">Tap card see next dates</p>
+
+        <!-- Home Button at Bottom -->
+        <div class="flex justify-center mt-12 mb-8 pb-8" style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
+            <a href="{% url 'index' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                HOME
+            </a>
+        </div>
+
+        {% else %}
+        <div class="mt-8 text-center bg-black/20 backdrop-blur-sm p-8 border border-white/10 max-w-2xl mx-auto">
+            <p class="text-white/80 text-xl font-display tracking-widest uppercase text-shadow-sm">No upcoming dates
+                announced</p>
+            <a href="{% url 'tour' %}"
+                class="inline-block mt-6 text-sm text-toxicAccent hover:text-white transition-colors tracking-widest uppercase border-b border-toxicAccent hover:border-white pb-1">
+                View Past Archives
+            </a>
+        </div>
+        <!-- Home Button at Bottom (when no tours) -->
+        <div class="flex justify-center mt-12 mb-8 pb-8" style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
+            <a href="{% url 'index' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                HOME
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+<div id="latest"
+    class="snap-section min-h-screen flex flex-col justify-start bg-black pb-12 md:pb-16 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex items-end justify-between mb-8 md:mb-10">
+            <h2 class="text-3xl md:text-6xl font-display font-bold text-white tracking-tighter">LATEST</h2>
+            <a href="#"
+                class="hidden md:block text-sm text-gray-500 hover:text-white transition-colors tracking-widest uppercase mb-2">View
+                Archive</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {% for release in latest_releases %}
+            <div onclick="window.location.href='{% url 'album_detail' release.id %}'" class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10"></div>
+                {% if release.cover_art %}
+                <img src="{{ release.cover_art.url }}" alt="{{ release.title }}"
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60">
+                {% endif %}
+                <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20">
+                    <p class="text-toxicAccent text-xs font-bold tracking-widest mb-1 md:mb-2 uppercase">New Release</p>
+                    <h3 class="text-2xl md:text-3xl font-display text-white mb-3 md:mb-4">
+                        {{ release.title }}</h3>
+                    <!-- Streaming Links - stopPropagation so they open in new tab instead of navigating card -->
+                    <div class="flex flex-wrap gap-2 md:gap-3" onclick="event.stopPropagation()">
+                        {% if release.spotify_link %}
+                        <a href="{{ release.spotify_link }}" target="_blank"
+                            class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.36.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                            <span>Spotify</span>
+                        </a>
+                        {% endif %}
+                        {% if release.youtube_link %}
+                        <a href="{{ release.youtube_link }}" target="_blank"
+                            class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            <span>YouTube</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Fallback if no releases found -->
+            <div class="col-span-1 md:col-span-2 text-center py-12 border border-white/10 bg-white/5">
+                <p class="text-white/50 text-sm tracking-widest uppercase">No releases found yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- MERCH SECTION -->
+<div id="merch"
+    class="snap-section relative min-h-screen flex flex-col pt-6 md:pt-12 pb-12 md:pb-8 border-t border-white/5 overflow-hidden bg-black">
+    <!-- Background -->
+    <div class="absolute inset-0 bg-black"></div>
+
+    <div class="parallax-content relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 md:pt-0 flex flex-col flex-grow" data-parallax-speed="-0.25">
+        <!-- Product grid - aligned top, even spacing -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-10 items-start justify-items-center md:justify-items-start">
+            {% for item in shop_items %}
+            <button type="button" 
+                class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
+                data-item-id="{{ item.id }}"
+                data-item-title="{{ item.title }}"
+                data-item-link="{{ item.shop_link }}"
+                data-item-images="{% if item.image %}{{ item.image.url }}{% if item.images.all %},{% endif %}{% endif %}{% for img in item.images.all %}{{ img.image.url }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}"
+                        class="w-full h-full object-contain object-center">
+                    {% else %}
+                    <div
+                        class="w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-sm group-active:border-toxicAccent/50 md:group-hover:border-toxicAccent/30 transition-colors">
+                        <span
+                            class="text-white/50 font-display text-[9px] md:text-xs tracking-[0.2em] uppercase group-active:text-white md:group-hover:text-white transition-colors text-center px-2">Coming
+                            Soon</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </button>
+            {% empty %}
+            <!-- Fallback: Show placeholder items if no shop items -->
+            {% for i in "123"|make_list %}
+            <a href="https://shop.toxiclyrically.com" target="_blank"
+                class="group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)]">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    <div
+                        class="w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-sm group-active:border-toxicAccent/50 md:group-hover:border-toxicAccent/30 transition-colors">
+                        <span
+                            class="text-white/50 font-display text-[9px] md:text-xs tracking-[0.2em] uppercase group-active:text-white md:group-hover:text-white transition-colors text-center px-2">Coming
+                            Soon</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Shop Item Modal -->
+<div id="shop-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-sm">
+    <div class="relative w-full h-full max-w-5xl mx-auto px-4 py-4 md:py-6 flex flex-col items-center justify-center">
+        <!-- Close Button -->
+        <button onclick="closeShopModal()" 
+            class="absolute top-2 right-2 md:top-4 md:right-4 z-50 text-white/80 hover:text-white transition-colors p-2">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Image Container -->
+        <div class="relative w-full max-w-3xl flex-1 flex items-center justify-center mb-3 md:mb-4">
+            <div id="shop-modal-image-container" class="relative w-full h-full flex items-center justify-center">
+                <img id="shop-modal-image" src="" alt="" class="max-w-full max-h-[55vh] md:max-h-[65vh] object-contain">
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button id="shop-modal-prev" onclick="changeShopImage(-1)" 
+                class="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="shop-modal-next" onclick="changeShopImage(1)" 
+                class="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Image Indicators -->
+        <div id="shop-modal-indicators" class="flex gap-2 mb-3 md:mb-4">
+            <!-- Indicators will be generated by JavaScript -->
+        </div>
+
+        <!-- Product Info & CTA -->
+        <div class="text-center">
+            <h3 id="shop-modal-title" class="text-xl md:text-2xl font-display font-bold text-white mb-2 md:mb-3"></h3>
+            <a id="shop-modal-link" href="#" target="_blank"
+                class="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 bg-toxicAccent text-white font-display font-bold text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 border-2 border-toxicAccent hover:border-white rounded-sm">
+                <span>SHOP NOW</span>
+                <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        const tourSection = document.getElementById('tour');
+        const latestSection = document.getElementById('latest');
+        const merchSection = document.getElementById('merch');
+        const navLinks = document.getElementById('nav-links');
+        if (!navLinks) return;
+
+        const heroLyrically = document.getElementById('hero-lyrically');
+        const scrollIndicator = document.getElementById('scroll-indicator');
+        const heroImageContainer = document.getElementById('hero-image-container');
+        const tourHintText = document.getElementById('tour-hint-text');
+
+        const sections = [tourSection, latestSection, merchSection].filter(Boolean);
+        const intersecting = new Set();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) intersecting.add(entry.target.id);
+                else intersecting.delete(entry.target.id);
+            });
+            const anySectionInView = intersecting.size > 0;
+            const tourInView = intersecting.has('tour');
+            const latestInView = intersecting.has('latest');
+            navLinks.classList.toggle('nav-links--hidden', anySectionInView);
+            if (heroLyrically) heroLyrically.classList.toggle('nav-links--hidden', tourInView);
+            if (scrollIndicator) scrollIndicator.classList.toggle('nav-links--hidden', tourInView);
+            // Hide tour hint text when LATEST section is in view
+            if (tourHintText) {
+                tourHintText.style.display = latestInView ? 'none' : '';
+            }
+        }, { threshold: 0.1 });
+
+        // Smooth fade out hero image based on scroll position
+        function updateHeroFade() {
+            if (!heroImageContainer || !tourSection) return;
+
+            const heroSection = document.querySelector('.snap-section:first-child');
+            if (!heroSection) return;
+
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const viewportHeight = window.innerHeight;
+            const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+            const tourTop = tourSection.offsetTop;
+
+            // Calculate fade progress: start fading when tour section starts entering viewport
+            const fadeStart = tourTop - viewportHeight;
+            const fadeEnd = tourTop;
+            const fadeRange = fadeEnd - fadeStart;
+
+            let opacity = 1;
+            if (scrollY >= fadeStart && scrollY <= fadeEnd) {
+                // Fade out gradually as tour section approaches
+                opacity = 1 - ((scrollY - fadeStart) / fadeRange);
+            } else if (scrollY > fadeEnd) {
+                // Fully faded out when tour section is in view
+                opacity = 0;
+            }
+
+            heroImageContainer.style.opacity = Math.max(0, Math.min(1, opacity));
+
+            // Add class when fully faded for pointer-events
+            if (opacity <= 0) {
+                heroImageContainer.classList.add('hero-fade-out');
+            } else {
+                heroImageContainer.classList.remove('hero-fade-out');
+            }
+        }
+
+        // Update hero fade on scroll
+        let fadeTicking = false;
+        function onHeroFadeScroll() {
+            if (!fadeTicking) {
+                window.requestAnimationFrame(() => {
+                    updateHeroFade();
+                    fadeTicking = false;
+                });
+                fadeTicking = true;
+            }
+        }
+
+        // Initial call
+        updateHeroFade();
+        window.addEventListener('scroll', onHeroFadeScroll, { passive: true });
+        window.addEventListener('resize', updateHeroFade);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Parallax effect on scroll
+        const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
+
+        if (parallaxElements.length > 0) {
+            function updateParallax() {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const viewportHeight = window.innerHeight;
+
+                parallaxElements.forEach(element => {
+                    const speed = parseFloat(element.getAttribute('data-parallax-speed')) || 0;
+                    const section = element.closest('.snap-section');
+
+                    if (section) {
+                        const sectionRect = section.getBoundingClientRect();
+                        const elementRect = element.getBoundingClientRect();
+
+                        // Calculate how much of the section is visible
+                        const sectionTop = sectionRect.top;
+                        const sectionBottom = sectionRect.bottom;
+                        const sectionHeight = sectionRect.height;
+
+                        // Calculate scroll progress within the section
+                        // When section enters viewport from bottom: progress starts at 0
+                        // When section exits viewport from top: progress ends at 1
+                        let progress = 0;
+                        if (sectionTop < viewportHeight && sectionBottom > 0) {
+                            // Section is visible
+                            const visibleHeight = Math.min(sectionBottom, viewportHeight) - Math.max(sectionTop, 0);
+                            const scrolledPast = viewportHeight - sectionTop;
+                            progress = Math.max(0, Math.min(1, scrolledPast / (sectionHeight + viewportHeight)));
+                        } else if (sectionTop >= viewportHeight) {
+                            // Section is below viewport
+                            progress = 0;
+                        } else {
+                            // Section is above viewport
+                            progress = 1;
+                        }
+
+                        // Apply parallax transform
+                        // Progress goes from 0 (entering) to 1 (exiting)
+                        // Center the effect around 0.5 (middle of viewport)
+                        // Increase multiplier for more pronounced effect
+                        const offset = (progress - 0.5) * speed * viewportHeight * 1.5;
+                        element.style.transform = `translate3d(0, ${offset}px, 0)`;
+                    }
+                });
+            }
+
+            // Throttle scroll events for performance
+            let ticking = false;
+            function onScroll() {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        updateParallax();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            // Initial call after page load
+            function initParallax() {
+                updateParallax();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initParallax);
+            } else {
+                initParallax();
+            }
+
+            // Listen to scroll events
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', updateParallax);
+
+            // Update parallax when sections come into view (for scroll-snap)
+            const parallaxObserver = new IntersectionObserver((entries) => {
+                entries.forEach(() => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            updateParallax();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }, {
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+                rootMargin: '0px'
+            });
+
+            // Observe all sections for parallax updates
+            document.querySelectorAll('.snap-section').forEach(section => {
+                parallaxObserver.observe(section);
+            });
+        }
+
+        // Stacked Cards Logic
+        function initTourStack() {
+            const stack = document.getElementById('tour-stack');
+            if (stack) {
+                const cards = Array.from(stack.getElementsByClassName('tour-card'));
+                if (cards.length > 0) {
+                    updateCardPositions(cards);
+                }
+            }
+        }
+
+        // Initialize tour stack when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initTourStack, 100);
+            });
+        } else {
+            setTimeout(initTourStack, 100);
+        }
+
+        function updateCardPositions(cards) {
+            const isMobile = window.innerWidth < 768;
+            cards.forEach((card, index) => {
+                if (index === 0) {
+                    card.style.zIndex = '30';
+                    card.style.opacity = '1';
+                    // On mobile, use translateY only (no scale) to prevent text distortion
+                    card.style.transform = isMobile ? 'translateY(0)' : 'scale(1) translateY(0)';
+                    card.style.pointerEvents = 'auto';
+                } else if (index === 1) {
+                    card.style.zIndex = '20';
+                    card.style.opacity = '0.7';
+                    card.style.transform = isMobile ? 'translateY(20px)' : 'scale(0.95) translateY(20px)';
+                    card.style.pointerEvents = 'none';
+                } else if (index === 2) {
+                    card.style.zIndex = '10';
+                    card.style.opacity = '0.4';
+                    card.style.transform = isMobile ? 'translateY(40px)' : 'scale(0.9) translateY(40px)';
+                    card.style.pointerEvents = 'none';
+                } else {
+                    card.style.zIndex = '0';
+                    card.style.opacity = '0';
+                    card.style.transform = isMobile ? 'translateY(60px)' : 'scale(0.85) translateY(60px)';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        window.rotateTourCard = function (clickedCard) {
+            const stack = document.getElementById('tour-stack');
+            if (!stack) return;
+            const cards = Array.from(stack.getElementsByClassName('tour-card'));
+            if (cards.indexOf(clickedCard) !== 0) return;
+
+            // Animate out - use translateY only on mobile to prevent text distortion
+            const isMobile = window.innerWidth < 768;
+            clickedCard.style.transform = isMobile ? 'translateY(-50px)' : 'translateY(-50px) scale(1.05)';
+            clickedCard.style.opacity = '0';
+
+            setTimeout(() => {
+                stack.appendChild(clickedCard);
+                const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                updateCardPositions(newOrder);
+            }, 300);
+        };
+
+        // Tour stack initialization is handled above
+    })();
+
+    // Shop Modal Functionality
+    let shopModalImages = [];
+    let shopModalCurrentIndex = 0;
+    let shopModalLink = '';
+
+    // Initialize shop item buttons
+    document.querySelectorAll('.shop-item-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const title = this.getAttribute('data-item-title');
+            const link = this.getAttribute('data-item-link');
+            const imagesStr = this.getAttribute('data-item-images');
+            const images = imagesStr ? imagesStr.split(',').filter(url => url.trim()) : [];
+            
+            openShopModal(title, link, images);
+        });
+    });
+
+    function openShopModal(title, shopLink, images) {
+        shopModalImages = images;
+        shopModalCurrentIndex = 0;
+        shopModalLink = shopLink;
+        
+        const modal = document.getElementById('shop-modal');
+        const modalTitle = document.getElementById('shop-modal-title');
+        const modalLink = document.getElementById('shop-modal-link');
+        const modalImage = document.getElementById('shop-modal-image');
+        const indicators = document.getElementById('shop-modal-indicators');
+        const mainNav = document.getElementById('main-nav');
+        
+        modalTitle.textContent = title;
+        modalLink.href = shopLink;
+        
+        // Generate indicators
+        indicators.innerHTML = '';
+        shopModalImages.forEach((_, index) => {
+            const indicator = document.createElement('button');
+            indicator.className = `w-2 h-2 rounded-full transition-all ${index === 0 ? 'bg-toxicAccent w-8' : 'bg-white/30'}`;
+            indicator.onclick = () => goToShopImage(index);
+            indicators.appendChild(indicator);
+        });
+        
+        // Show first image
+        updateShopModalImage();
+        
+        // Show modal first
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        
+        // Hide navigation bar and mobile menu - use setTimeout to ensure it happens after modal is shown
+        setTimeout(() => {
+            const mainNav = document.getElementById('main-nav');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mainNav) {
+                mainNav.style.display = 'none';
+                mainNav.style.opacity = '0';
+                mainNav.style.visibility = 'hidden';
+                mainNav.style.pointerEvents = 'none';
+                mainNav.style.zIndex = '0';
+            }
+            if (mobileMenu) {
+                mobileMenu.style.display = 'none';
+                mobileMenu.style.opacity = '0';
+                mobileMenu.style.visibility = 'hidden';
+                mobileMenu.style.pointerEvents = 'none';
+                mobileMenu.style.zIndex = '0';
+            }
+        }, 10);
+    }
+
+    function closeShopModal() {
+        const modal = document.getElementById('shop-modal');
+        const mainNav = document.getElementById('main-nav');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Hide modal first
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        
+        // Show navigation bar and mobile menu
+        setTimeout(() => {
+            if (mainNav) {
+                mainNav.style.display = '';
+                mainNav.style.opacity = '';
+                mainNav.style.visibility = '';
+                mainNav.style.pointerEvents = '';
+                mainNav.style.zIndex = '';
+            }
+            if (mobileMenu) {
+                mobileMenu.style.display = '';
+                mobileMenu.style.opacity = '';
+                mobileMenu.style.visibility = '';
+                mobileMenu.style.pointerEvents = '';
+                mobileMenu.style.zIndex = '';
+            }
+        }, 10);
+    }
+
+    function changeShopImage(direction) {
+        if (shopModalImages.length === 0) return;
+        
+        shopModalCurrentIndex += direction;
+        if (shopModalCurrentIndex < 0) {
+            shopModalCurrentIndex = shopModalImages.length - 1;
+        } else if (shopModalCurrentIndex >= shopModalImages.length) {
+            shopModalCurrentIndex = 0;
+        }
+        
+        updateShopModalImage();
+    }
+
+    function goToShopImage(index) {
+        shopModalCurrentIndex = index;
+        updateShopModalImage();
+    }
+
+    function updateShopModalImage() {
+        if (shopModalImages.length === 0) return;
+        
+        const modalImage = document.getElementById('shop-modal-image');
+        const prevBtn = document.getElementById('shop-modal-prev');
+        const nextBtn = document.getElementById('shop-modal-next');
+        const indicators = document.getElementById('shop-modal-indicators');
+        
+        modalImage.src = shopModalImages[shopModalCurrentIndex];
+        modalImage.alt = `Design ${shopModalCurrentIndex + 1}`;
+        
+        // Update navigation buttons
+        if (shopModalImages.length <= 1) {
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+        } else {
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+        
+        // Update indicators
+        const indicatorButtons = indicators.querySelectorAll('button');
+        indicatorButtons.forEach((btn, index) => {
+            if (index === shopModalCurrentIndex) {
+                btn.className = 'w-2 h-2 rounded-full transition-all bg-toxicAccent w-8';
+            } else {
+                btn.className = 'w-2 h-2 rounded-full transition-all bg-white/30';
+            }
+        });
+    }
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('shop-modal');
+            if (!modal.classList.contains('hidden')) {
+                closeShopModal();
+            }
+        }
+    });
+
+    // Close modal on background click
+    document.getElementById('shop-modal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeShopModal();
+        }
+    });
+
+    // Observer to watch for modal visibility changes
+    const shopModal = document.getElementById('shop-modal');
+    if (shopModal) {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const isVisible = shopModal.classList.contains('flex') && !shopModal.classList.contains('hidden');
+                    const mainNav = document.getElementById('main-nav');
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    
+                    if (isVisible) {
+                        // Hide nav when modal is visible
+                        if (mainNav) {
+                            mainNav.style.display = 'none';
+                        }
+                        if (mobileMenu) {
+                            mobileMenu.style.display = 'none';
+                        }
+                    } else {
+                        // Show nav when modal is hidden
+                        if (mainNav) {
+                            mainNav.style.display = '';
+                        }
+                        if (mobileMenu) {
+                            mobileMenu.style.display = '';
+                        }
+                    }
+                }
+            });
+        });
+        
+        observer.observe(shopModal, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-change-me-in-prod
+      - ALLOWED_HOSTS=localhost,127.0.0.1,[::1]
+      - RETRY_REDIS_CONNECTION=1
+      - DATABASE_URL=postgres://toxic_user:toxic_password@db:5432/toxic_db
+      - REDIS_URL=redis://redis:6379/1
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=toxic_db
+      - POSTGRES_USER=toxic_user
+      - POSTGRES_PASSWORD=toxic_password
+
+  redis:
+    image: redis:7-alpine
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./static:/app/static
+      - ./media:/app/media
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:

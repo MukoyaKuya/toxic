@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="{% block html_class %}{% endblock %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TOXIC LYRICALLY | Official Site</title>
+
+    <!-- Custom CSS (Tailwind Built) -->
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body class="bg-toxicBlack text-white min-h-screen flex flex-col" hx-boost="true">
+
+    <!-- Navigation (hidden on mobile when on music page to avoid obstructing content) -->
+    <div class="{% if request.resolver_match.url_name == 'music' %}hidden md:block{% endif %}">
+    <nav id="main-nav" class="fixed w-full z-50 py-6 transition-all duration-300 bg-gradient-to-b from-black/40 to-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center relative">
+
+                <!-- Back to Music - only on album detail page. On mobile: replace logo. On desktop: left -->
+                {% if request.resolver_match.url_name == 'album_detail' %}
+                <a href="{% url 'music' %}" hx-boost="false" class="absolute left-0 top-1/2 -translate-y-1/2 hidden md:inline-flex items-center gap-2 py-2 px-3 text-white/60 hover:text-white transition-colors text-xs font-bold tracking-widest uppercase">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Music
+                </a>
+                {% endif %}
+
+                <!-- Desktop Centered Menu (hidden on music, album detail, and tour pages) -->
+                {% if request.resolver_match.url_name != 'music' and request.resolver_match.url_name != 'album_detail' and request.resolver_match.url_name != 'tour' %}
+                <div id="nav-links" class="hidden md:flex space-x-12 transition-opacity duration-300">
+                    <a href="{% url 'tour' %}"
+                        class="text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display">SHOWS</a>
+                    <a href="https://shop.toxiclyrically.com" target="_blank"
+                        class="text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display">MERCH</a>
+                    <a href="{% url 'music' %}" hx-boost="false"
+                        class="text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display">MUSIC</a>
+                    <a href="#latest"
+                        class="text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display">LATEST</a>
+                </div>
+                {% endif %}
+
+                <!-- Mobile Logo (Left) and Hamburger (Right) -->
+                <div class="md:hidden w-full flex justify-between items-center">
+                    {% if request.resolver_match.url_name == 'album_detail' %}
+                    <a href="{% url 'music' %}" hx-boost="false"
+                        class="text-sm font-display font-bold tracking-widest text-white/90 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Music
+                    </a>
+                    {% else %}
+                    <a href="{% url 'index' %}"
+                        class="text-sm font-display font-bold tracking-widest text-white/90">MBOKADOBA</a>
+                    {% endif %}
+                    <button type="button" class="text-white hover:text-toxicAccent focus:outline-none"
+                        onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="hidden md:hidden fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center space-y-8"
+            id="mobile-menu">
+            <button class="absolute top-6 right-6 text-white"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">
+                <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            {% if request.resolver_match.url_name == 'album_detail' %}
+            <a href="{% url 'music' %}" hx-boost="false" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Music</a>
+            {% elif request.resolver_match.url_name == 'tour' %}
+            <a href="{% url 'index' %}" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Home</a>
+            {% endif %}
+            {% if request.resolver_match.url_name != 'music' and request.resolver_match.url_name != 'album_detail' and request.resolver_match.url_name != 'tour' %}
+            <a href="{% url 'tour' %}" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">SHOWS</a>
+            <a href="#" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">MERCH</a>
+            <a href="{% url 'music' %}" hx-boost="false" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">MUSIC</a>
+            <a href="#latest" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                onclick="document.getElementById('mobile-menu').classList.add('hidden')">LATEST</a>
+            {% endif %}
+        </div>
+    </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer - extra bottom padding on mobile for browser UI -->
+    <footer class="bg-black border-t border-white/10 pb-24 md:pb-16 relative z-[10] mt-8 md:mt-12">
+        {% if footer %}
+        <!-- Upper section: featured image + LET'S CONNECT + optional YouTube embed -->
+        <div class="max-w-7xl mx-auto px-4 pt-8 md:pt-12">
+            <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-6 md:gap-10">
+                <!-- Left: optional featured image (album cover style) -->
+                {% if footer.featured_image %}
+                <div class="flex-shrink-0 flex justify-center">
+                    <img src="{{ footer.featured_image.url }}" alt="" class="max-h-48 md:max-h-56 w-auto object-contain rounded-sm shadow-lg" style="max-width: 280px;">
+                </div>
+                {% endif %}
+                <!-- Right: LET'S CONNECT text + YouTube embed -->
+                <div class="flex flex-col items-center md:items-start flex-1 min-w-0 max-w-2xl w-full">
+                    {% if footer.lets_connect_text %}
+                    <h3 class="text-red-600 font-bold text-2xl md:text-3xl lg:text-4xl tracking-wider uppercase mb-4 text-center md:text-left">
+                        {{ footer.lets_connect_text }}
+                    </h3>
+                    {% endif %}
+                    {% if footer_youtube_embed_url %}
+                    <div class="w-full aspect-video rounded overflow-hidden bg-black/50">
+                        <iframe src="{{ footer_youtube_embed_url }}" title="Footer video" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Thin grey dividing line -->
+        <div class="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
+            <hr class="border-t border-gray-600">
+        </div>
+
+        <!-- Lower section: social icons, logo, copyright, tagline -->
+        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center space-y-6">
+            <!-- Social Media Icons Row -->
+            <div class="flex items-center justify-center space-x-6 md:space-x-8">
+                {% if footer.instagram_link %}
+                <a href="{{ footer.instagram_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="Instagram">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                {% if footer.facebook_link %}
+                <a href="{{ footer.facebook_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="Facebook">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                {% if footer.youtube_link %}
+                <a href="{{ footer.youtube_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="YouTube">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                {% if footer.spotify_link %}
+                <a href="{{ footer.spotify_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="Spotify">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.359.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                {% if footer.twitter_link %}
+                <a href="{{ footer.twitter_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="X (Twitter)">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                {% if footer.music_link %}
+                <a href="{{ footer.music_link }}" target="_blank" class="text-white/60 hover:text-white transition-colors" aria-label="Music">
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                    </svg>
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Artist Logo -->
+            {% if footer.logo %}
+            <div class="flex items-center justify-center">
+                <img src="{{ footer.logo.url }}" alt="{{ footer.copyright_text }}" class="h-8 w-8 md:h-10 md:w-10 object-contain grayscale brightness-0 invert">
+            </div>
+            {% else %}
+            <div class="text-red-600 text-3xl md:text-4xl font-display font-bold tracking-tight uppercase">
+                {{ footer.copyright_text|default:"MBOKADABOA" }}
+            </div>
+            {% endif %}
+
+            <!-- Copyright -->
+            <p class="text-white/50 text-xs md:text-sm tracking-wider uppercase">
+                &copy; {% now "Y" %} {{ footer.copyright_text|default:"MBOKADABOA" }}. ALL RIGHTS RESERVED
+            </p>
+
+            <!-- Tagline (e.g. TOXIC LYRICAL) -->
+            {% if footer.mass_appeal_text %}
+            <div class="text-white/60 text-sm md:text-base font-sans uppercase tracking-wider">
+                {% if "mass appeal"|lower in footer.mass_appeal_text|lower %}
+                <span class="font-semibold">mass</span><span class="italic ml-1">appeal</span>
+                {% else %}
+                {{ footer.mass_appeal_text }}
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

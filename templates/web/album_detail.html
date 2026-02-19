@@ -1,0 +1,528 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-toxicBlack text-white min-h-screen pt-28 md:pt-24 pb-8 md:pb-4"
+    style="padding-top: max(7rem, calc(env(safe-area-inset-top, 0px) + 5rem));">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
+
+        <!-- Three Column Layout: Streaming Links + Album Info + Tracks | Cover Art | YouTube Embed -->
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+
+            <!-- Left Column: Streaming Links + Album Info + Tracks -->
+            <div
+                class="flex flex-col items-center md:items-start order-2 md:order-1 w-full md:flex-shrink-0 md:w-auto md:min-w-[280px]">
+                <!-- Streaming Links -->
+                <div class="flex flex-col gap-3 w-full max-w-sm lg:max-w-none lg:w-auto mb-6">
+                    {% if album.spotify_link %}
+                    <a href="{{ album.spotify_link }}" target="_blank"
+                        class="streaming-link--spotify bg-[#1DB954] hover:bg-[#1ed760] text-white font-bold py-2 px-4 rounded-full text-center transition-all flex items-center justify-center gap-2 text-sm">
+                        <svg class="streaming-icon w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.2-1.32 9.6-1.14 13.319 1.141.42.18.6.72.422 1.141zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z" />
+                        </svg>
+                        <span>Listen on Spotify</span>
+                    </a>
+                    {% endif %}
+                    {% if album.youtube_link %}
+                    <a href="{{ album.youtube_link }}" target="_blank"
+                        class="streaming-link--youtube bg-[#FF0000] hover:bg-[#ff3333] text-white font-bold py-2 px-4 rounded-full text-center transition-all flex items-center justify-center gap-2 text-sm">
+                        <svg class="streaming-icon w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                        </svg>
+                        <span>Watch on YouTube</span>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Album Header -->
+                <div class="mb-6 pb-4 border-b border-white/10 w-full">
+                    <h2 class="text-toxicAccent text-xs uppercase font-bold tracking-widest mb-1">Album</h2>
+                    <h1 class="text-2xl md:text-3xl font-bold tracking-tight mb-2">{{ album.title }}</h1>
+                    <div class="flex items-center gap-2 text-white/60 text-sm">
+                        <span>{{ album.release_date|date:"Y" }}</span>
+                        <span class="w-1 h-1 bg-white/40 rounded-full"></span>
+                        <span>{{ album.tracks.count }} Tracks</span>
+                    </div>
+                </div>
+
+                <!-- Track List - cards with play button -->
+                <div class="space-y-2 w-full">
+                    {% for track_data in tracks_with_youtube %}
+                    {% with track=track_data.track track_youtube_url=track_data.youtube_embed_url %}
+                    <div class="track-card group flex items-center gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all track-card-clickable"
+                        data-youtube-url="{{ track_youtube_url|default:'' }}"
+                        data-track-title="{{ track.title }}">
+                        <!-- Play Button -->
+                        {% if track.audio_file %}
+                        <button type="button"
+                            class="play-btn w-10 h-10 flex-shrink-0 rounded-full bg-toxicAccent/20 hover:bg-toxicAccent flex items-center justify-center text-white transition-all flex-shrink-0"
+                            data-audio-id="audio-{{ album.id }}-{{ forloop.counter }}"
+                            data-youtube-url="{{ track_youtube_url|default:'' }}" aria-label="Play {{ track.title }}">
+                            <svg class="play-icon w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            <svg class="pause-icon w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                        </button>
+                        {% else %}
+                        <div class="w-10 h-10 flex-shrink-0 rounded-full bg-white/5 flex items-center justify-center">
+                            <span class="text-white/30 text-xs">—</span>
+                        </div>
+                        {% endif %}
+
+                        <!-- Track Number -->
+                        <div class="w-6 flex-shrink-0 text-center text-white/50 text-xs font-medium">
+                            {{ forloop.counter }}
+                        </div>
+
+                        <!-- Track Info -->
+                        <div class="flex-1 min-w-0 cursor-pointer track-info-clickable"
+                            data-youtube-url="{{ track_youtube_url|default:'' }}"
+                            data-track-title="{{ track.title }}">
+                            <h3
+                                class="font-semibold text-sm text-white group-hover:text-toxicAccent transition-colors truncate">
+                                {{ track.title }}
+                            </h3>
+                            {% if track.is_featured %}
+                            <span class="text-[10px] text-toxicAccent font-medium uppercase tracking-wider">FEAT</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Audio element (hidden, controlled by play button) -->
+                        {% if track.audio_file %}
+                        <audio id="audio-{{ album.id }}-{{ forloop.counter }}" class="track-audio" preload="metadata"
+                            controlsList="nodownload">
+                            <source src="{{ track.audio_file.url }}" type="audio/mpeg">
+                        </audio>
+                        <div class="flex-shrink-0 w-20 sm:w-24 text-right">
+                            <span class="track-time text-[10px] text-white/40 tabular-nums">0:00</span>
+                        </div>
+                        {% else %}
+                        <div class="text-[10px] text-white/30">—</div>
+                        {% endif %}
+                    </div>
+                    {% endwith %}
+                    {% empty %}
+                    <div class="text-center py-8 text-white/40 text-sm">
+                        <p>No tracks available.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Middle Column: Cover Art -->
+            <div class="flex justify-center order-1 md:order-2 md:flex-1 md:justify-center">
+                <button type="button" id="cover-zoom-btn"
+                    class="album-cover-container aspect-square rounded-xl overflow-hidden shadow-xl flex-shrink-0 cursor-zoom-in block focus:outline-none focus:ring-2 focus:ring-toxicAccent focus:ring-offset-2 focus:ring-offset-toxicBlack">
+                    <img src="{{ album.cover_art.url }}" alt="{{ album.title }}" class="w-full h-full object-cover">
+                </button>
+            </div>
+
+            <!-- Right Column: YouTube Embed / Cover Image -->
+            <div class="order-3 w-full md:w-[400px] md:flex-shrink-0">
+                <div id="youtube-embed-container"
+                    class="aspect-video w-full rounded-lg overflow-hidden bg-black/20 border border-white/10 shadow-lg">
+                    <!-- Initial state: Show cover image when no track is selected -->
+                    <div id="cover-image-placeholder" class="w-full h-full">
+                        <img src="{{ album.cover_art.url }}" alt="{{ album.title }}" class="w-full h-full object-cover">
+                    </div>
+                    <!-- YouTube embed will be inserted here when track is clicked -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Cover zoom overlay -->
+        <div id="cover-zoom-overlay"
+            class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 hidden">
+            <!-- Close button -->
+            <button type="button" id="cover-zoom-close"
+                class="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all z-50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                aria-label="Close zoom">
+                <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- Zoomed image -->
+            <img src="{{ album.cover_art.url }}" alt="{{ album.title }}"
+                class="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-zoom-out">
+        </div>
+
+        <!-- Cover zoom overlay -->
+    </div>
+</div>
+
+<style>
+    /* Album cover: square, no distortion. 160px mobile, 500px desktop */
+    .album-cover-container {
+        width: 160px;
+        aspect-ratio: 1;
+    }
+
+    @media (min-width: 1024px) {
+        .album-cover-container {
+            width: 500px;
+        }
+    }
+
+    .streaming-link--spotify .streaming-icon {
+        transition: color 0.2s ease;
+    }
+
+    .streaming-link--spotify:hover .streaming-icon {
+        color: #1DB954 !important;
+    }
+
+    .streaming-link--youtube .streaming-icon {
+        transition: color 0.2s ease;
+    }
+
+    .streaming-link--youtube:hover .streaming-icon {
+        color: #FF0000 !important;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        function formatTime(seconds) {
+            if (!isFinite(seconds) || seconds < 0) return '0:00';
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        // Store cover image source for restoration
+        const coverImageSrc = '{{ album.cover_art.url }}';
+        const albumTitle = '{{ album.title|escapejs }}';
+
+        // Update YouTube embed when track is clicked
+        function updateYouTubeEmbed(youtubeUrl) {
+            const container = document.getElementById('youtube-embed-container');
+            if (!container) {
+                console.error('YouTube embed container not found');
+                return;
+            }
+
+            console.log('updateYouTubeEmbed called with:', youtubeUrl);
+
+            // If no URL or empty string, show cover image
+            if (!youtubeUrl || youtubeUrl.trim() === '' || youtubeUrl === 'None' || youtubeUrl === 'null') {
+                console.log('No YouTube URL, showing cover image');
+                showCoverImage();
+                return;
+            }
+
+            // The youtubeUrl should already be an embed URL from the server
+            // But handle both embed URLs and watch URLs
+            let embedUrl = youtubeUrl.trim();
+
+            // If it's already an embed URL, use it directly
+            if (embedUrl.includes('/embed/')) {
+                // Extract video ID to validate
+                const videoIdMatch = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+                if (!videoIdMatch || videoIdMatch[1].length !== 11) {
+                    console.error('Invalid embed URL format:', embedUrl);
+                    showCoverImage();
+                    return;
+                }
+                // Use the embed URL as-is
+                // embedUrl = embedUrl.split('?')[0];
+            } else {
+                // It's a watch URL, extract video ID and convert to embed URL
+                embedUrl = embedUrl.split('#')[0].replace(/\/$/, '');
+
+                // Check if this is a channel URL (can't be embedded)
+                if (embedUrl.includes('/@') || embedUrl.includes('/channel/') || embedUrl.includes('/user/') || embedUrl.includes('/c/') || embedUrl.includes('/featured')) {
+                    console.log('Channel URL detected, showing cover image');
+                    showCoverImage();
+                    return;
+                }
+
+                // Extract video ID from watch URL
+                let videoId = null;
+                const watchMatch = embedUrl.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+                if (watchMatch) {
+                    videoId = watchMatch[1];
+                }
+
+                if (!videoId || videoId.length !== 11) {
+                    // Try youtu.be format
+                    const shortMatch = embedUrl.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+                    if (shortMatch) {
+                        videoId = shortMatch[1];
+                    }
+                }
+
+                if (videoId && videoId.length === 11) {
+                    embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                } else {
+                    console.error('Could not extract video ID from URL:', embedUrl);
+                    showCoverImage();
+                    return;
+                }
+            }
+
+            // Final validation
+            if (!embedUrl.startsWith('https://www.youtube.com/embed/')) {
+                console.error('Invalid embed URL:', embedUrl);
+                showCoverImage();
+                return;
+            }
+
+            console.log('Setting YouTube embed to:', embedUrl);
+
+            // Extract video ID for fallback link
+            const videoIdMatch = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+            const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+            // Completely clear container and create new iframe
+            // This ensures a fresh iframe is created each time
+            container.innerHTML = '';
+
+            const iframe = document.createElement('iframe');
+            iframe.id = 'youtube-embed-iframe';
+            // Use clean embed URL with no parameters
+            iframe.src = embedUrl;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.className = 'w-full h-full';
+            iframe.setAttribute('title', 'YouTube video player');
+            iframe.setAttribute('loading', 'lazy');
+            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+
+            container.appendChild(iframe);
+
+            // Remove any existing fallback links
+            const existingFallback = container.parentElement.querySelector('.youtube-fallback-link');
+            if (existingFallback) {
+                existingFallback.remove();
+            }
+
+            // Add fallback link below container
+            if (videoId) {
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.className = 'mt-2 text-center youtube-fallback-link';
+                const fallbackLink = document.createElement('a');
+                fallbackLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+                fallbackLink.target = '_blank';
+                fallbackLink.className = 'text-toxicAccent hover:text-white text-sm underline text-xs';
+                fallbackLink.textContent = 'Watch on YouTube →';
+                fallbackDiv.appendChild(fallbackLink);
+                container.parentElement.appendChild(fallbackDiv);
+            }
+
+            // Log for debugging
+            console.log('Iframe created with src:', iframe.src, 'Video ID:', videoId);
+        }
+
+        // Function to show cover image
+        function showCoverImage() {
+            const container = document.getElementById('youtube-embed-container');
+            if (!container) return;
+            container.innerHTML = `<div id="cover-image-placeholder" class="w-full h-full"><img src="${coverImageSrc}" alt="${albumTitle}" class="w-full h-full object-cover"></div>`;
+        }
+
+        function initAlbumPlayer() {
+            const audios = document.querySelectorAll('.track-audio');
+            const playBtns = document.querySelectorAll('.play-btn');
+            if (!playBtns.length) return;
+
+            // Handle track info clicks (for YouTube embed) - use capture phase to catch before play button
+            document.body.addEventListener('click', function (e) {
+                // Check for play button first
+                const btn = e.target.closest('.play-btn');
+                if (btn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const audioId = btn.getAttribute('data-audio-id');
+                    const audio = document.getElementById(audioId);
+                    if (audio) {
+                        // Update YouTube embed if track has YouTube URL
+                        const youtubeUrl = btn.getAttribute('data-youtube-url');
+                        console.log('Play button clicked, YouTube URL:', youtubeUrl);
+                        if (youtubeUrl && youtubeUrl.trim() !== '') {
+                            updateYouTubeEmbed(youtubeUrl);
+                        } else {
+                            // No YouTube URL, show cover image
+                            showCoverImage();
+                        }
+
+                        // Handle audio playback
+                        const playIcon = btn.querySelector('.play-icon');
+                        const pauseIcon = btn.querySelector('.pause-icon');
+
+                        if (audio.paused) {
+                            document.querySelectorAll('.track-audio').forEach(a => a.pause());
+                            document.querySelectorAll('.play-btn').forEach(b => {
+                                b.querySelector('.play-icon')?.classList.remove('hidden');
+                                b.querySelector('.pause-icon')?.classList.add('hidden');
+                            });
+                            audio.play().catch(function (err) { console.warn('Play failed:', err); });
+                            if (playIcon) playIcon.classList.add('hidden');
+                            if (pauseIcon) pauseIcon.classList.remove('hidden');
+                        } else {
+                            audio.pause();
+                            if (playIcon) playIcon.classList.remove('hidden');
+                            if (pauseIcon) pauseIcon.classList.add('hidden');
+                        }
+                    }
+                    return;
+                }
+
+                // Check for track card click (but not play button)
+                const trackCard = e.target.closest('.track-card-clickable');
+                if (trackCard && !e.target.closest('.play-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const youtubeUrl = trackCard.getAttribute('data-youtube-url');
+                    const trackTitle = trackCard.getAttribute('data-track-title') || 'Unknown';
+                    console.log('Track card clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
+                    
+                    if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
+                        updateYouTubeEmbed(youtubeUrl);
+                    } else {
+                        console.log('No YouTube URL for track:', trackTitle);
+                        showCoverImage();
+                    }
+                    return;
+                }
+                
+                // Also check for direct track info click
+                const trackInfo = e.target.closest('.track-info-clickable');
+                if (trackInfo && !e.target.closest('.play-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const youtubeUrl = trackInfo.getAttribute('data-youtube-url');
+                    const trackTitle = trackInfo.getAttribute('data-track-title') || trackInfo.querySelector('h3')?.textContent || 'Unknown';
+                    console.log('Track info clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
+                    
+                    if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
+                        updateYouTubeEmbed(youtubeUrl);
+                    } else {
+                        console.log('No YouTube URL for track:', trackTitle);
+                        showCoverImage();
+                    }
+                    return;
+                }
+            }, true); // Use capture phase to ensure it fires
+
+            audios.forEach(audio => {
+                audio.addEventListener('play', function () {
+                    document.querySelectorAll('.track-audio').forEach(a => { if (a !== audio) a.pause(); });
+                    document.querySelectorAll('.play-btn').forEach(btn => {
+                        const aid = btn.getAttribute('data-audio-id');
+                        const pi = btn.querySelector('.play-icon');
+                        const pai = btn.querySelector('.pause-icon');
+                        if (document.getElementById(aid) === audio) {
+                            if (pi) pi.classList.add('hidden');
+                            if (pai) pai.classList.remove('hidden');
+                        } else {
+                            if (pi) pi.classList.remove('hidden');
+                            if (pai) pai.classList.add('hidden');
+                        }
+                    });
+                });
+                audio.addEventListener('pause', function () {
+                    const btn = document.querySelector('[data-audio-id="' + audio.id + '"]');
+                    if (btn) {
+                        const pi = btn.querySelector('.play-icon');
+                        const pai = btn.querySelector('.pause-icon');
+                        if (pi) pi.classList.remove('hidden');
+                        if (pai) pai.classList.add('hidden');
+                    }
+                });
+                audio.addEventListener('timeupdate', function () {
+                    const card = this.closest('.track-card');
+                    const timeEl = card?.querySelector('.track-time');
+                    if (timeEl) timeEl.textContent = formatTime(this.currentTime) + ' / ' + formatTime(this.duration || 0);
+                });
+                audio.addEventListener('loadedmetadata', function () {
+                    const card = this.closest('.track-card');
+                    const timeEl = card?.querySelector('.track-time');
+                    if (timeEl) timeEl.textContent = '0:00 / ' + formatTime(this.duration);
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAlbumPlayer);
+        } else {
+            initAlbumPlayer();
+        }
+        
+        // Debug: Log all track cards and their YouTube URLs
+        setTimeout(function() {
+            const trackCards = document.querySelectorAll('.track-card-clickable');
+            console.log('Found', trackCards.length, 'track cards');
+            trackCards.forEach(function(card, index) {
+                const title = card.getAttribute('data-track-title');
+                const youtubeUrl = card.getAttribute('data-youtube-url');
+                console.log(`Track ${index + 1}: ${title}, YouTube URL: ${youtubeUrl}`);
+            });
+        }, 500);
+
+        // Check if YouTube iframe loaded successfully
+        const youtubeIframe = document.getElementById('youtube-embed-iframe');
+        if (youtubeIframe) {
+            youtubeIframe.addEventListener('load', function () {
+                // Iframe loaded - hide error fallback if it was shown
+                const errorFallback = document.getElementById('youtube-error-fallback');
+                if (errorFallback) {
+                    errorFallback.classList.add('hidden');
+                }
+            });
+
+            // Show fallback link after a delay if iframe seems to have issues
+            setTimeout(function () {
+                // Check if iframe is still in the DOM and has content
+                const iframe = document.getElementById('youtube-embed-iframe');
+                if (iframe && iframe.contentWindow) {
+                    try {
+                        // Try to access iframe content (will fail for cross-origin, but that's ok)
+                        const errorFallback = document.getElementById('youtube-error-fallback');
+                        if (errorFallback) {
+                            errorFallback.classList.remove('hidden');
+                        }
+                    } catch (e) {
+                        // Cross-origin error is expected, iframe is working
+                    }
+                }
+            }, 3000);
+        }
+
+        var coverBtn = document.getElementById('cover-zoom-btn');
+        var coverOverlay = document.getElementById('cover-zoom-overlay');
+        if (coverBtn && coverOverlay) {
+            coverBtn.addEventListener('click', function () {
+                coverOverlay.classList.remove('hidden');
+            });
+            // Close button
+            var closeBtn = document.getElementById('cover-zoom-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    coverOverlay.classList.add('hidden');
+                });
+            }
+            // Close on overlay background click (not on image)
+            coverOverlay.addEventListener('click', function (e) {
+                if (e.target === coverOverlay) {
+                    coverOverlay.classList.add('hidden');
+                }
+            });
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !coverOverlay.classList.contains('hidden')) {
+                    coverOverlay.classList.add('hidden');
+                }
+            });
+        }
+    })();
+</script>
+{% endblock %}

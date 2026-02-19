@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-toxicBlack min-h-screen py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-6xl font-bold mb-12 tracking-tighter">CONTACT</h1>
+
+        <p class="text-xl text-gray-400 mb-12">
+            For booking inquiries, press features, and collaborations.
+        </p>
+
+        <a href="mailto:management@toxiclyrically.com"
+            class="text-3xl md:text-5xl font-bold hover:text-toxicAccent transition-colors break-all">
+            management@toxiclyrically.com
+        </a>
+
+        <div class="mt-20 grid grid-cols-2 gap-8 max-w-lg mx-auto">
+            <div class="text-left">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">Management</h3>
+                <p class="text-white">Urban Flame Records</p>
+                <p class="text-gray-400">Nairobi, Kenya</p>
+            </div>
+            <div class="text-left">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">Press</h3>
+                <p class="text-white">PR Team</p>
+                <p class="text-gray-400">press@toxiclyrically.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

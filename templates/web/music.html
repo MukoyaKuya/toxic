@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-toxicBlack min-h-screen relative py-8 md:py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+
+        <style>
+            .shadow__btn {
+                padding: 10px 20px;
+                border: none;
+                font-size: 17px;
+                color: #fff;
+                border-radius: 7px;
+                letter-spacing: 4px;
+                font-weight: 700;
+                text-transform: uppercase;
+                transition: 0.5s;
+                transition-property: box-shadow;
+                background: rgb(225, 29, 72);
+                box-shadow: 0 0 25px rgb(225, 29, 72);
+                cursor: pointer;
+            }
+
+            .shadow__btn:hover {
+                box-shadow: 0 0 5px rgb(225, 29, 72),
+                    0 0 25px rgb(225, 29, 72),
+                    0 0 50px rgb(225, 29, 72),
+                    0 0 100px rgb(225, 29, 72);
+            }
+
+            .streaming-link--spotify .streaming-icon { transition: color 0.2s ease; }
+            .streaming-link--spotify:hover .streaming-icon { color: #1DB954 !important; }
+            .streaming-link--youtube .streaming-icon { transition: color 0.2s ease; }
+            .streaming-link--youtube:hover .streaming-icon { color: #FF0000 !important; }
+        </style>
+        <div class="mb-8 mt-4">
+            <a href="/">
+                <button class="shadow__btn">
+                    HOME
+                </button>
+            </a>
+        </div>
+        <div id="music-list">
+            {% include 'web/partials/music_list.html' %}
+        </div>
+    </div>
+    <!-- Bottom-right corner label (mustard/circle position) -->
+    <h1
+        class="fixed bottom-4 right-4 md:bottom-6 md:right-6 text-sm md:text-base font-bold tracking-tighter text-white/50">
+        DISCOGRAPHY</h1>
+</div>
+{% endblock %}

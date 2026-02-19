@@ -1,0 +1,299 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Grandover';
+    src: url('../../static/fonts/Grandover.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Custom scrollbar to match dark theme */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e11d48;
+    }
+}
+
+/* Section scroll snap - one wheel scroll = one section */
+html.snap-page {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 5rem;
+}
+
+html.snap-page .snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* Ensure footer is visible and not cut off */
+footer {
+    scroll-snap-align: end;
+    scroll-snap-stop: always;
+}
+
+/* Ensure Latest section maintains consistent positioning */
+#latest {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Ensure consistent padding regardless of scroll direction */
+    padding-top: 4rem !important;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    #latest {
+        padding-top: 6rem !important;
+    }
+}
+
+/* Ensure Tour section maintains consistent positioning */
+#tour {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Ensure consistent padding regardless of scroll direction */
+    padding-top: 3rem !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    #tour {
+        padding-top: 4rem !important;
+    }
+}
+
+/* Prevent parallax from affecting tour section positioning */
+#tour .parallax-content {
+    transform: none !important;
+    will-change: auto;
+}
+
+/* Ensure Latest section content doesn't shift */
+#latest .max-w-7xl {
+    position: relative;
+    transform: none !important;
+    will-change: auto;
+}
+
+/* Hide nav links, Lyrically, and scroll arrow when tour section is in view */
+#nav-links.nav-links--hidden,
+#hero-lyrically.nav-links--hidden,
+#scroll-indicator.nav-links--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Parallax effect utilities */
+.parallax-bg {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.parallax-content {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Tour cards visibility */
+.tour-card {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Fix text distortion on tour cards - avoid 3D context on text */
+.tour-card {
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Text content - NO 3D transforms to prevent mobile distortion */
+.tour-card-venue,
+.tour-card-location,
+.tour-card .relative.z-10,
+.tour-card h3,
+.tour-card p,
+.tour-card span {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    isolation: isolate;
+    contain: layout;
+}
+
+/* Do NOT use preserve-3d or translateZ on text - causes mobile distortion */
+.tour-card > * {
+    transform-style: flat;
+}
+
+/* Reduce perspective on mobile - prevents text distortion in stacked cards */
+@media (max-width: 767px) {
+    #tour-stack {
+        perspective: none !important;
+    }
+    
+    /* Aggressive mobile fixes for tour card text */
+    .tour-card {
+        transform-style: flat !important;
+        will-change: auto !important;
+    }
+    
+    .tour-card > * {
+        transform-style: flat !important;
+        transform: none !important;
+    }
+    
+    .tour-card-venue,
+    .tour-card-location {
+        transform: none !important;
+        transform-style: flat !important;
+        will-change: auto !important;
+        backface-visibility: hidden !important;
+        -webkit-backface-visibility: hidden !important;
+        isolation: isolate !important;
+        contain: layout style paint !important;
+        text-rendering: optimizeLegibility !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Ensure parent containers don't create 3D context */
+    .tour-card .relative.z-10,
+    .tour-card .flex {
+        transform-style: flat !important;
+        transform: none !important;
+    }
+}
+
+/* Mobile UI improvements */
+@media (max-width: 767px) {
+    /* Improve touch targets */
+    a, button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Better spacing for mobile */
+    #merch {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem;
+    }
+    
+    /* Improve text readability on mobile */
+    #merch .font-display {
+        letter-spacing: 0.05em;
+    }
+}
+
+/* Shop Modal Styles */
+#shop-modal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+#shop-modal.hidden {
+    display: none;
+}
+
+#shop-modal-image {
+    animation: zoomIn 0.3s ease-out;
+}
+
+/* Compact modal layout */
+#shop-modal .max-w-5xl {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#shop-modal-image-container {
+    min-height: auto;
+}
+
+/* Hide nav when shop modal is open */
+#shop-modal:not(.hidden) ~ * #main-nav,
+body:has(#shop-modal:not(.hidden)) #main-nav,
+body:has(#shop-modal.flex) #main-nav {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    z-index: 0 !important;
+}
+
+#shop-modal:not(.hidden) ~ * #mobile-menu,
+body:has(#shop-modal:not(.hidden)) #mobile-menu,
+body:has(#shop-modal.flex) #mobile-menu {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    z-index: 0 !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hero image fade out */
+#hero-image-container {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+#hero-image-container.hero-fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Tour Home Button - Fixed bottom right */
+.tour-home-button {
+    bottom: max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem));
+    right: max(1.5rem, calc(env(safe-area-inset-right, 0px) + 1.5rem));
+}
+
+/* Ensure button is above mobile browser bars */
+@media (max-width: 767px) {
+    .tour-home-button {
+        bottom: max(5rem, calc(env(safe-area-inset-bottom, 0px) + 5rem));
+    }
+}

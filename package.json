@@ -1,0 +1,13 @@
+{
+  "name": "toxic-web",
+  "version": "1.0.0",
+  "description": "Frontend dependencies for TOXIC web app",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i ./web/static/css/input.css -o ./web/static/css/output.css --minify",
+    "watch": "tailwindcss -i ./web/static/css/input.css -o ./web/static/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
