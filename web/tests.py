@@ -1,15 +1,25 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
+from django.core.files.uploadedfile import SimpleUploadedFile
 from .models import Album, Track, TourDate
 import datetime
+from PIL import Image
+import io
+
+def generate_test_image(size=(100, 100), color=(255, 0, 0)):
+    file_obj = io.BytesIO()
+    image = Image.new("RGB", size=size, color=color)
+    image.save(file_obj, 'JPEG')
+    file_obj.seek(0)
+    return SimpleUploadedFile('test_image.jpg', file_obj.read(), content_type='image/jpeg')
 
 class ModelTests(TestCase):
     def setUp(self):
         self.album = Album.objects.create(
             title="Test Album",
             release_date=datetime.date(2023, 1, 1),
-            cover_art="covers/test.jpg"
+            cover_art=generate_test_image()
         )
         self.track = Track.objects.create(
             album=self.album,
@@ -38,7 +48,7 @@ class ViewTests(TestCase):
         self.album = Album.objects.create(
             title="Latest Album",
             release_date=datetime.date(2023, 12, 1),
-            cover_art="covers/latest.jpg"
+            cover_art=generate_test_image()
         )
 
     def test_index_view(self):

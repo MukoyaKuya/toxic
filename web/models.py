@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
+import io
 
 class Album(models.Model):
     title = models.CharField(max_length=200)
@@ -7,6 +10,27 @@ class Album(models.Model):
     spotify_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True, help_text="YouTube link for the release")
     apple_music_link = models.URLField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.cover_art:
+            img = Image.open(self.cover_art)
+            if img.height > 800 or img.width > 800:
+                output = io.BytesIO()
+                img.thumbnail((800, 800), Image.Resampling.LANCZOS)
+                
+                # Maintain original format if possible, default to JPEG
+                fmt = img.format if img.format else 'JPEG'
+                if fmt == 'JPEG':
+                    img.save(output, format=fmt, quality=85)
+                else:
+                    img.save(output, format=fmt)
+                output.seek(0)
+                
+                self.cover_art = InMemoryUploadedFile(output, 'ImageField', 
+                                                    f"{self.cover_art.name.split('.')[0]}.{fmt.lower()}", 
+                                                    f"image/{fmt.lower()}",
+                                                    output.getbuffer().nbytes, None)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -47,6 +71,26 @@ class ShopItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image)
+            if img.height > 1000 or img.width > 1000:
+                output = io.BytesIO()
+                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
+                
+                fmt = img.format if img.format else 'PNG'
+                if fmt == 'JPEG':
+                    img.save(output, format=fmt, quality=85)
+                else:
+                    img.save(output, format=fmt)
+                output.seek(0)
+                
+                self.image = InMemoryUploadedFile(output, 'ImageField', 
+                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
+                                                    f"image/{fmt.lower()}",
+                                                    output.getbuffer().nbytes, None)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -59,6 +103,26 @@ class ShopItemImage(models.Model):
     shop_item = models.ForeignKey(ShopItem, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='shop/designs/', help_text="Design variation image (up to 4 images per item)")
     display_order = models.PositiveIntegerField(default=0, help_text="Order in which images are displayed")
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image)
+            if img.height > 1000 or img.width > 1000:
+                output = io.BytesIO()
+                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
+                
+                fmt = img.format if img.format else 'PNG'
+                if fmt == 'JPEG':
+                    img.save(output, format=fmt, quality=85)
+                else:
+                    img.save(output, format=fmt)
+                output.seek(0)
+                
+                self.image = InMemoryUploadedFile(output, 'ImageField', 
+                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
+                                                    f"image/{fmt.lower()}",
+                                                    output.getbuffer().nbytes, None)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['display_order', 'id']

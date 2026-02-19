@@ -5,6 +5,7 @@ from django.db.models import Prefetch
 from django.db import connection
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
+from django.core.paginator import Paginator
 from .models import Album, Track, TourDate, ShopItem, ShopItemImage
 from .utils import extract_youtube_embed_url
 
@@ -33,13 +34,19 @@ def index(request):
 
 @cache_page(60 * 15)
 def music(request):
-    albums = Album.objects.all().order_by('-release_date')
+    album_list = Album.objects.all().order_by('-release_date')
+    paginator = Paginator(album_list, 6) # 6 per page
+    page_number = request.GET.get('page')
+    albums = paginator.get_page(page_number)
     context = {'albums': albums}
     return render(request, 'web/music.html', context)
 
 @cache_page(60 * 15)
 def music_list(request):
-    albums = Album.objects.all().order_by('-release_date')
+    album_list = Album.objects.all().order_by('-release_date')
+    paginator = Paginator(album_list, 6) # 6 per page
+    page_number = request.GET.get('page')
+    albums = paginator.get_page(page_number)
     context = {'albums': albums}
     return render(request, 'web/partials/music_list.html', context)
 
