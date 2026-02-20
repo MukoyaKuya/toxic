@@ -40,27 +40,47 @@ def index(request):
     cache.set(cache_key, response, 60 * 15)  # 15 minutes
     return response
 
-@cache_page(60 * 15)
+def _music_cache_stamp():
+    album_max = Album.objects.aggregate(Max('updated_at'))['updated_at__max']
+    track_max = Track.objects.aggregate(Max('updated_at'))['updated_at__max']
+    return max(album_max, track_max) if (album_max or track_max) else 'none'
+
 def music(request):
+    # Cache key includes latest album/track update so admin changes show immediately
+    page_number = request.GET.get('page', '1')
+    cache_key = 'web:music:%s:%s' % (page_number, _music_cache_stamp())
+    response = cache.get(cache_key)
+    if response is not None:
+        return response
     album_list = Album.objects.all().order_by('-release_date')
-    paginator = Paginator(album_list, 6) # 6 per page
-    page_number = request.GET.get('page')
+    paginator = Paginator(album_list, 6)  # 6 per page
     albums = paginator.get_page(page_number)
-    context = {'albums': albums}
-    return render(request, 'web/music.html', context)
+    response = render(request, 'web/music.html', {'albums': albums})
+    cache.set(cache_key, response, 60 * 15)
+    return response
 
-@cache_page(60 * 15)
 def music_list(request):
+    # Cache key includes latest album/track update so admin changes show immediately
+    page_number = request.GET.get('page', '1')
+    cache_key = 'web:music_list:%s:%s' % (page_number, _music_cache_stamp())
+    response = cache.get(cache_key)
+    if response is not None:
+        return response
     album_list = Album.objects.all().order_by('-release_date')
-    paginator = Paginator(album_list, 6) # 6 per page
-    page_number = request.GET.get('page')
+    paginator = Paginator(album_list, 6)  # 6 per page
     albums = paginator.get_page(page_number)
-    context = {'albums': albums}
-    return render(request, 'web/partials/music_list.html', context)
+    response = render(request, 'web/partials/music_list.html', {'albums': albums})
+    cache.set(cache_key, response, 60 * 15)
+    return response
 
-@cache_page(60 * 15)
 def album_detail(request, album_id):
     album = get_object_or_404(Album.objects.prefetch_related('tracks'), pk=album_id)
+    # Cache key includes album and ad update times so admin changes show immediately
+    ad_cache_stamp = Advertisement.objects.aggregate(Max('updated_at'))['updated_at__max']
+    cache_key = 'web:album_detail:%s:%s:%s' % (album_id, album.updated_at or 'none', ad_cache_stamp or 'none')
+    response = cache.get(cache_key)
+    if response is not None:
+        return response
     youtube_embed_url = extract_youtube_embed_url(album.youtube_link)
     if album.youtube_link and not youtube_embed_url:
         logger.warning("Failed to extract YouTube embed URL from: %s", album.youtube_link)
@@ -72,13 +92,15 @@ def album_detail(request, album_id):
     ad = Advertisement.objects.filter(is_active=True).first()
     ad_youtube_embed_url = extract_youtube_embed_url(ad.youtube_link) if ad and ad.youtube_link else None
     
-    return render(request, 'web/album_detail.html', {
+    response = render(request, 'web/album_detail.html', {
         'album': album,
         'youtube_embed_url': youtube_embed_url,
         'tracks_with_youtube': tracks_with_youtube,
         'ad': ad,
         'ad_youtube_embed_url': ad_youtube_embed_url,
     })
+    cache.set(cache_key, response, 60 * 15)  # 15 minutes
+    return response
 
 @cache_page(60 * 15)
 def tour(request):

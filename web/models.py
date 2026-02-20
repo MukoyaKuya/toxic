@@ -9,6 +9,7 @@ class Album(models.Model):
     spotify_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True, help_text="YouTube link for the release")
     apple_music_link = models.URLField(blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.cover_art:
@@ -25,6 +26,7 @@ class Track(models.Model):
     audio_file = models.FileField(upload_to='tracks/', blank=True)
     youtube_link = models.URLField(blank=True, help_text="YouTube link for this track")
     is_featured = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -151,6 +153,7 @@ class Advertisement(models.Model):
     facebook_link = models.URLField(blank=True, help_text="Facebook URL (If provided, the image acts as a cover routing to Facebook)")
     is_active = models.BooleanField(default=False, help_text="Only the first active ad will be displayed on the frontend")
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def clean(self):
         from django.core.exceptions import ValidationError
