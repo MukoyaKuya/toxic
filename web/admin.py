@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
-from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Footer
+from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Footer, Advertisement
 
 class TrackInline(TabularInline):
     model = Track
@@ -81,3 +81,34 @@ class FooterAdmin(ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Don't allow deletion
         return False
+
+@admin.register(Advertisement)
+class AdvertisementAdmin(ModelAdmin):
+    list_display = ('title', 'is_active', 'has_image', 'has_youtube', 'has_facebook', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title',)
+    list_editable = ('is_active',)
+    fieldsets = (
+        ('Internal Details', {
+            'fields': ('title', 'is_active')
+        }),
+        ('Payload Configuration', {
+            'fields': ('image', 'url', 'facebook_link', 'youtube_link'),
+            'description': 'Provide an Image AND (URL or Facebook Link). Alternatively, provide a YouTube Link to embed a video directly. YouTube links take ultimate priority if multiple are supplied.'
+        }),
+    )
+
+    def has_image(self, obj):
+        return bool(obj.image)
+    has_image.boolean = True
+    has_image.short_description = 'Image?'
+
+    def has_youtube(self, obj):
+        return bool(obj.youtube_link)
+    has_youtube.boolean = True
+    has_youtube.short_description = 'YouTube?'
+
+    def has_facebook(self, obj):
+        return bool(obj.facebook_link)
+    has_facebook.boolean = True
+    has_facebook.short_description = 'Facebook?'

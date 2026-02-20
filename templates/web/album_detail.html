@@ -52,8 +52,7 @@
                     {% for track_data in tracks_with_youtube %}
                     {% with track=track_data.track track_youtube_url=track_data.youtube_embed_url %}
                     <div class="track-card group flex items-center gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all track-card-clickable"
-                        data-youtube-url="{{ track_youtube_url|default:'' }}"
-                        data-track-title="{{ track.title }}">
+                        data-youtube-url="{{ track_youtube_url|default:'' }}" data-track-title="{{ track.title }}">
                         <!-- Play Button -->
                         {% if track.audio_file %}
                         <button type="button"
@@ -80,8 +79,7 @@
 
                         <!-- Track Info -->
                         <div class="flex-1 min-w-0 cursor-pointer track-info-clickable"
-                            data-youtube-url="{{ track_youtube_url|default:'' }}"
-                            data-track-title="{{ track.title }}">
+                            data-youtube-url="{{ track_youtube_url|default:'' }}" data-track-title="{{ track.title }}">
                             <h3
                                 class="font-semibold text-sm text-white group-hover:text-toxicAccent transition-colors truncate">
                                 {{ track.title }}
@@ -131,10 +129,45 @@
                     </div>
                     <!-- YouTube embed will be inserted here when track is clicked -->
                 </div>
-                <!-- Ad Placeholder -->
-                <aside class="ad-placeholder w-full aspect-[336/280] min-h-[250px] rounded-lg border border-dashed border-white/20 bg-white/[0.03] flex items-center justify-center">
-                    <span class="text-white/30 text-xs uppercase tracking-widest">Advertisement</span>
+                {% if ad %}
+                <!-- Advertisement -->
+                <aside
+                    class="ad-container w-full aspect-[336/280] min-h-[250px] rounded-lg overflow-hidden bg-white/[0.03] flex items-center justify-center relative shadow-lg border border-white/10">
+                    <span
+                        class="absolute top-2 right-2 text-white/40 text-[9px] uppercase tracking-widest z-20 pointer-events-none bg-black/60 px-2 py-1 rounded backdrop-blur-sm">Advertisement</span>
+
+                    {% if ad_youtube_embed_url %}
+                    <!-- YouTube Ad -->
+                    <iframe src="{{ ad_youtube_embed_url }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen class="w-full h-full absolute inset-0 z-10" title="Advertisement Video">
+                    </iframe>
+                    {% elif ad.facebook_link %}
+                    <!-- Facebook Cover Ad -->
+                    <a href="{{ ad.facebook_link }}" target="_blank" rel="noopener noreferrer"
+                        class="w-full h-full absolute inset-0 z-10 block group">
+                        {% if ad.image %}
+                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {% endif %}
+                    </a>
+                    {% elif ad.url %}
+                    <!-- Standard Link Ad -->
+                    <a href="{{ ad.url }}" target="_blank" rel="noopener noreferrer"
+                        class="w-full h-full absolute inset-0 z-10 block group">
+                        {% if ad.image %}
+                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {% endif %}
+                    </a>
+                    {% elif ad.image %}
+                    <!-- Static Image Ad (No Link) -->
+                    <div class="w-full h-full absolute inset-0 z-10 block">
+                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
                 </aside>
+                {% endif %}
             </div>
         </div>
 
@@ -387,7 +420,7 @@
                     const youtubeUrl = trackCard.getAttribute('data-youtube-url');
                     const trackTitle = trackCard.getAttribute('data-track-title') || 'Unknown';
                     console.log('Track card clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
-                    
+
                     if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
                         updateYouTubeEmbed(youtubeUrl);
                     } else {
@@ -396,7 +429,7 @@
                     }
                     return;
                 }
-                
+
                 // Also check for direct track info click
                 const trackInfo = e.target.closest('.track-info-clickable');
                 if (trackInfo && !e.target.closest('.play-btn')) {
@@ -405,7 +438,7 @@
                     const youtubeUrl = trackInfo.getAttribute('data-youtube-url');
                     const trackTitle = trackInfo.getAttribute('data-track-title') || trackInfo.querySelector('h3')?.textContent || 'Unknown';
                     console.log('Track info clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
-                    
+
                     if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
                         updateYouTubeEmbed(youtubeUrl);
                     } else {
@@ -459,12 +492,12 @@
         } else {
             initAlbumPlayer();
         }
-        
+
         // Debug: Log all track cards and their YouTube URLs
-        setTimeout(function() {
+        setTimeout(function () {
             const trackCards = document.querySelectorAll('.track-card-clickable');
             console.log('Found', trackCards.length, 'track cards');
-            trackCards.forEach(function(card, index) {
+            trackCards.forEach(function (card, index) {
                 const title = card.getAttribute('data-track-title');
                 const youtubeUrl = card.getAttribute('data-youtube-url');
                 console.log(`Track ${index + 1}: ${title}, YouTube URL: ${youtubeUrl}`);

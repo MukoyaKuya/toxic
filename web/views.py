@@ -6,7 +6,7 @@ from django.db import connection
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator
-from .models import Album, Track, TourDate, ShopItem, ShopItemImage
+from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Advertisement
 from .utils import extract_youtube_embed_url
 
 logger = logging.getLogger(__name__)
@@ -60,10 +60,16 @@ def album_detail(request, album_id):
         {'track': track, 'youtube_embed_url': extract_youtube_embed_url(track.youtube_link)}
         for track in album.tracks.all()
     ]
+    
+    ad = Advertisement.objects.filter(is_active=True).first()
+    ad_youtube_embed_url = extract_youtube_embed_url(ad.youtube_link) if ad and ad.youtube_link else None
+    
     return render(request, 'web/album_detail.html', {
         'album': album,
         'youtube_embed_url': youtube_embed_url,
-        'tracks_with_youtube': tracks_with_youtube
+        'tracks_with_youtube': tracks_with_youtube,
+        'ad': ad,
+        'ad_youtube_embed_url': ad_youtube_embed_url,
     })
 
 @cache_page(60 * 15)

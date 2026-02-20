@@ -164,3 +164,44 @@ class Footer(models.Model):
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
+
+class Advertisement(models.Model):
+    title = models.CharField(max_length=200, help_text="Internal name for this ad")
+    image = models.ImageField(upload_to='ads/', blank=True, null=True, help_text="Image creative for the ad (optional if YouTube Link is provided)")
+    url = models.URLField(blank=True, help_text="Destination URL when a user clicks the standard image ad")
+    youtube_link = models.URLField(blank=True, help_text="YouTube link for video ad (Prioritized over image)")
+    facebook_link = models.URLField(blank=True, help_text="Facebook URL (If provided, the image acts as a cover routing to Facebook)")
+    is_active = models.BooleanField(default=False, help_text="Only the first active ad will be displayed on the frontend")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if not self.image and not self.youtube_link:
+            raise ValidationError("You must provide either an Image or a YouTube Link for the advertisement.")
+        if self.image and not (self.url or self.facebook_link):
+             raise ValidationError("If providing an Image, you must also provide either a standard URL or a Facebook Link for the user to click.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        if self.image:
+            img = Image.open(self.image)
+            # Resize ad imagery if excessively large to save bandwidth
+            if img.height > 1000 or img.width > 1000:
+                output = io.BytesIO()
+                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
+                
+                fmt = img.format if img.format else 'PNG'
+                if fmt == 'JPEG':
+                    img.save(output, format=fmt, quality=85)
+                else:
+                    img.save(output, format=fmt)
+                output.seek(0)
+                
+                self.image = InMemoryUploadedFile(output, 'ImageField', 
+                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
+                                                    f"image/{fmt.lower()}",
+                                                    output.getbuffer().nbytes, None)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.title} ({'Active' if self.is_active else 'Inactive'})"
