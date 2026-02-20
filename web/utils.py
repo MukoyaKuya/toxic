@@ -1,4 +1,51 @@
+import io
+import os
 import re
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+
+def compress_image_field(image_field, max_size=800):
+    """
+    Resize and compress an ImageField value in-place if either dimension
+    exceeds *max_size* pixels. Returns the (possibly replaced) image field
+    value so it can be re-assigned before calling super().save().
+
+    Detects format from the file extension when PIL cannot determine it
+    (e.g. freshly opened InMemoryUploadedFile), avoiding accidental JPEG
+    conversion of PNG images that may have transparency.
+    """
+    from PIL import Image
+
+    img = Image.open(image_field)
+    if img.height <= max_size and img.width <= max_size:
+        return image_field  # No resize needed
+
+    # Prefer PIL's detected format, fall back to extension, then JPEG.
+    fmt = img.format
+    if not fmt:
+        ext = os.path.splitext(image_field.name)[-1].lstrip('.').upper()
+        fmt = ext if ext in ('JPEG', 'JPG', 'PNG', 'WEBP', 'GIF') else 'JPEG'
+    if fmt == 'JPG':
+        fmt = 'JPEG'
+
+    output = io.BytesIO()
+    img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
+    if fmt == 'JPEG':
+        img.save(output, format=fmt, quality=85)
+    else:
+        img.save(output, format=fmt)
+    output.seek(0)
+
+    original_name = image_field.name.rsplit('.', 1)[0]
+    return InMemoryUploadedFile(
+        output,
+        'ImageField',
+        f"{original_name}.{fmt.lower()}",
+        f"image/{fmt.lower()}",
+        output.getbuffer().nbytes,
+        None,
+    )
 
 
 def extract_youtube_video_id(url):

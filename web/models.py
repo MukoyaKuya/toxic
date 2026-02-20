@@ -1,7 +1,6 @@
 from django.db import models
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from PIL import Image
-import io
+from .utils import compress_image_field
+
 
 class Album(models.Model):
     title = models.CharField(max_length=200)
@@ -13,23 +12,7 @@ class Album(models.Model):
 
     def save(self, *args, **kwargs):
         if self.cover_art:
-            img = Image.open(self.cover_art)
-            if img.height > 800 or img.width > 800:
-                output = io.BytesIO()
-                img.thumbnail((800, 800), Image.Resampling.LANCZOS)
-                
-                # Maintain original format if possible, default to JPEG
-                fmt = img.format if img.format else 'JPEG'
-                if fmt == 'JPEG':
-                    img.save(output, format=fmt, quality=85)
-                else:
-                    img.save(output, format=fmt)
-                output.seek(0)
-                
-                self.cover_art = InMemoryUploadedFile(output, 'ImageField', 
-                                                    f"{self.cover_art.name.split('.')[0]}.{fmt.lower()}", 
-                                                    f"image/{fmt.lower()}",
-                                                    output.getbuffer().nbytes, None)
+            self.cover_art = compress_image_field(self.cover_art, max_size=800)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -51,7 +34,12 @@ class TourDate(models.Model):
     venue = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     ticket_link = models.URLField(blank=True)
+    map_link = models.URLField(
+        blank=True,
+        help_text="Google Maps (or other) URL for directions to the venue. Paste the full link (e.g. https://maps.google.com/... or https://goo.gl/maps/...)."
+    )
     is_sold_out = models.BooleanField(default=False, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.date.strftime('%Y-%m-%d')} - {self.venue}"
@@ -73,22 +61,7 @@ class ShopItem(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image)
-            if img.height > 1000 or img.width > 1000:
-                output = io.BytesIO()
-                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
-                
-                fmt = img.format if img.format else 'PNG'
-                if fmt == 'JPEG':
-                    img.save(output, format=fmt, quality=85)
-                else:
-                    img.save(output, format=fmt)
-                output.seek(0)
-                
-                self.image = InMemoryUploadedFile(output, 'ImageField', 
-                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
-                                                    f"image/{fmt.lower()}",
-                                                    output.getbuffer().nbytes, None)
+            self.image = compress_image_field(self.image, max_size=1000)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -106,22 +79,7 @@ class ShopItemImage(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image)
-            if img.height > 1000 or img.width > 1000:
-                output = io.BytesIO()
-                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
-                
-                fmt = img.format if img.format else 'PNG'
-                if fmt == 'JPEG':
-                    img.save(output, format=fmt, quality=85)
-                else:
-                    img.save(output, format=fmt)
-                output.seek(0)
-                
-                self.image = InMemoryUploadedFile(output, 'ImageField', 
-                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
-                                                    f"image/{fmt.lower()}",
-                                                    output.getbuffer().nbytes, None)
+            self.image = compress_image_field(self.image, max_size=1000)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -136,6 +94,10 @@ class Footer(models.Model):
     """Footer settings - singleton model for footer configuration"""
     logo = models.ImageField(upload_to='footer/', blank=True, help_text="Upload logo image for MBOKADOBA (replaces text)")
     featured_image = models.ImageField(upload_to='footer/', blank=True, help_text="Optional image for footer upper section (e.g. album cover)")
+    featured_image_height = models.PositiveIntegerField(
+        default=400,
+        help_text="Height of the featured image in pixels (e.g. 300, 400, 500). Width scales automatically."
+    )
     youtube_video_url = models.URLField(blank=True, help_text="YouTube video URL to embed in footer (e.g. https://www.youtube.com/watch?v=VIDEO_ID)")
     instagram_link = models.URLField(blank=True, help_text="Instagram profile URL")
     twitter_link = models.URLField(blank=True, help_text="X (Twitter) profile URL")
@@ -165,6 +127,22 @@ class Footer(models.Model):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
 
+class SocialLink(models.Model):
+    """Dynamic social media links for the footer"""
+    footer = models.ForeignKey(Footer, on_delete=models.CASCADE, related_name='social_links')
+    name = models.CharField(max_length=50, help_text="Name of the social network (e.g. Email, Facebook, Spotify)")
+    url = models.URLField(help_text="URL for the link (can be a mailto: link for emails)")
+    icon = models.FileField(upload_to='footer/socials/', help_text="Upload an SVG or transparent PNG logo")
+    order = models.PositiveIntegerField(default=0, help_text="Order in which they appear (lower number first)")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Social Link'
+        verbose_name_plural = 'Social Links'
+
+    def __str__(self):
+        return self.name
+
 class Advertisement(models.Model):
     title = models.CharField(max_length=200, help_text="Internal name for this ad")
     image = models.ImageField(upload_to='ads/', blank=True, null=True, help_text="Image creative for the ad (optional if YouTube Link is provided)")
@@ -182,26 +160,40 @@ class Advertisement(models.Model):
              raise ValidationError("If providing an Image, you must also provide either a standard URL or a Facebook Link for the user to click.")
 
     def save(self, *args, **kwargs):
-        self.clean()
+        # Note: clean() is intentionally NOT called here; Django admin calls it
+        # automatically during form validation. Calling it from save() would
+        # raise a ValidationError on programmatic saves (e.g. fixtures, shell).
         if self.image:
-            img = Image.open(self.image)
-            # Resize ad imagery if excessively large to save bandwidth
-            if img.height > 1000 or img.width > 1000:
-                output = io.BytesIO()
-                img.thumbnail((1000, 1000), Image.Resampling.LANCZOS)
-                
-                fmt = img.format if img.format else 'PNG'
-                if fmt == 'JPEG':
-                    img.save(output, format=fmt, quality=85)
-                else:
-                    img.save(output, format=fmt)
-                output.seek(0)
-                
-                self.image = InMemoryUploadedFile(output, 'ImageField', 
-                                                    f"{self.image.name.split('.')[0]}.{fmt.lower()}", 
-                                                    f"image/{fmt.lower()}",
-                                                    output.getbuffer().nbytes, None)
+            self.image = compress_image_field(self.image, max_size=1000)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} ({'Active' if self.is_active else 'Inactive'})"
+
+class TourSettings(models.Model):
+    """Tour page settings - singleton model for tour page configuration"""
+    background_image = models.ImageField(
+        upload_to='tour/',
+        blank=True,
+        help_text="Background image or GIF for the tour page. If not set, defaults to static image."
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Tour Settings'
+        verbose_name_plural = 'Tour Settings'
+
+    def __str__(self):
+        return "Tour Settings"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        self.pk = 1
+        if self.background_image:
+            self.background_image = compress_image_field(self.background_image, max_size=2000)
+        super().save(*args, **kwargs)
+    
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj

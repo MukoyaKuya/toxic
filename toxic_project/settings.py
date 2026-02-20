@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,6 +120,43 @@ UNFOLD = {
     },
 }
 
+# ---------------------------------------------------------------------------
+# Content Security Policy (django-csp)
+# ---------------------------------------------------------------------------
+# Allows: own origin, YouTube iframes, Google Fonts, HTMX CDN.
+# Inline styles/scripts are blocked — use external files or nonces if needed.
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "https://unpkg.com",           # HTMX
+    "https://www.youtube.com",
+    "https://s.ytimg.com",
+)
+CSP_STYLE_SRC = (
+    "'self'",
+    "https://fonts.googleapis.com",
+    "'unsafe-inline'",             # Tailwind generates inline styles; remove once migrated
+)
+CSP_FONT_SRC = (
+    "'self'",
+    "https://fonts.gstatic.com",
+)
+CSP_IMG_SRC = (
+    "'self'",
+    "data:",
+    "https:",                       # Allow images from any HTTPS source (CDN, YouTube thumbnails)
+)
+CSP_FRAME_SRC = (
+    "'self'",
+    "https://www.youtube.com",
+    "https://www.youtube-nocookie.com",
+    "https://www.facebook.com",
+)
+CSP_CONNECT_SRC = ("'self'",)
+CSP_MEDIA_SRC = ("'self'",)
+# Report violations to the console (set CSP_REPORT_URI for a real endpoint)
+CSP_REPORT_ONLY = False
+
 import sys
 
 # Redis Caching (fall back to LocMemCache or DummyCache if Redis is not configured)
@@ -185,3 +223,15 @@ LOGGING = {
         },
     },
 }
+
+# ---------------------------------------------------------------------------
+# Production environment variable validation
+# ---------------------------------------------------------------------------
+# Fails fast at startup if required env vars are missing in production.
+if not DEBUG and 'test' not in sys.argv:
+    _required_env_vars = ['SECRET_KEY', 'DATABASE_URL', 'ALLOWED_HOSTS']
+    _missing = [v for v in _required_env_vars if not os.environ.get(v)]
+    if _missing:
+        import sys as _sys
+        print(f"FATAL: Missing required production environment variables: {', '.join(_missing)}", flush=True)
+        _sys.exit(1)

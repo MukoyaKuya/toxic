@@ -140,7 +140,8 @@
                     <!-- YouTube Ad -->
                     <iframe src="{{ ad_youtube_embed_url }}" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen class="w-full h-full absolute inset-0 z-10" title="Advertisement Video">
+                        allowfullscreen class="w-full h-full absolute inset-0 z-10" title="Advertisement Video"
+                        referrerpolicy="strict-origin-when-cross-origin">
                     </iframe>
                     {% elif ad.facebook_link %}
                     <!-- Facebook Cover Ad -->
@@ -239,16 +240,10 @@
         // Update YouTube embed when track is clicked
         function updateYouTubeEmbed(youtubeUrl) {
             const container = document.getElementById('youtube-embed-container');
-            if (!container) {
-                console.error('YouTube embed container not found');
-                return;
-            }
-
-            console.log('updateYouTubeEmbed called with:', youtubeUrl);
+            if (!container) return;
 
             // If no URL or empty string, show cover image
             if (!youtubeUrl || youtubeUrl.trim() === '' || youtubeUrl === 'None' || youtubeUrl === 'null') {
-                console.log('No YouTube URL, showing cover image');
                 showCoverImage();
                 return;
             }
@@ -262,19 +257,15 @@
                 // Extract video ID to validate
                 const videoIdMatch = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
                 if (!videoIdMatch || videoIdMatch[1].length !== 11) {
-                    console.error('Invalid embed URL format:', embedUrl);
                     showCoverImage();
                     return;
                 }
-                // Use the embed URL as-is
-                // embedUrl = embedUrl.split('?')[0];
             } else {
                 // It's a watch URL, extract video ID and convert to embed URL
                 embedUrl = embedUrl.split('#')[0].replace(/\/$/, '');
 
                 // Check if this is a channel URL (can't be embedded)
                 if (embedUrl.includes('/@') || embedUrl.includes('/channel/') || embedUrl.includes('/user/') || embedUrl.includes('/c/') || embedUrl.includes('/featured')) {
-                    console.log('Channel URL detected, showing cover image');
                     showCoverImage();
                     return;
                 }
@@ -297,7 +288,6 @@
                 if (videoId && videoId.length === 11) {
                     embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
                 } else {
-                    console.error('Could not extract video ID from URL:', embedUrl);
                     showCoverImage();
                     return;
                 }
@@ -305,12 +295,9 @@
 
             // Final validation
             if (!embedUrl.startsWith('https://www.youtube.com/embed/')) {
-                console.error('Invalid embed URL:', embedUrl);
                 showCoverImage();
                 return;
             }
-
-            console.log('Setting YouTube embed to:', embedUrl);
 
             // Extract video ID for fallback link
             const videoIdMatch = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
@@ -336,9 +323,7 @@
 
             // Remove any existing fallback links
             const existingFallback = container.parentElement.querySelector('.youtube-fallback-link');
-            if (existingFallback) {
-                existingFallback.remove();
-            }
+            if (existingFallback) existingFallback.remove();
 
             // Add fallback link below container
             if (videoId) {
@@ -382,11 +367,9 @@
                     if (audio) {
                         // Update YouTube embed if track has YouTube URL
                         const youtubeUrl = btn.getAttribute('data-youtube-url');
-                        console.log('Play button clicked, YouTube URL:', youtubeUrl);
                         if (youtubeUrl && youtubeUrl.trim() !== '') {
                             updateYouTubeEmbed(youtubeUrl);
                         } else {
-                            // No YouTube URL, show cover image
                             showCoverImage();
                         }
 
@@ -418,13 +401,9 @@
                     e.preventDefault();
                     e.stopPropagation();
                     const youtubeUrl = trackCard.getAttribute('data-youtube-url');
-                    const trackTitle = trackCard.getAttribute('data-track-title') || 'Unknown';
-                    console.log('Track card clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
-
                     if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
                         updateYouTubeEmbed(youtubeUrl);
                     } else {
-                        console.log('No YouTube URL for track:', trackTitle);
                         showCoverImage();
                     }
                     return;
@@ -436,13 +415,9 @@
                     e.preventDefault();
                     e.stopPropagation();
                     const youtubeUrl = trackInfo.getAttribute('data-youtube-url');
-                    const trackTitle = trackInfo.getAttribute('data-track-title') || trackInfo.querySelector('h3')?.textContent || 'Unknown';
-                    console.log('Track info clicked:', trackTitle, 'YouTube URL:', youtubeUrl);
-
                     if (youtubeUrl && youtubeUrl.trim() !== '' && youtubeUrl !== 'None' && youtubeUrl !== 'null') {
                         updateYouTubeEmbed(youtubeUrl);
                     } else {
-                        console.log('No YouTube URL for track:', trackTitle);
                         showCoverImage();
                     }
                     return;
@@ -491,46 +466,6 @@
             document.addEventListener('DOMContentLoaded', initAlbumPlayer);
         } else {
             initAlbumPlayer();
-        }
-
-        // Debug: Log all track cards and their YouTube URLs
-        setTimeout(function () {
-            const trackCards = document.querySelectorAll('.track-card-clickable');
-            console.log('Found', trackCards.length, 'track cards');
-            trackCards.forEach(function (card, index) {
-                const title = card.getAttribute('data-track-title');
-                const youtubeUrl = card.getAttribute('data-youtube-url');
-                console.log(`Track ${index + 1}: ${title}, YouTube URL: ${youtubeUrl}`);
-            });
-        }, 500);
-
-        // Check if YouTube iframe loaded successfully
-        const youtubeIframe = document.getElementById('youtube-embed-iframe');
-        if (youtubeIframe) {
-            youtubeIframe.addEventListener('load', function () {
-                // Iframe loaded - hide error fallback if it was shown
-                const errorFallback = document.getElementById('youtube-error-fallback');
-                if (errorFallback) {
-                    errorFallback.classList.add('hidden');
-                }
-            });
-
-            // Show fallback link after a delay if iframe seems to have issues
-            setTimeout(function () {
-                // Check if iframe is still in the DOM and has content
-                const iframe = document.getElementById('youtube-embed-iframe');
-                if (iframe && iframe.contentWindow) {
-                    try {
-                        // Try to access iframe content (will fail for cross-origin, but that's ok)
-                        const errorFallback = document.getElementById('youtube-error-fallback');
-                        if (errorFallback) {
-                            errorFallback.classList.remove('hidden');
-                        }
-                    } catch (e) {
-                        // Cross-origin error is expected, iframe is working
-                    }
-                }
-            }, 3000);
         }
 
         var coverBtn = document.getElementById('cover-zoom-btn');

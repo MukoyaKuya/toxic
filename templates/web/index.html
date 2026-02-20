@@ -64,8 +64,8 @@
             class="relative w-full max-w-7xl mx-auto mt-8 h-[500px] md:h-[450px] group perspective-1000">
             {% for tour in upcoming_tours %}
             <!-- Ticket Card -->
-            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden hover:border-toxicAccent/50 transition-all duration-700 ease-out shadow-2xl origin-bottom cursor-pointer select-none"
-                style="opacity: 1; visibility: visible;" onclick="rotateTourCard(this)">
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden hover:border-toxicAccent/50 transition-all duration-700 ease-out shadow-2xl origin-bottom select-none"
+                style="opacity: 1; visibility: visible;">
 
                 <!-- Ticket Visuals (Notches) -->
                 <!-- Top Notch -->
@@ -96,8 +96,10 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
-                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -108,11 +110,19 @@
                                 class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
                                 {{ tour.venue }}
                             </h3>
-                            <div class="flex items-center gap-3">
-                                <span class="w-12 h-0.5 bg-toxicAccent"></span>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="w-12 h-0.5 bg-toxicAccent flex-shrink-0"></span>
                                 <p
                                     class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
                                     {{ tour.location }}</p>
+                                <a href="{% if tour.map_link %}{{ tour.map_link }}{% else %}https://www.google.com/maps/search/?api=1&query={{ tour.venue|urlencode }}+{{ tour.location|urlencode }}{% endif %}" target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
+                                    aria-label="Get directions to {{ tour.venue }}">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -154,14 +164,30 @@
             {% endfor %}
         </div>
 
-        <!-- Hint text -->
-        <p id="tour-hint-text" class="mt-8 text-white/30 text-xs tracking-[0.3em] uppercase animate-pulse">Tap card see
-            next dates</p>
+        <!-- Navigation Controls -->
+        <div class="mt-8 flex items-center justify-center gap-6 z-20 relative">
+            <button type="button" onclick="rotateTourCardPrev()"
+                class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-white/50 bg-black/50"
+                aria-label="Previous date">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Swipe or Click
+                Next</p>
+            <button type="button" onclick="rotateTourCardNext()"
+                class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-toxicAccent bg-black/50"
+                aria-label="Next date">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
 
         <!-- Home Button at Bottom -->
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}"
+            <a href="{% url 'index' %}" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -183,7 +209,7 @@
         <!-- Home Button at Bottom (when no tours) -->
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}"
+            <a href="{% url 'index' %}" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -197,6 +223,12 @@
 </section>
 <div id="latest"
     class="snap-section min-h-screen flex flex-col justify-start bg-black pb-12 md:pb-16 border-t border-white/10">
+    <style>
+        #latest .latest-spotify-btn:hover {
+            background-color: #1DB954;
+            border-color: #1DB954;
+        }
+    </style>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="flex items-end justify-between mb-8 md:mb-10">
             <h2 class="text-3xl md:text-6xl font-display font-bold text-white tracking-tighter">LATEST</h2>
@@ -222,7 +254,7 @@
                     <div class="flex flex-wrap gap-2 md:gap-3" onclick="event.stopPropagation()">
                         {% if release.spotify_link %}
                         <a href="{{ release.spotify_link }}" target="_blank"
-                            class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            class="latest-spotify-btn inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 border border-white/20 text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
                             <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.36.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
@@ -575,51 +607,144 @@
         function updateCardPositions(cards) {
             const isMobile = window.innerWidth < 768;
             cards.forEach((card, index) => {
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
                 if (index === 0) {
                     card.style.zIndex = '30';
                     card.style.opacity = '1';
                     // On mobile, use translateY only (no scale) to prevent text distortion
-                    card.style.transform = isMobile ? 'translateY(0)' : 'scale(1) translateY(0)';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(0) rotate(0deg)' : 'scale(1) translateX(0) translateY(0) rotate(0deg)';
                     card.style.pointerEvents = 'auto';
                 } else if (index === 1) {
                     card.style.zIndex = '20';
                     card.style.opacity = '0.7';
-                    card.style.transform = isMobile ? 'translateY(20px)' : 'scale(0.95) translateY(20px)';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(20px) rotate(0deg)' : 'scale(0.95) translateX(0) translateY(20px) rotate(0deg)';
                     card.style.pointerEvents = 'none';
                 } else if (index === 2) {
                     card.style.zIndex = '10';
                     card.style.opacity = '0.4';
-                    card.style.transform = isMobile ? 'translateY(40px)' : 'scale(0.9) translateY(40px)';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(40px) rotate(0deg)' : 'scale(0.9) translateX(0) translateY(40px) rotate(0deg)';
                     card.style.pointerEvents = 'none';
                 } else {
                     card.style.zIndex = '0';
                     card.style.opacity = '0';
-                    card.style.transform = isMobile ? 'translateY(60px)' : 'scale(0.85) translateY(60px)';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(60px) rotate(0deg)' : 'scale(0.85) translateX(0) translateY(60px) rotate(0deg)';
                     card.style.pointerEvents = 'none';
                 }
             });
         }
 
-        window.rotateTourCard = function (clickedCard) {
+        let isAnimating = false;
+
+        window.rotateTourCardNext = function () {
+            if (isAnimating) return;
             const stack = document.getElementById('tour-stack');
-            if (!stack) return;
+            if (!stack || stack.children.length <= 1) return;
+
+            isAnimating = true;
             const cards = Array.from(stack.getElementsByClassName('tour-card'));
-            if (cards.indexOf(clickedCard) !== 0) return;
+            const currentCard = cards[0];
+            const nextCard = cards[1];
 
-            // Animate out - use translateY only on mobile to prevent text distortion
             const isMobile = window.innerWidth < 768;
-            clickedCard.style.transform = isMobile ? 'translateY(-50px)' : 'translateY(-50px) scale(1.05)';
-            clickedCard.style.opacity = '0';
 
+            // Animate current card out to the left with rotation
+            currentCard.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            currentCard.style.transform = isMobile ? 'translateX(-120%) rotate(-12deg) scale(0.9)' : 'translateX(-100%) rotate(-15deg) scale(0.85)';
+            currentCard.style.opacity = '0';
+            currentCard.style.pointerEvents = 'none';
+            currentCard.style.zIndex = '5';
+
+            // Animate next card coming in from the right
+            if (nextCard) {
+                nextCard.style.transition = 'none';
+                nextCard.style.transform = isMobile ? 'translateX(120%) rotate(12deg) scale(0.9)' : 'translateX(100%) rotate(15deg) scale(0.85)';
+                nextCard.style.opacity = '0';
+                nextCard.style.zIndex = '35';
+                
+                // Force browser reflow
+                void nextCard.offsetWidth;
+                
+                // Move current card to end
+                stack.appendChild(currentCard);
+                
+                // Animate next card into position
+                setTimeout(() => {
+                    const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                    updateCardPositions(newOrder);
+                    setTimeout(() => { isAnimating = false; }, 500);
+                }, 50);
+            } else {
+                setTimeout(() => {
+                    stack.appendChild(currentCard);
+                    const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                    updateCardPositions(newOrder);
+                    setTimeout(() => { isAnimating = false; }, 500);
+                }, 500);
+            }
+        };
+
+        window.rotateTourCardPrev = function () {
+            if (isAnimating) return;
+            const stack = document.getElementById('tour-stack');
+            if (!stack || stack.children.length <= 1) return;
+
+            isAnimating = true;
+            const cards = Array.from(stack.getElementsByClassName('tour-card'));
+            const currentCard = cards[0];
+            const prevCard = cards[cards.length - 1];
+
+            const isMobile = window.innerWidth < 768;
+
+            // Animate current card out to the right
+            currentCard.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            currentCard.style.transform = isMobile ? 'translateX(120%) rotate(12deg) scale(0.9)' : 'translateX(100%) rotate(15deg) scale(0.85)';
+            currentCard.style.opacity = '0';
+            currentCard.style.pointerEvents = 'none';
+            currentCard.style.zIndex = '5';
+
+            // Set up previous card off-screen to the left
+            prevCard.style.transition = 'none';
+            prevCard.style.transform = isMobile ? 'translateX(-120%) rotate(-12deg) scale(0.9)' : 'translateX(-100%) rotate(-15deg) scale(0.85)';
+            prevCard.style.opacity = '0';
+            prevCard.style.zIndex = '35';
+
+            // Move it to the top of the stack
+            stack.insertBefore(prevCard, cards[0]);
+
+            // Force browser reflow to apply the transition="none" styles instantly
+            void prevCard.offsetWidth;
+
+            // Animate it back into the center
             setTimeout(() => {
-                stack.appendChild(clickedCard);
                 const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
                 updateCardPositions(newOrder);
-            }, 300);
+                setTimeout(() => { isAnimating = false; }, 500);
+            }, 50);
         };
 
         // Tour stack initialization is handled above
     })();
+
+    // Ensure home button links bypass HTMX and scroll to top
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle home button clicks
+        document.querySelectorAll('a[data-no-boost]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                // Force full page navigation
+                if (this.href) {
+                    window.location.href = this.href;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+        });
+        
+        // Scroll to top on page load (in case we navigated here)
+        if (window.location.hash === '' || window.location.hash === '#') {
+            window.scrollTo(0, 0);
+        }
+    });
 
     // Shop Modal Functionality
     let shopModalImages = [];

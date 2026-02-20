@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
-from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Footer, Advertisement
+from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Footer, Advertisement, SocialLink, TourSettings
 
 class TrackInline(TabularInline):
     model = Track
@@ -27,11 +27,17 @@ class TrackAdmin(ModelAdmin):
 
 @admin.register(TourDate)
 class TourDateAdmin(ModelAdmin):
-    list_display = ('venue', 'location', 'date', 'is_sold_out')
+    list_display = ('venue', 'location', 'date', 'is_sold_out', 'has_map_link')
     list_filter = ('is_sold_out', 'date')
     search_fields = ('venue', 'location')
     date_hierarchy = 'date'
     ordering = ('date',)
+    fields = ('date', 'venue', 'location', 'ticket_link', 'map_link', 'is_sold_out')
+
+    def has_map_link(self, obj):
+        return bool(obj.map_link)
+    has_map_link.boolean = True
+    has_map_link.short_description = 'Map?'
 
 class ShopItemImageInline(TabularInline):
     model = ShopItemImage
@@ -55,19 +61,22 @@ class ShopItemAdmin(ModelAdmin):
         return obj.images.count()
     image_count.short_description = 'Design Images'
 
+class SocialLinkInline(TabularInline):
+    model = SocialLink
+    extra = 1
+    fields = ('name', 'url', 'icon', 'order')
+
 @admin.register(Footer)
 class FooterAdmin(ModelAdmin):
     list_display = ('copyright_text', 'updated_at')
+    inlines = [SocialLinkInline]
     fieldsets = (
         ('Footer video & image', {
-            'fields': ('youtube_video_url', 'featured_image', 'lets_connect_text'),
-            'description': 'YouTube video URL (watch or embed) to show in the footer. Featured image is optional for the upper section.'
+            'fields': ('youtube_video_url', 'featured_image', 'featured_image_height', 'lets_connect_text'),
+            'description': 'YouTube video URL (watch or embed) to show in the footer. Featured image is optional for the upper section. Set the image height in pixels (default: 400).'
         }),
         ('Logo', {
             'fields': ('logo',)
-        }),
-        ('Social Media Links', {
-            'fields': ('instagram_link', 'twitter_link', 'facebook_link', 'youtube_link', 'spotify_link', 'music_link')
         }),
         ('Text Content', {
             'fields': ('copyright_text', 'mass_appeal_text')
@@ -112,3 +121,26 @@ class AdvertisementAdmin(ModelAdmin):
         return bool(obj.facebook_link)
     has_facebook.boolean = True
     has_facebook.short_description = 'Facebook?'
+
+@admin.register(TourSettings)
+class TourSettingsAdmin(ModelAdmin):
+    list_display = ('updated_at', 'has_background_image')
+    fieldsets = (
+        ('Background Image/GIF', {
+            'fields': ('background_image',),
+            'description': 'Upload a background image or GIF for the tour page. Supports PNG, JPG, and GIF formats. If not set, the default static image will be used.'
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one tour settings instance
+        return not TourSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        # Don't allow deletion
+        return False
+    
+    def has_background_image(self, obj):
+        return bool(obj.background_image)
+    has_background_image.boolean = True
+    has_background_image.short_description = 'Has Background?'

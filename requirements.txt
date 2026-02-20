@@ -1,9 +1,12 @@
 django>=5.0,<6.0
+django-csp>=3.8
 psycopg2-binary>=2.9
 django-htmx>=1.17
+django-unfold>=0.30.0
 redis>=5.0
 gunicorn>=21.2
 whitenoise>=6.6
 dj-database-url>=2.1
 Pillow>=10.0
-selenium
+# selenium is only needed for UI tests (tests_ui.py) - install separately in dev:
+#   pip install selenium>=4.0
