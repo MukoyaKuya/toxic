@@ -30,10 +30,21 @@
                     0 0 100px rgb(225, 29, 72);
             }
 
-            .streaming-link--spotify .streaming-icon { transition: color 0.2s ease; }
-            .streaming-link--spotify:hover .streaming-icon { color: #1DB954 !important; }
-            .streaming-link--youtube .streaming-icon { transition: color 0.2s ease; }
-            .streaming-link--youtube:hover .streaming-icon { color: #FF0000 !important; }
+            .streaming-link--spotify .streaming-icon {
+                transition: color 0.2s ease;
+            }
+
+            .streaming-link--spotify:hover .streaming-icon {
+                color: #1DB954 !important;
+            }
+
+            .streaming-link--youtube .streaming-icon {
+                transition: color 0.2s ease;
+            }
+
+            .streaming-link--youtube:hover .streaming-icon {
+                color: #FF0000 !important;
+            }
         </style>
         <div class="mb-8 mt-4">
             <a href="/">
@@ -42,7 +53,7 @@
                 </button>
             </a>
         </div>
-        <div id="music-list">
+        <div id="music-list" class="flex flex-col gap-6 md:gap-5">
             {% include 'web/partials/music_list.html' %}
         </div>
     </div>

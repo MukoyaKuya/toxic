@@ -96,12 +96,8 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span
-                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
-                                tour.date|localtime|date:"d" }}</span>
-                            <span
-                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
-                                tour.date|localtime|date:"M" }}</span>
+                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
+                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -133,8 +129,7 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
-                                }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}

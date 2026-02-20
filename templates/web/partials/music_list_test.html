@@ -57,8 +57,9 @@
         <!-- Track names - slightly larger -->
         <div class="hidden md:block max-w-[220px] flex-shrink-0 text-right pointer-events-none">
             <p class="text-sm text-gray-500 truncate"
-                title="{% for t in album.tracks.all|slice:':4' %}{{ t.title }}{% if not forloop.last %}, {% endif %}{% endfor %}">
-                {% for track in album.tracks.all|slice:":3" %}{{ track.title }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                title="T_FOR_TAG{{ t.title }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+                TRACK_FOR_TAG{{ track.title }}{% if not forloop.last %}, {% endif %}{%
+                endfor %}
             </p>
         </div>
     </div>
