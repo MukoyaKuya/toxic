@@ -1,0 +1,33 @@
+# .gcloudignore — Exclude files from the Cloud Build context upload
+# Mirrors .gitignore; keeps uploads fast by skipping large dev-only directories.
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Dev data — never send to Cloud
+db.sqlite3
+media/
+logs/
+
+# IDE / OS
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# Git
+.git/
+
+# Test artefacts
+test_output.txt
+test_utils_import.py
+test_youtube_url.py
+seed_data.py

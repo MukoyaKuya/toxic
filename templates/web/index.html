@@ -96,10 +96,8 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span
-                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
-                            <span
-                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
+                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -115,12 +113,16 @@
                                 <p
                                     class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
                                     {{ tour.location }}</p>
-                                <a href="{% if tour.map_link %}{{ tour.map_link }}{% else %}https://www.google.com/maps/search/?api=1&query={{ tour.venue|urlencode }}+{{ tour.location|urlencode }}{% endif %}" target="_blank" rel="noopener noreferrer"
+                                <a href="{% if tour.map_link %}{{ tour.map_link }}{% else %}https://www.google.com/maps/search/?api=1&query={{ tour.venue|urlencode }}+{{ tour.location|urlencode }}{% endif %}"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
                                     aria-label="Get directions to {{ tour.venue }}">
-                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </a>
                             </div>
@@ -148,7 +150,7 @@
                             SOLD OUT
                         </span>
                         {% else %}
-                        <a href="{{ tour.ticket_link }}" target="_blank"
+                        <a href="{{ tour.ticket_link }}" target="_blank" rel="noopener noreferrer"
                             class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto">
                             GET TICKETS
                         </a>
@@ -173,8 +175,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Swipe or Click
-                Next</p>
+            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Click to See Next Show</p>
             <button type="button" onclick="rotateTourCardNext()"
                 class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-toxicAccent bg-black/50"
                 aria-label="Next date">
@@ -239,21 +240,23 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {% for release in latest_releases %}
-            <div onclick="window.location.href='{% url 'album_detail' release.id %}'"
+            <div
                 class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10"></div>
+                <a href="{% url 'album_detail' release.id %}" class="absolute inset-0 z-0"
+                    aria-label="View {{ release.title }}"></a>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none"></div>
                 {% if release.cover_art %}
                 <img src="{{ release.cover_art.url }}" alt="{{ release.title }}"
-                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60">
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60 pointer-events-none">
                 {% endif %}
-                <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20">
+                <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20 pointer-events-none">
                     <p class="text-toxicAccent text-xs font-bold tracking-widest mb-1 md:mb-2 uppercase">New Release</p>
                     <h3 class="text-2xl md:text-3xl font-display text-white mb-3 md:mb-4">
                         {{ release.title }}</h3>
                     <!-- Streaming Links - stopPropagation so they open in new tab instead of navigating card -->
-                    <div class="flex flex-wrap gap-2 md:gap-3" onclick="event.stopPropagation()">
+                    <div class="flex flex-wrap gap-2 md:gap-3 pointer-events-auto" onclick="event.stopPropagation()">
                         {% if release.spotify_link %}
-                        <a href="{{ release.spotify_link }}" target="_blank"
+                        <a href="{{ release.spotify_link }}" target="_blank" rel="noopener noreferrer"
                             class="latest-spotify-btn inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 border border-white/20 text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
                             <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -263,7 +266,7 @@
                         </a>
                         {% endif %}
                         {% if release.youtube_link %}
-                        <a href="{{ release.youtube_link }}" target="_blank"
+                        <a href="{{ release.youtube_link }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
                             <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -325,7 +328,7 @@
             {% empty %}
             <!-- Fallback: Show placeholder items if no shop items -->
             {% for i in "123"|make_list %}
-            <a href="https://shop.toxiclyrically.com" target="_blank"
+            <a href="https://shop.toxiclyrically.com" target="_blank" rel="noopener noreferrer"
                 class="group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)]">
                 <div
                     class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
@@ -660,13 +663,13 @@
                 nextCard.style.transform = isMobile ? 'translateX(120%) rotate(12deg) scale(0.9)' : 'translateX(100%) rotate(15deg) scale(0.85)';
                 nextCard.style.opacity = '0';
                 nextCard.style.zIndex = '35';
-                
+
                 // Force browser reflow
                 void nextCard.offsetWidth;
-                
+
                 // Move current card to end
                 stack.appendChild(currentCard);
-                
+
                 // Animate next card into position
                 setTimeout(() => {
                     const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
@@ -726,10 +729,10 @@
     })();
 
     // Ensure home button links bypass HTMX and scroll to top
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Handle home button clicks
-        document.querySelectorAll('a[data-no-boost]').forEach(function(link) {
-            link.addEventListener('click', function(e) {
+        document.querySelectorAll('a[data-no-boost]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
                 // Force full page navigation
                 if (this.href) {
                     window.location.href = this.href;
@@ -739,7 +742,7 @@
                 }
             });
         });
-        
+
         // Scroll to top on page load (in case we navigated here)
         if (window.location.hash === '' || window.location.hash === '#') {
             window.scrollTo(0, 0);

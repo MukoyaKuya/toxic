@@ -8,7 +8,7 @@ const PRECACHE_URLS = [
   '/tour/',
   '/music/',
   '/static/css/output.css',
-  '/static/manifest.json',
+  '/manifest.json',
   '/static/icons/icon-192.png',
   '/static/icons/icon-512.png',
 ];

@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django_htmx',
+    'storages',
     'web',
 ]
 
@@ -87,6 +88,26 @@ if not DEBUG:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# ---------------------------------------------------------------------------
+# Google Cloud Storage for media files (production)
+# When GCS_BUCKET_NAME is set, uploaded files go to Cloud Storage.
+# Falls back to local media/ in development.
+# ---------------------------------------------------------------------------
+GCS_BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME', '')
+if GCS_BUCKET_NAME:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+    GS_BUCKET_NAME = GCS_BUCKET_NAME
+    GS_DEFAULT_ACL = None  # Use bucket-level IAM, not per-object ACLs
+    GS_QUERYSTRING_AUTH = False  # Public bucket — no signed URLs needed
+    MEDIA_URL = f'https://storage.googleapis.com/{GCS_BUCKET_NAME}/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -207,17 +228,17 @@ LOGGING = {
         },
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console', 'file'] if DEBUG else ['console'],
         'level': 'INFO',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file'] if DEBUG else ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         'web': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file'] if DEBUG else ['console'],
             'level': 'DEBUG',
             'propagate': False,
         },

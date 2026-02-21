@@ -1,0 +1,82 @@
+steps:
+  # ── Step 1: Build the Docker image ──────────────────────────────────────────
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--tag'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/toxic:$BUILD_ID'
+      - '--tag'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/toxic:latest'
+      - '.'
+    id: 'build'
+
+  # ── Step 2: Push image to Artifact Registry ──────────────────────────────────
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/toxic'
+    id: 'push'
+    waitFor: ['build']
+
+  # ── Step 3: Run database migrations via Cloud Run Job ───────────────────────
+  # Uses the Cloud SQL proxy connection built into Cloud Run.
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'jobs'
+      - 'execute'
+      - 'toxic-migrate'
+      - '--region'
+      - '${_REGION}'
+      - '--wait'
+    id: 'migrate'
+    waitFor: ['push']
+
+  # ── Step 4: Deploy to Cloud Run ─────────────────────────────────────────────
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'toxic'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/toxic:$COMMIT_SHA'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '10'
+      - '--memory'
+      - '512Mi'
+      - '--cpu'
+      - '1'
+      - '--port'
+      - '8000'
+      - '--add-cloudsql-instances'
+      - '$PROJECT_ID:${_REGION}:${_SQL_INSTANCE}'
+      - '--set-env-vars'
+      - 'DEBUG=0,GCS_BUCKET_NAME=${_GCS_BUCKET},ALLOWED_HOSTS=${_ALLOWED_HOSTS}'
+      - '--set-secrets'
+      - 'SECRET_KEY=django-secret-key:latest,DATABASE_URL=django-db-url:latest'
+    id: 'deploy'
+    waitFor: ['migrate']
+
+# ── Substitution defaults (override with --substitutions on CLI or trigger) ──
+substitutions:
+  _REGION: us-central1
+  _REPO: toxic-repo
+  _SQL_INSTANCE: toxic-db       # Cloud SQL instance name
+  _GCS_BUCKET: ''               # e.g. my-project-toxic-media
+  _ALLOWED_HOSTS: ''            # e.g. toxic-abc123-uc.a.run.app
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'   # Faster builds (Node + Docker layer caching)
+
+timeout: '1200s'                 # 20-minute build timeout

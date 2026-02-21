@@ -27,6 +27,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media/
+staticfiles/
 
 # Node
 node_modules/
@@ -44,3 +45,8 @@ env/
 # IDEs
 .vscode/
 .idea/
+
+# GCP — never commit credentials or setup scripts with passwords
+gcp_setup.sh
+service-account-key.json
+*.json.key

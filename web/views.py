@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.db.models import Prefetch, Max
@@ -103,15 +104,24 @@ def album_detail(request, album_id):
     cache.set(cache_key, response, 60 * 15)  # 15 minutes
     return response
 
-@cache_page(60 * 15)
 def tour(request):
+    # Cache key includes latest tour date update so admin changes show immediately
+    tour_cache_stamp = TourDate.objects.aggregate(Max('updated_at'))['updated_at__max']
+    is_partial = request.GET.get('partial') == 'true'
+    cache_key = 'web:tour:%s:%s' % (tour_cache_stamp or 'none', 'partial' if is_partial else 'full')
+    response = cache.get(cache_key)
+    if response is not None:
+        return response
     upcoming_dates = TourDate.objects.filter(date__gte=timezone.now()).order_by('date')
     context = {'tour_dates': upcoming_dates}
     # Only return partial if explicitly requested via query parameter
     # This prevents hx-boost navigation from returning just the partial
-    if request.GET.get('partial') == 'true':
-        return render(request, 'web/partials/tour_list.html', context)
-    return render(request, 'web/tour.html', context)
+    if is_partial:
+        response = render(request, 'web/partials/tour_list.html', context)
+    else:
+        response = render(request, 'web/tour.html', context)
+    cache.set(cache_key, response, 60 * 15)  # 15 minutes
+    return response
 
 @cache_page(60 * 15)
 def contact(request):
@@ -127,15 +137,15 @@ def handler500(request):
 
 def service_worker(request):
     """Serve sw.js from root path so it controls the full origin scope."""
-    path = finders.find('sw.js')
-    response = FileResponse(open(path, 'rb'), content_type='application/javascript')
+    path = Path(finders.find('sw.js'))
+    response = FileResponse(path.open('rb'), content_type='application/javascript')
     response['Service-Worker-Allowed'] = '/'
     response['Cache-Control'] = 'no-cache'
     return response
 
 def pwa_manifest(request):
     """Serve manifest.json from root path as required by PWA spec."""
-    path = finders.find('manifest.json')
-    response = FileResponse(open(path, 'rb'), content_type='application/manifest+json')
+    path = Path(finders.find('manifest.json'))
+    response = FileResponse(path.open('rb'), content_type='application/manifest+json')
     response['Cache-Control'] = 'public, max-age=86400'
     return response

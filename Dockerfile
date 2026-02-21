@@ -6,10 +6,9 @@ RUN npm install
 COPY tailwind.config.js .
 COPY web/static/css/input.css ./web/static/css/
 COPY templates ./templates
-COPY web/templates ./web/templates
 # Create empty python files to satisfy tailwind content scan if needed, or just copy structure
 COPY toxic_project ./toxic_project
-COPY web ./web 
+COPY web ./web
 RUN npm run build
 
 # Stage 2: Run Python App
@@ -22,8 +21,20 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create logs directory so Django file handler init doesn't crash
+RUN mkdir -p /app/logs
+
 COPY . .
 # Copy generated CSS from builder stage
 COPY --from=node-builder /app/web/static/css/output.css ./web/static/css/output.css
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "toxic_project.wsgi:application"]
+# Collect static files into /app/staticfiles (served by whitenoise)
+# SECRET_KEY, DATABASE_URL, and ALLOWED_HOSTS are only needed to pass settings.py checks at build time
+ARG BUILD_SECRET_KEY=build-time-placeholder-key-not-used-in-prod
+RUN SECRET_KEY=${BUILD_SECRET_KEY} \
+    DATABASE_URL=sqlite:////tmp/db.sqlite3 \
+    ALLOWED_HOSTS=localhost \
+    DEBUG=0 \
+    python manage.py collectstatic --noinput
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "toxic_project.wsgi:application"]

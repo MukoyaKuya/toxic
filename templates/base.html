@@ -226,7 +226,7 @@
             <!-- Social Media Icons + Logo (one row) -->
             <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8">
                 {% for link in footer.social_links.all %}
-                <a href="{{ link.url }}" target="_blank"
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer"
                     class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
                     aria-label="{{ link.name }}">
                     {% if 'instagram' in link.name|lower %}

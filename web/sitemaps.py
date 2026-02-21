@@ -1,4 +1,5 @@
 from django.contrib.sitemaps import Sitemap
+from django.db.models import Max
 from django.urls import reverse
 from .models import Album, TourDate
 
@@ -20,13 +21,15 @@ class TourSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        return TourDate.objects.all().order_by('date')
+        # All tour dates live at the same /tour/ page — return it once.
+        return ['tour']
 
     def lastmod(self, obj):
-        return obj.date
-        
-    def location(self, obj):
-        return reverse('tour')
+        latest = TourDate.objects.aggregate(Max('date'))['date__max']
+        return latest
+
+    def location(self, item):
+        return reverse(item)
 
 class StaticViewSitemap(Sitemap):
     priority = 1.0
