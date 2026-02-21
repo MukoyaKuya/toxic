@@ -20,7 +20,7 @@
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     {% block og_image %}
     <meta property="og:image"
-        content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/Section one HR.jpg' %}">
+        content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/section_one_hr.jpg' %}">
     {% endblock %}
 
     <!-- Twitter Card -->
@@ -30,7 +30,7 @@
         content="{% block twitter_description %}Official site for TOXIC LYRICALLY{% endblock %}">
     {% block twitter_image %}
     <meta name="twitter:image"
-        content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/Section one HR.jpg' %}">
+        content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/section_one_hr.jpg' %}">
     {% endblock %}
 
     <!-- Custom CSS (Tailwind Built) -->

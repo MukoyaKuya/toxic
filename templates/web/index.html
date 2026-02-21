@@ -10,7 +10,7 @@
     <!-- Hero Image (Centered Background) -->
     <div id="hero-image-container" class="absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out">
         <div class="w-full h-full relative">
-            <img src="{% static 'images/Section one HR.jpg' %}" alt="Toxic Lyrically"
+            <img src="{% static 'images/section_one_hr.jpg' %}" alt="Toxic Lyrically"
                 class="parallax-bg w-full h-full object-cover object-center" data-parallax-speed="0.8">
             <!-- Subtle gradient for text readability -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70"></div>
@@ -96,8 +96,12 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
-                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -141,7 +145,8 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}
@@ -175,7 +180,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Click to See Next Show</p>
+            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Click to See
+                Next Show</p>
             <button type="button" onclick="rotateTourCardNext()"
                 class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-toxicAccent bg-black/50"
                 aria-label="Next date">
@@ -244,7 +250,9 @@
                 class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
                 <a href="{% url 'album_detail' release.id %}" class="absolute inset-0 z-0"
                     aria-label="View {{ release.title }}"></a>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none"></div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none">
+                </div>
                 {% if release.cover_art %}
                 <img src="{{ release.cover_art.url }}" alt="{{ release.title }}"
                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60 pointer-events-none">

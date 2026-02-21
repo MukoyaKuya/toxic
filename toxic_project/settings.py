@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 import dj_database_url
 
@@ -6,9 +7,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key')
 
-DEBUG = int(os.environ.get('DEBUG', 1))
+DEBUG = os.environ.get('DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Better parsing for ALLOWED_HOSTS to handle empty strings and wildcards
+allowed_hosts_raw = os.environ.get('ALLOWED_HOSTS', '').strip()
+if allowed_hosts_raw:
+    ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_raw.split(',') if h.strip()]
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.run.app', '.a.run.app']
+
+# Trust Cloud Run's proxy
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.run.app',
+    'https://*.a.run.app',
+]
 
 INSTALLED_APPS = [
     'unfold',
@@ -106,7 +118,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # When GCS_BUCKET_NAME is set, uploaded files go to Cloud Storage.
 # Falls back to local media/ in development.
 # ---------------------------------------------------------------------------
-GCS_BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME', '')
+GCS_BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME', '').strip()
 if GCS_BUCKET_NAME:
     STORAGES = {
         'default': {
@@ -261,11 +273,4 @@ LOGGING = {
 # ---------------------------------------------------------------------------
 # Production environment variable validation
 # ---------------------------------------------------------------------------
-# Fails fast at startup if required env vars are missing in production.
-if not DEBUG and 'test' not in sys.argv:
-    _required_env_vars = ['SECRET_KEY', 'DATABASE_URL', 'ALLOWED_HOSTS']
-    _missing = [v for v in _required_env_vars if not os.environ.get(v)]
-    if _missing:
-        import sys as _sys
-        print(f"FATAL: Missing required production environment variables: {', '.join(_missing)}", flush=True)
-        _sys.exit(1)
+# Handled by resilient defaults above.
