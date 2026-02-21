@@ -25,7 +25,7 @@ def health_check(request):
 def index(request):
     # Cache key includes latest tour date update so admin changes (e.g. map_link) show immediately
     tour_cache_stamp = TourDate.objects.aggregate(Max('updated_at'))['updated_at__max']
-    cache_key = 'web:index:%s' % (tour_cache_stamp or 'none')
+    cache_key = 'web:index:v2:%s' % (tour_cache_stamp or 'none')
     response = cache.get(cache_key)
     if response is not None:
         return response

@@ -64,7 +64,7 @@
             class="relative w-full max-w-7xl mx-auto mt-8 h-[500px] md:h-[450px] group perspective-1000">
             {% for tour in upcoming_tours %}
             <!-- Ticket Card -->
-            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden hover:border-toxicAccent/50 transition-all duration-700 ease-out shadow-2xl origin-bottom select-none"
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden transition-all duration-700 ease-out shadow-2xl origin-bottom select-none focus:outline-none focus:ring-0"
                 style="opacity: 1; visibility: visible;">
 
                 <!-- Ticket Visuals (Notches) -->
@@ -96,12 +96,8 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span
-                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
-                                tour.date|localtime|date:"d" }}</span>
-                            <span
-                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
-                                tour.date|localtime|date:"M" }}</span>
+                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
+                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -145,8 +141,7 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
-                                }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}
@@ -156,7 +151,7 @@
                         </span>
                         {% else %}
                         <a href="{{ tour.ticket_link }}" target="_blank" rel="noopener noreferrer"
-                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto">
+                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto focus:outline-none focus:ring-0">
                             GET TICKETS
                         </a>
                         {% endif %}
@@ -247,8 +242,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {% for release in latest_releases %}
             <div
-                class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer">
-                <a href="{% url 'album_detail' release.id %}" class="absolute inset-0 z-0"
+                class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer"
+                style="touch-action: manipulation;">
+                <a href="{% url 'album_detail' release.id %}" class="absolute inset-0 z-0" hx-boost="false"
                     aria-label="View {{ release.title }}"></a>
                 <div
                     class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none">
