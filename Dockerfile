@@ -25,6 +25,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir -p /app/logs
 
 COPY . .
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 # Copy generated CSS from builder stage
 COPY --from=node-builder /app/web/static/css/output.css ./web/static/css/output.css
 
@@ -37,4 +39,4 @@ RUN SECRET_KEY=${BUILD_SECRET_KEY} \
     DEBUG=0 \
     python manage.py collectstatic --noinput
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "toxic_project.wsgi:application"]
+ENTRYPOINT ["/docker-entrypoint.sh"]

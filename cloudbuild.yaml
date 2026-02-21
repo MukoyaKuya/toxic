@@ -19,22 +19,7 @@ steps:
     id: 'push'
     waitFor: ['build']
 
-  # ── Step 3: Run database migrations via Cloud Run Job ───────────────────────
-  # Uses the Cloud SQL proxy connection built into Cloud Run.
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-      - 'run'
-      - 'jobs'
-      - 'execute'
-      - 'toxic-migrate'
-      - '--region'
-      - 'us-east1'
-      - '--wait'
-    id: 'migrate'
-    waitFor: ['push']
-
-  # ── Step 4: Deploy to Cloud Run ─────────────────────────────────────────────
+  # ── Step 3: Deploy to Cloud Run (migrate runs at container startup) ──────────
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -69,7 +54,7 @@ steps:
       - '--set-secrets'
       - 'SECRET_KEY=django-secret-key:latest,DATABASE_URL=django-db-url:latest'
     id: 'deploy'
-    waitFor: ['migrate']
+    waitFor: ['push']
 
 # ── Substitution defaults (override with --substitutions on CLI or trigger) ──
 substitutions:
