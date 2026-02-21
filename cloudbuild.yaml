@@ -77,7 +77,7 @@ substitutions:
   _REPO: toxic-repo
   _SQL_INSTANCE: toxic-db       # Cloud SQL instance name
   _GCS_BUCKET: ''               # e.g. my-project-toxic-media
-  _ALLOWED_HOSTS: ''            # e.g. toxic-abc123-uc.a.run.app
+  _ALLOWED_HOSTS: 'toxic-1073897174388.europe-west1.run.app'
 
 options:
   logging: CLOUD_LOGGING_ONLY
