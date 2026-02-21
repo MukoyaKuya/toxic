@@ -3,10 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.db.models import Prefetch, Max
 from django.db import connection
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.core.paginator import Paginator
+from django.contrib.staticfiles import finders
 from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Advertisement
 from .utils import extract_youtube_embed_url
 
@@ -122,20 +123,19 @@ def handler404(request, exception):
 def handler500(request):
     return render(request, '500.html', status=500)
 
-# Trigger server reload
+# ── PWA views ────────────────────────────────────────────────────
 
-# Trigger server reload again
+def service_worker(request):
+    """Serve sw.js from root path so it controls the full origin scope."""
+    path = finders.find('sw.js')
+    response = FileResponse(open(path, 'rb'), content_type='application/javascript')
+    response['Service-Worker-Allowed'] = '/'
+    response['Cache-Control'] = 'no-cache'
+    return response
 
-# Trigger server reload again
-
-# Trigger server reload, again
-
-# Trigger server reload, max-width fix
-
-# Trigger server reload, social links update
-
-# Trigger server reload, social SVGs rewrite
-
-# Trigger server reload, social SVGs rewrite
-
-# Trigger server reload, Ticket stack UX update
+def pwa_manifest(request):
+    """Serve manifest.json from root path as required by PWA spec."""
+    path = finders.find('manifest.json')
+    response = FileResponse(open(path, 'rb'), content_type='application/manifest+json')
+    response['Cache-Control'] = 'public, max-age=86400'
+    return response
