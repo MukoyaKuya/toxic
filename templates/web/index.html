@@ -96,8 +96,12 @@
                     <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
                         <!-- Huge Date -->
                         <div class="flex flex-col leading-[0.8]">
-                            <span class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{ tour.date|localtime|date:"d" }}</span>
-                            <span class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{ tour.date|localtime|date:"M" }}</span>
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -141,7 +145,8 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i" }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}
@@ -241,8 +246,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {% for release in latest_releases %}
-            <div
-                class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer"
+            <div class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer"
                 style="touch-action: manipulation;">
                 <a href="{% url 'album_detail' release.id %}" class="absolute inset-0 z-0" hx-boost="false"
                     aria-label="View {{ release.title }}"></a>
@@ -371,16 +375,20 @@
 
             <!-- Navigation Arrows -->
             <button id="shop-modal-prev" onclick="changeShopImage(-1)"
-                class="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
+                class="absolute left-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
+                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
+                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
             </button>
             <button id="shop-modal-next" onclick="changeShopImage(1)"
-                class="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+                class="absolute right-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
+                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
+                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
             </button>
         </div>
 
@@ -902,12 +910,16 @@
         });
     }
 
-    // Close modal on escape key
+    // Close modal on escape key and navigation on arrow keys
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            const modal = document.getElementById('shop-modal');
-            if (!modal.classList.contains('hidden')) {
+        const modal = document.getElementById('shop-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            if (e.key === 'Escape') {
                 closeShopModal();
+            } else if (e.key === 'ArrowRight') {
+                changeShopImage(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeShopImage(-1);
             }
         }
     });

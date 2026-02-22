@@ -1,5 +1,57 @@
 # Deployment Guide
 
+## Database Content (Albums, Shop, Footer, Tour, etc.)
+
+To push your local content (albums, shop items, footer settings, tour dates, etc.) to production:
+
+### 1. Export from Local Dev
+
+Run from your project root:
+
+```powershell
+python manage.py export_production_data
+```
+
+This creates `data/production_data.json` with all web app content. **Admin users are not exported** — you create those in production separately.
+
+### 2. Load into Production
+
+Connect to your production database (Cloud SQL or Neon) and run loaddata. Options:
+
+**Option A: Cloud SQL Proxy (recommended)**
+
+```powershell
+# Start the proxy (in a separate terminal)
+cloud_sql_proxy -instances=PROJECT:REGION:INSTANCE=tcp:5432
+
+# In another terminal, with DATABASE_URL pointing to localhost:5432
+$env:DATABASE_URL = "postgres://user:pass@localhost:5432/dbname"
+python manage.py loaddata data/production_data.json
+```
+
+**Option B: Direct connection**
+
+```powershell
+$env:DATABASE_URL = "postgres://user:pass@host:5432/dbname"
+python manage.py loaddata data/production_data.json
+```
+
+**Option C: Via Cloud Run Job or Cloud Shell**
+
+Upload `data/production_data.json` and run the loaddata command in an environment that can reach the production database.
+
+### 3. Create Admin User in Production
+
+After loading data, create your admin account:
+
+```powershell
+python manage.py createsuperuser
+```
+
+Enter username, email, and password when prompted.
+
+---
+
 ## Media Files (Images, Audio, Thumbnails)
 
 Album covers, shop images, and audio are stored in the `media/` folder locally. Cloud Run does **not** persist files, so media must be stored in **Google Cloud Storage (GCS)**.

@@ -9,7 +9,7 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.contrib.staticfiles import finders
-from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Advertisement
+from .models import Album, Track, TourDate, ShopItem, ShopItemImage, Advertisement, SocialLink
 from .utils import extract_youtube_embed_url
 
 logger = logging.getLogger(__name__)
@@ -23,17 +23,26 @@ def health_check(request):
         return JsonResponse({'status': 'unhealthy', 'error': str(e)}, status=503)
 
 def index(request):
-    # Cache key includes latest tour date update so admin changes (e.g. map_link) show immediately
-    tour_cache_stamp = TourDate.objects.aggregate(Max('updated_at'))['updated_at__max']
-    cache_key = 'web:index:v2:%s' % (tour_cache_stamp or 'none')
+    # Cache key includes latest update stamps for relevant models
+    tour_stamp = TourDate.objects.aggregate(Max('updated_at'))['updated_at__max']
+    shop_stamp = ShopItem.objects.aggregate(Max('updated_at'))['updated_at__max']
+    image_stamp = ShopItemImage.objects.aggregate(Max('updated_at'))['updated_at__max']
+    social_stamp = SocialLink.objects.aggregate(Max('footer__updated_at'))['footer__updated_at__max']
+    
+    stamps = [tour_stamp, shop_stamp, image_stamp, social_stamp]
+    latest_stamp = max([s for s in stamps if s]) if any(stamps) else 'none'
+    
+    cache_key = 'web:index:v3:%s' % latest_stamp
     response = cache.get(cache_key)
     if response is not None:
         return response
+    
     latest_releases = Album.objects.order_by('-release_date')[:2]
     upcoming_tours = TourDate.objects.filter(date__gte=timezone.now()).order_by('date')[:5]
     shop_items = ShopItem.objects.filter(is_active=True).prefetch_related(
         Prefetch('images', queryset=ShopItemImage.objects.order_by('display_order', 'id'))
-    )[:3]
+    )
+    
     response = render(request, 'web/index.html', {
         'latest_releases': latest_releases,
         'upcoming_tours': upcoming_tours,

@@ -16,6 +16,11 @@ class Album(models.Model):
             self.cover_art = compress_image_field(self.cover_art, max_size=800)
         super().save(*args, **kwargs)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['title', 'release_date'], name='unique_album_title_release')
+        ]
+
     def __str__(self):
         return self.title
 
@@ -78,6 +83,7 @@ class ShopItemImage(models.Model):
     shop_item = models.ForeignKey(ShopItem, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='shop/designs/', help_text="Design variation image (up to 4 images per item)")
     display_order = models.PositiveIntegerField(default=0, help_text="Order in which images are displayed")
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.image:
@@ -141,6 +147,9 @@ class SocialLink(models.Model):
         ordering = ['order']
         verbose_name = 'Social Link'
         verbose_name_plural = 'Social Links'
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'url'], name='unique_social_link_name_url')
+        ]
 
     def __str__(self):
         return self.name
