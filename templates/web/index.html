@@ -398,6 +398,10 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
     (function () {
+        // Ensure homepage header CSS applies when we land here via HTMX (e.g. from /music/);
+        // HTMX only swaps body so <html> keeps the previous page's classes otherwise.
+        document.documentElement.classList.add('snap-page');
+
         const heroSection = document.getElementById('hero');
         const tourSection = document.getElementById('tour');
         const latestSection = document.getElementById('latest');
