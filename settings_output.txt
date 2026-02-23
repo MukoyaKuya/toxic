@@ -1,0 +1,5 @@
+DEBUG: GCS_BUCKET_NAME is 'gen-lang-client-0549116861-toxic-media'
+GCS_BUCKET_NAME environment: 'gen-lang-client-0549116861-toxic-media'
+settings.GCS_BUCKET_NAME: 'gen-lang-client-0549116861-toxic-media'
+settings.MEDIA_URL: 'https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/'
+settings.STORAGES: {'default': {'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage'}, 'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'}}

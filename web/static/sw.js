@@ -1,6 +1,6 @@
 // TOXIC LYRICALLY — Service Worker
 // Cache version — bump this string to force cache refresh on deploy
-const CACHE_NAME = 'toxic-v1';
+const CACHE_NAME = 'toxic-v2';
 
 // Assets to pre-cache on install
 const PRECACHE_URLS = [

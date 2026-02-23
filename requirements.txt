@@ -13,3 +13,4 @@ django-storages[google]>=1.14
 google-cloud-storage>=2.10
 # selenium is only needed for UI tests (tests_ui.py) - install separately in dev:
 #   pip install selenium>=4.0
+python-dotenv>=1.0.0

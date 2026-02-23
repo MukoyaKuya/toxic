@@ -11,38 +11,41 @@ def compress_image_field(image_field, max_size=800):
     exceeds *max_size* pixels. Returns the (possibly replaced) image field
     value so it can be re-assigned before calling super().save().
 
-    Detects format from the file extension when PIL cannot determine it
-    (e.g. freshly opened InMemoryUploadedFile), avoiding accidental JPEG
-    conversion of PNG images that may have transparency.
+    Converts JPEG and PNG to WebP for smaller file sizes (~25-35% savings).
+    Preserves alpha channel for PNGs with transparency.
     """
     from PIL import Image
 
     img = Image.open(image_field)
-    if img.height <= max_size and img.width <= max_size:
-        return image_field  # No resize needed
+    # Animated GIFs: keep original format (WebP multi-frame needs different handling)
+    if getattr(img, 'is_animated', False):
+        return image_field
 
-    # Prefer PIL's detected format, fall back to extension, then JPEG.
-    fmt = img.format
-    if not fmt:
-        ext = os.path.splitext(image_field.name)[-1].lstrip('.').upper()
-        fmt = ext if ext in ('JPEG', 'JPG', 'PNG', 'WEBP', 'GIF') else 'JPEG'
-    if fmt == 'JPG':
-        fmt = 'JPEG'
+    # Convert to RGBA for PNG/WebP alpha, RGB for JPEG
+    if img.mode in ('P', 'LA', 'PA'):
+        img = img.convert('RGBA')
+    elif img.mode != 'RGB':
+        img = img.convert('RGB')
 
     output = io.BytesIO()
-    img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
-    if fmt == 'JPEG':
-        img.save(output, format=fmt, quality=85)
-    else:
-        img.save(output, format=fmt)
+    if img.height > max_size or img.width > max_size:
+        img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
+
+    # Save as WebP for ~25-35% smaller files than JPEG/PNG
+    # Lossy for RGB (photos), lossy with alpha for RGBA (transparent PNGs)
+    has_alpha = img.mode == 'RGBA'
+    save_kwargs = {'format': 'WEBP', 'quality': 85}
+    if has_alpha:
+        save_kwargs['method'] = 6  # Slower but smaller
+    img.save(output, **save_kwargs)
     output.seek(0)
 
     original_name = image_field.name.rsplit('.', 1)[0]
     return InMemoryUploadedFile(
         output,
         'ImageField',
-        f"{original_name}.{fmt.lower()}",
-        f"image/{fmt.lower()}",
+        f"{original_name}.webp",
+        'image/webp',
         output.getbuffer().nbytes,
         None,
     )

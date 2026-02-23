@@ -1,0 +1,469 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-02-22T11:47:23.082Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "5",
+    "object_repr": "Yankees Mboka Doba",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"Shop Item Image\", \"object\": \"Yankees Mboka Doba - Image 1\"}}, {\"added\": {\"name\": \"Shop Item Image\", \"object\": \"Yankees Mboka Doba - Image 1\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-02-22T11:51:47.130Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "5",
+    "object_repr": "Yankees Mboka Doba",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$NYnrW9Fbqnsubc7Pz445rX$jV0eGvF0jMl9iMLRZfbUrbqJ1jYWLAAc+vvzMqBR8tk=",
+    "last_login": "2026-02-22T11:46:01.870Z",
+    "is_superuser": true,
+    "username": "Mosodo",
+    "first_name": "",
+    "last_name": "",
+    "email": "omwami@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-22T00:22:02.277Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "oumclsnjgqhpx0fiyjslbu0ayc3hx75m",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-bjAlfc5g7a4dHEC2FCcV4u4QKQW0b2beS0Tc1hK3npc4J3ERWpx-N0J-5LqDdMd6a5JbXZeZ5K7Ig3Y5tpSf18P9OyjYy7cmd7YZICNnRGQzJK8s0KDZJ8NgrFFOKR1Aae_AJcsemVgFQ2GCMIn3B-f_N7c:1vu7uU:ocUoaxmpL2jijr-6maAK1xiMXGzNCSHry27KoDAtqKg",
+    "expire_date": "2026-03-08T11:46:02.014Z"
+  }
+},
+{
+  "model": "web.album",
+  "pk": 2,
+  "fields": {
+    "title": "Roteen",
+    "release_date": "2025-12-29",
+    "cover_art": "covers/lumina-enhanced-1771405340003.png",
+    "spotify_link": "https://open.spotify.com/track/3idc9sTmZiNlvOsH657MUJ",
+    "youtube_link": "https://www.youtube.com/@mbokadoba/featured",
+    "apple_music_link": "https://music.apple.com/ke/album/chinje-single/1841252888",
+    "updated_at": "2026-02-20T17:46:00.979Z"
+  }
+},
+{
+  "model": "web.album",
+  "pk": 3,
+  "fields": {
+    "title": "Dumpsite",
+    "release_date": "2026-02-16",
+    "cover_art": "covers/lumina-enhanced-1771487030934.png",
+    "spotify_link": "https://open.spotify.com/album/3Sog79yWAUA8ozZ5L9fSVQ",
+    "youtube_link": "https://www.youtube.com/watch?v=EzxnWWQHhw4",
+    "apple_music_link": "https://music.apple.com/ke/artist/toxic-lyrikali/1667118048",
+    "updated_at": "2026-02-20T17:46:00.979Z"
+  }
+},
+{
+  "model": "web.album",
+  "pk": 4,
+  "fields": {
+    "title": "Bad Everyday",
+    "release_date": "2026-02-19",
+    "cover_art": "covers/Screenshot_2026-02-19_195248.png",
+    "spotify_link": "",
+    "youtube_link": "https://www.youtube.com/watch?v=DrJ2yPlBTq8",
+    "apple_music_link": "",
+    "updated_at": "2026-02-20T17:46:00.979Z"
+  }
+},
+{
+  "model": "web.track",
+  "pk": 3,
+  "fields": {
+    "album": 2,
+    "title": "Chinje",
+    "duration": "00:03:30",
+    "audio_file": "tracks/Toxic_Lyrikali_-_CHINJE_Official_Music_Video.mp3",
+    "youtube_link": "https://www.youtube.com/watch?v=3gpYhCNNxko",
+    "is_featured": true,
+    "updated_at": "2026-02-20T17:46:01.013Z"
+  }
+},
+{
+  "model": "web.track",
+  "pk": 4,
+  "fields": {
+    "album": 2,
+    "title": "Sick",
+    "duration": "00:03:15",
+    "audio_file": "tracks/Toxic_Lyrikali_-_SICK_Official_Music_Video.mp3",
+    "youtube_link": "https://www.youtube.com/watch?v=iqMIjKe-HGs",
+    "is_featured": true,
+    "updated_at": "2026-02-20T17:46:01.013Z"
+  }
+},
+{
+  "model": "web.track",
+  "pk": 5,
+  "fields": {
+    "album": 2,
+    "title": "Thugnificent",
+    "duration": "00:02:52",
+    "audio_file": "tracks/Toxic_Lyrikali_-_THUGNIFICENT__Official_Music_Video__Dir_by_Kaizer.mp3",
+    "youtube_link": "https://www.youtube.com/watch?v=kNwpbsFdU3Q",
+    "is_featured": true,
+    "updated_at": "2026-02-20T17:46:01.013Z"
+  }
+},
+{
+  "model": "web.track",
+  "pk": 6,
+  "fields": {
+    "album": 3,
+    "title": "Dumpsite",
+    "duration": "00:02:40",
+    "audio_file": "tracks/TOXIC_LYRIKALI_-_DUMPSITE_Audio.mp3",
+    "youtube_link": "https://www.youtube.com/watch?v=DrJ2yPlBTq8",
+    "is_featured": true,
+    "updated_at": "2026-02-20T17:46:01.013Z"
+  }
+},
+{
+  "model": "web.track",
+  "pk": 7,
+  "fields": {
+    "album": 4,
+    "title": "Bad Everyday",
+    "duration": "02:52:00",
+    "audio_file": "tracks/TOXIC_LYRIKALI_-_BAD_EVERYDAY_Audio..mp3",
+    "youtube_link": "https://www.youtube.com/watch?v=DrJ2yPlBTq8",
+    "is_featured": true,
+    "updated_at": "2026-02-20T17:46:01.013Z"
+  }
+},
+{
+  "model": "web.tourdate",
+  "pk": 1,
+  "fields": {
+    "date": "2026-03-09T21:39:58Z",
+    "venue": "The Alchemist",
+    "location": "Nairobi, KE",
+    "ticket_link": "https://tickets.com",
+    "map_link": "https://maps.app.goo.gl/Y1mgMEWgY6sRPcbD7",
+    "is_sold_out": false,
+    "updated_at": "2026-02-20T16:21:36.187Z"
+  }
+},
+{
+  "model": "web.tourdate",
+  "pk": 2,
+  "fields": {
+    "date": "2026-04-03T21:39:58.481Z",
+    "venue": "Nyali Beach Hotel",
+    "location": "Mombasa, KE",
+    "ticket_link": "https://tickets.com/toxic-mombasa",
+    "map_link": "",
+    "is_sold_out": false,
+    "updated_at": "2026-02-20T16:21:36.187Z"
+  }
+},
+{
+  "model": "web.tourdate",
+  "pk": 3,
+  "fields": {
+    "date": "2026-04-18T21:39:58.499Z",
+    "venue": "Unseen Nairobi",
+    "location": "Nairobi, KE",
+    "ticket_link": "#",
+    "map_link": "",
+    "is_sold_out": true,
+    "updated_at": "2026-02-20T16:21:36.187Z"
+  }
+},
+{
+  "model": "web.tourdate",
+  "pk": 8,
+  "fields": {
+    "date": "2026-03-23T21:50:30.096Z",
+    "venue": "The Alchemist Bar",
+    "location": "Nairobi, KE",
+    "ticket_link": "https://mtickets.com/events/toxic-live",
+    "map_link": "",
+    "is_sold_out": false,
+    "updated_at": "2026-02-21T21:50:30.097Z"
+  }
+},
+{
+  "model": "web.shopitem",
+  "pk": 2,
+  "fields": {
+    "title": "Crewneck Sweatshirt",
+    "image": "shop/MOCKSHOP_Q7OIW9G.png",
+    "shop_link": "http://toxicshop.com/",
+    "is_active": true,
+    "display_order": 0,
+    "created_at": "2026-02-18T17:12:07.434Z",
+    "updated_at": "2026-02-18T17:17:41.078Z"
+  }
+},
+{
+  "model": "web.shopitem",
+  "pk": 3,
+  "fields": {
+    "title": "Mboka Doba Tshirts",
+    "image": "shop/safisha-pro-restoration-1771437212829.jpeg",
+    "shop_link": "http://toxicshop.com/",
+    "is_active": true,
+    "display_order": 1,
+    "created_at": "2026-02-18T17:36:53.394Z",
+    "updated_at": "2026-02-20T00:40:08.999Z"
+  }
+},
+{
+  "model": "web.shopitem",
+  "pk": 4,
+  "fields": {
+    "title": "Lyrical Tshirt",
+    "image": "shop/MOCKSHOP_FF7769N.png",
+    "shop_link": "http://toxicshop.com/",
+    "is_active": true,
+    "display_order": 0,
+    "created_at": "2026-02-19T18:07:18.504Z",
+    "updated_at": "2026-02-19T18:07:18.505Z"
+  }
+},
+{
+  "model": "web.shopitem",
+  "pk": 5,
+  "fields": {
+    "title": "Yankees Mboka Doba",
+    "image": "shop/safisha-pro-restoration-1771547735391.jpeg",
+    "shop_link": "http://toxicshop.com/",
+    "is_active": true,
+    "display_order": 0,
+    "created_at": "2026-02-20T00:37:57.709Z",
+    "updated_at": "2026-02-22T11:51:46.984Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 5,
+  "fields": {
+    "shop_item": 2,
+    "image": "shop/designs/MOCKSHOP_QHQU9JB.png",
+    "display_order": 1,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 6,
+  "fields": {
+    "shop_item": 2,
+    "image": "shop/designs/MOCKSHOP_IGZPE7N_jABbiZB.png",
+    "display_order": 2,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 7,
+  "fields": {
+    "shop_item": 2,
+    "image": "shop/designs/MOCKSHOP_JRUHQJN.png",
+    "display_order": 3,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 12,
+  "fields": {
+    "shop_item": 3,
+    "image": "shop/designs/safisha-pro-restoration-1771436941862.png",
+    "display_order": 2,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 13,
+  "fields": {
+    "shop_item": 3,
+    "image": "shop/designs/lumina-enhanced-1771437706728.png",
+    "display_order": 1,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 14,
+  "fields": {
+    "shop_item": 3,
+    "image": "shop/designs/safisha-pro-restoration-1771438181354.png",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 15,
+  "fields": {
+    "shop_item": 4,
+    "image": "shop/designs/MOCKSHOP_L8WWH4C.png",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 16,
+  "fields": {
+    "shop_item": 5,
+    "image": "shop/designs/safisha-pro-restoration-1771547735391.jpeg",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 17,
+  "fields": {
+    "shop_item": 3,
+    "image": "shop/designs/safisha-pro-restoration-1771547952252.jpeg",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 18,
+  "fields": {
+    "shop_item": 5,
+    "image": "shop/designs/safisha-pro-restoration-1771547952252.jpeg",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.shopitemimage",
+  "pk": 19,
+  "fields": {
+    "shop_item": 5,
+    "image": "shop/designs/Screenshot_2026-02-20_031635.png",
+    "display_order": 0,
+    "updated_at": "2026-02-22T11:50:33.399Z"
+  }
+},
+{
+  "model": "web.footer",
+  "pk": 1,
+  "fields": {
+    "logo": "footer/GfuFL__XIAQrtSC.png",
+    "featured_image": "footer/lumina-enhanced-1771596851887_1_C61jDaK.png",
+    "featured_image_height": 400,
+    "youtube_video_url": "https://www.youtube.com/watch?v=OtwmNODXyW8",
+    "instagram_link": "https://www.instagram.com/_toxic_lyrikali/?hl=en",
+    "twitter_link": "",
+    "facebook_link": "https://www.facebook.com/p/T%C3%B3xic-Lyrikali-100077999702139/",
+    "youtube_link": "https://www.youtube.com/@mbokadoba",
+    "spotify_link": "",
+    "music_link": "https://music.apple.com/ke/artist/toxic-lyrikali/1667118048",
+    "copyright_text": "MBOKADOBA",
+    "mass_appeal_text": "Toxic Lyrically",
+    "lets_connect_text": "LET'S CONNECT",
+    "updated_at": "2026-02-20T14:31:26.854Z"
+  }
+},
+{
+  "model": "web.sociallink",
+  "pk": 1,
+  "fields": {
+    "footer": 1,
+    "name": "Instagram",
+    "url": "https://www.instagram.com/_toxic_lyrikali/?hl=en",
+    "icon": "",
+    "order": 0
+  }
+},
+{
+  "model": "web.sociallink",
+  "pk": 2,
+  "fields": {
+    "footer": 1,
+    "name": "Facebook",
+    "url": "https://www.facebook.com/p/T%C3%B3xic-Lyrikali-100077999702139/",
+    "icon": "",
+    "order": 1
+  }
+},
+{
+  "model": "web.sociallink",
+  "pk": 3,
+  "fields": {
+    "footer": 1,
+    "name": "YouTube",
+    "url": "https://www.youtube.com/@mbokadoba",
+    "icon": "",
+    "order": 2
+  }
+},
+{
+  "model": "web.sociallink",
+  "pk": 4,
+  "fields": {
+    "footer": 1,
+    "name": "Music",
+    "url": "https://music.apple.com/ke/artist/toxic-lyrikali/1667118048",
+    "icon": "",
+    "order": 3
+  }
+},
+{
+  "model": "web.sociallink",
+  "pk": 5,
+  "fields": {
+    "footer": 1,
+    "name": "Email",
+    "url": "mailto:bookings@toxiclyrikali.com",
+    "icon": "",
+    "order": 4
+  }
+},
+{
+  "model": "web.advertisement",
+  "pk": 1,
+  "fields": {
+    "title": "College Jacket Doba",
+    "image": "",
+    "url": "http://www.kingstonetown.com",
+    "youtube_link": "https://www.youtube.com/watch?v=AvVNCdk7wXk",
+    "facebook_link": "",
+    "is_active": true,
+    "created_at": "2026-02-20T01:14:48.416Z",
+    "updated_at": "2026-02-21T17:05:29.719Z"
+  }
+},
+{
+  "model": "web.toursettings",
+  "pk": 1,
+  "fields": {
+    "background_image": "tour/grok-video-0f1bf7b1-199e-4cce-ba9d-ac3a77598f461-ezgif.com-optimize_1.gif",
+    "updated_at": "2026-02-20T18:29:30.434Z"
+  }
+}
+]

@@ -32,13 +32,21 @@ def index(request):
     stamps = [tour_stamp, shop_stamp, image_stamp, social_stamp]
     latest_stamp = max([s for s in stamps if s]) if any(stamps) else 'none'
     
-    cache_key = 'web:index:v3:%s' % latest_stamp
+    cache_key = 'web:index:v4:%s' % latest_stamp
     response = cache.get(cache_key)
     if response is not None:
         return response
     
     latest_releases = Album.objects.order_by('-release_date')[:2]
-    upcoming_tours = TourDate.objects.filter(date__gte=timezone.now()).order_by('date')[:5]
+    tour_qs = TourDate.objects.filter(date__gte=timezone.now()).order_by('date')[:5]
+    # Pre-format dates in the view to avoid template filter issues with localtime
+    upcoming_tours = []
+    for t in tour_qs:
+        local_dt = timezone.localtime(t.date)
+        t.date_day = local_dt.strftime('%d')
+        t.date_month = local_dt.strftime('%b')
+        t.date_time = local_dt.strftime('%H:%M')
+        upcoming_tours.append(t)
     shop_items = ShopItem.objects.filter(is_active=True).prefetch_related(
         Prefetch('images', queryset=ShopItemImage.objects.order_by('display_order', 'id'))
     )

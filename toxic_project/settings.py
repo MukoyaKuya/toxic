@@ -1,4 +1,9 @@
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 import sys
 from pathlib import Path
 import dj_database_url
@@ -118,20 +123,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # When GCS_BUCKET_NAME is set, uploaded files go to Cloud Storage.
 # Falls back to local media/ in development.
 # ---------------------------------------------------------------------------
+# GCS Bucket Name - set via environment variable
 GCS_BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME', '').strip()
-if GCS_BUCKET_NAME:
-    STORAGES = {
-        'default': {
-            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
-        },
-    }
-    GS_BUCKET_NAME = GCS_BUCKET_NAME
-    GS_DEFAULT_ACL = None  # Use bucket-level IAM, not per-object ACLs
-    GS_QUERYSTRING_AUTH = False  # Public bucket — no signed URLs needed
-    MEDIA_URL = f'https://storage.googleapis.com/{GCS_BUCKET_NAME}/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -271,6 +264,18 @@ LOGGING = {
 }
 
 # ---------------------------------------------------------------------------
-# Production environment variable validation
+# Final Media Storage Override
 # ---------------------------------------------------------------------------
-# Handled by resilient defaults above.
+if GCS_BUCKET_NAME:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+        },
+    }
+    GS_BUCKET_NAME = GCS_BUCKET_NAME
+    GS_DEFAULT_ACL = None
+    GS_QUERYSTRING_AUTH = False
+    MEDIA_URL = f'https://storage.googleapis.com/{GCS_BUCKET_NAME}/'

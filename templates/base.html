@@ -33,6 +33,17 @@
         content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/section_one_hr.jpg' %}">
     {% endblock %}
 
+    <!-- Critical nav CSS - prevents FOUC / concatenated links when main CSS loads late -->
+    <style>
+        #nav-links { display: none; }
+        @media (min-width: 768px) {
+            #nav-links { display: flex; align-items: center; gap: 2.5rem; }
+        }
+        /* Hide nav when past hero (snap-page index only) */
+        body.nav-past-hero #nav-wrapper {
+            display: none !important;
+        }
+    </style>
     <!-- Custom CSS (Tailwind Built) -->
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 
@@ -51,18 +62,19 @@
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body class="bg-toxicBlack text-white min-h-screen flex flex-col" hx-boost="true">
 
     <!-- Navigation (hidden on mobile when on music page to avoid obstructing content) -->
-    <div class="{% if request.resolver_match.url_name == 'music' %}hidden md:block{% endif %}">
+    <div id="nav-wrapper" class="{% if request.resolver_match.url_name == 'music' %}hidden md:block{% endif %}">
         <nav id="main-nav"
-            class="fixed w-full z-50 py-6 transition-all duration-300 bg-gradient-to-b from-black/40 to-transparent">
+            class="fixed w-full z-50 py-4 md:py-5 transition-all duration-300 bg-gradient-to-b from-black/60 to-transparent">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-center relative">
+                <div class="flex items-center justify-between md:justify-center relative">
 
-                    <!-- Back to Music - only on album detail page. On mobile: replace logo. On desktop: left -->
+                    <!-- Back to Music - only on album detail page -->
                     {% if request.resolver_match.url_name == 'album_detail' %}
                     <a href="{% url 'music' %}" hx-boost="false"
                         class="absolute left-0 top-1/2 -translate-y-1/2 hidden md:inline-flex items-center gap-2 py-2 px-3 text-white/60 hover:text-white transition-colors text-xs font-bold tracking-widest uppercase">
@@ -74,18 +86,19 @@
                     </a>
                     {% endif %}
 
-                    <!-- Desktop Centered Menu (hidden on music, album detail, and tour pages) -->
+                    <!-- Desktop Centered Menu -->
                     {% with view=request.resolver_match.url_name %}
                     {% if view != 'music' and view != 'album_detail' and view != 'tour' %}
-                    <div id="nav-links" class="hidden md:flex items-center space-x-12 transition-opacity duration-300">
+                    <div id="nav-links" class="hidden md:flex items-center space-x-10 lg:space-x-14 transition-opacity duration-300">
+                        <a href="https://toxiclyrikali.com/" class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">BOOKINGS</a>
                         <a href="{% url 'tour' %}" hx-boost="false"
-                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">SHOWS</a>
-                        <a href="https://shop.toxiclyrically.com" target="_blank" rel="noopener noreferrer"
-                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">MERCH</a>
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">SHOWS</a>
+                        <a href="{% url 'index' %}#merch"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">MERCH</a>
                         <a href="{% url 'music' %}" hx-boost="false"
-                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">MUSIC</a>
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">MUSIC</a>
                         <a href="{% url 'index' %}#latest"
-                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">LATEST</a>
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">LATEST</a>
                     </div>
                     {% endif %}
                     {% endwith %}
@@ -132,16 +145,18 @@
                     class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Music</a>
                 {% elif request.resolver_match.url_name == 'tour' %}
-                <a href="{% url 'index' %}"
+                <a href="https://toxiclyrikali.com/"
                     class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Home</a>
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Bookings</a>
                 {% endif %}
                 {% with view=request.resolver_match.url_name %}
                 {% if view != 'music' and view != 'album_detail' and view != 'tour' %}
+                <a href="https://toxiclyrikali.com/" class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">BOOKINGS</a>
                 <a href="{% url 'tour' %}" hx-boost="false"
                     class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">SHOWS</a>
-                <a href="https://shop.toxiclyrically.com" target="_blank" rel="noopener noreferrer"
+                <a href="{% url 'index' %}#merch"
                     class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">MERCH</a>
                 <a href="{% url 'music' %}" hx-boost="false"
@@ -170,7 +185,7 @@
                 <!-- Left: optional featured image (album cover style) -->
                 {% if footer.featured_image %}
                 <div class="flex-shrink-0 flex justify-center w-full md:w-auto">
-                    <img src="{{ footer.featured_image.url }}" alt="" class="w-auto object-contain rounded-sm shadow-lg"
+                    <img src="{{ footer.featured_image.url }}" alt="" loading="lazy" class="w-auto object-contain rounded-sm shadow-lg"
                         style="height: {{ footer.featured_image_height|default:400 }}px; max-width: 100%;">
                 </div>
                 {% endif %}
@@ -266,7 +281,7 @@
                             d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909A2.25 2.25 0 012.25 6.993V6.75m19.5 0v.243m0 0l-7.5 4.615m7.5-4.615v.243m0 0a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909a2.25 2.25 0 01-1.07-1.916V6.75" />
                     </svg>
                     {% elif link.icon %}
-                    <img src="{{ link.icon.url }}" alt="{{ link.name }}"
+                    <img src="{{ link.icon.url }}" alt="{{ link.name }}" loading="lazy"
                         class="w-full h-full object-contain filter brightness-0 invert opacity-60 hover:opacity-100 transition-opacity">
                     {% else %}
                     <span class="text-xs font-bold">{{ link.name|slice:":1" }}</span>
@@ -276,7 +291,7 @@
                 <!-- Artist Logo (next to icons) -->
                 {% if footer.logo %}
                 <div class="flex items-center shrink-0">
-                    <img src="{{ footer.logo.url }}" alt="{{ footer.copyright_text }}"
+                    <img src="{{ footer.logo.url }}" alt="{{ footer.copyright_text }}" loading="lazy"
                         class="h-8 w-8 md:h-10 md:w-10 object-contain grayscale brightness-0 invert">
                 </div>
                 {% else %}
@@ -309,6 +324,7 @@
             var footer = document.querySelector('footer');
             var navLinks = document.getElementById('nav-links');
             if (!footer || !navLinks) return;
+            var isIndex = document.documentElement.classList.contains('snap-page');
             var observer = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
@@ -323,6 +339,16 @@
                 });
             }, { threshold: 0.1 });
             observer.observe(footer);
+            if (isIndex) {
+                window.addEventListener('scroll', function() {
+                    var sy = window.pageYOffset || document.documentElement.scrollTop;
+                    if (sy < window.innerHeight * 0.6) {
+                        navLinks.style.visibility = '';
+                        navLinks.style.opacity = '';
+                        navLinks.style.pointerEvents = '';
+                    }
+                }, { passive: true });
+            }
         })();
     </script>
     {% block scripts %}{% endblock %}

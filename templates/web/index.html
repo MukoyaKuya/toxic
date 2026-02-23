@@ -4,14 +4,16 @@
 {% block html_class %}snap-page{% endblock %}
 
 {% block content %}
-<div class="snap-section relative w-full h-[100vh] bg-black overflow-hidden flex flex-col items-center justify-center"
+<div id="hero"
+    class="snap-section relative w-full h-[100vh] bg-black overflow-hidden flex flex-col items-center justify-center"
     style="z-index: 1;">
 
     <!-- Hero Image (Centered Background) -->
     <div id="hero-image-container" class="absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out">
         <div class="w-full h-full relative">
             <img src="{% static 'images/section_one_hr.jpg' %}" alt="Toxic Lyrically"
-                class="parallax-bg w-full h-full object-cover object-center" data-parallax-speed="0.8">
+                class="parallax-bg w-full h-full object-cover object-center" data-parallax-speed="0.8"
+                fetchpriority="high">
             <!-- Subtle gradient for text readability -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70"></div>
         </div>
@@ -98,10 +100,10 @@
                         <div class="flex flex-col leading-[0.8]">
                             <span
                                 class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
-                                tour.date|localtime|date:"d" }}</span>
+                                tour.date_day }}</span>
                             <span
                                 class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
-                                tour.date|localtime|date:"M" }}</span>
+                                tour.date_month }}</span>
                         </div>
 
                         <!-- Venue Details -->
@@ -145,8 +147,7 @@
                     <div class="relative z-10 flex flex-col items-center gap-4">
                         <div class="text-center">
                             <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
-                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
-                                }}</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date_time }}</span>
                         </div>
 
                         {% if tour.is_sold_out %}
@@ -191,16 +192,15 @@
             </button>
         </div>
 
-        <!-- Home Button at Bottom -->
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}" hx-boost="false" data-no-boost
+            <a href="https://toxiclyrikali.com/" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                HOME
+                BOOKINGS
             </a>
         </div>
 
@@ -213,16 +213,16 @@
                 View Past Archives
             </a>
         </div>
-        <!-- Home Button at Bottom (when no tours) -->
+        <!-- Booking Button at Bottom (when no tours) -->
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="{% url 'index' %}" hx-boost="false" data-no-boost
+            <a href="https://toxiclyrikali.com/" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                HOME
+                BOOKINGS
             </a>
         </div>
         {% endif %}
@@ -254,7 +254,7 @@
                     class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none">
                 </div>
                 {% if release.cover_art %}
-                <img src="{{ release.cover_art.url }}" alt="{{ release.title }}"
+                <img src="{{ release.cover_art.url }}" alt="{{ release.title }}" loading="lazy"
                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60 pointer-events-none">
                 {% endif %}
                 <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20 pointer-events-none">
@@ -299,8 +299,8 @@
 <!-- MERCH SECTION -->
 <div id="merch"
     class="snap-section relative min-h-screen flex flex-col pt-6 md:pt-12 pb-12 md:pb-8 border-t border-white/5 overflow-hidden bg-black">
-    <!-- Background -->
-    <div class="absolute inset-0 bg-black flex items-start justify-center pt-6 md:pt-8">
+    <!-- Background / Title -->
+    <div class="absolute inset-0 bg-black flex items-start justify-center pt-20 md:pt-24">
         <span
             class="text-toxicAccent font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.25em] uppercase">SHOP
             HERE</span>
@@ -314,14 +314,15 @@
             {% for item in shop_items %}
             <button type="button"
                 class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
-                data-item-id="{{ item.id }}" data-item-title="{{ item.title }}" data-item-link="{{ item.shop_link }}"
-                data-item-images="{% if item.image %}{{ item.image.url }}{% if item.images.all %},{% endif %}{% endif %}{% for img in item.images.all %}{{ img.image.url }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                data-id="{{ item.id }}" data-title="{{ item.title }}"
+                data-link="{{ item.shop_link|default:'https://toxic.shop' }}"
+                data-images="{% if item.image %}{{ item.image.url }}{% if item.images.all %},{% endif %}{% endif %}{% for img in item.images.all %}{{ img.image.url }}{% if not forloop.last %},{% endif %}{% endfor %}">
                 <div
                     class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
                     Drop</div>
                 <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
                     {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}"
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy"
                         class="w-full h-full object-contain object-center">
                     {% else %}
                     <div
@@ -356,71 +357,54 @@
     </div>
 </div>
 
-<!-- Shop Item Modal -->
-<div id="shop-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-sm">
-    <div class="relative w-full h-full max-w-5xl mx-auto px-4 py-4 md:py-6 flex flex-col items-center justify-center">
-        <!-- Close Button -->
-        <button onclick="closeShopModal()"
-            class="absolute top-2 right-2 md:top-4 md:right-4 z-50 text-white/80 hover:text-white transition-colors p-2">
-            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+<!-- Product Preview Modal - Swiper carousel -->
+<div id="product-modal" class="product-modal" aria-hidden="true">
+    <div class="product-modal-backdrop"></div>
+    <div class="product-modal-box">
+        <button type="button" class="product-modal-close" aria-label="Close">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6l12 12" />
             </svg>
         </button>
 
-        <!-- Image Container -->
-        <div class="relative w-full max-w-3xl flex-1 flex items-center justify-center mb-3 md:mb-4">
-            <div id="shop-modal-image-container" class="relative w-full h-full flex items-center justify-center">
-                <img id="shop-modal-image" src="" alt="" class="max-w-full max-h-[55vh] md:max-h-[65vh] object-contain">
+        <div class="product-modal-carousel">
+            <div class="swiper product-modal-swiper">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-pagination product-modal-pagination"></div>
             </div>
-
-            <!-- Navigation Arrows -->
-            <button id="shop-modal-prev" onclick="changeShopImage(-1)"
-                class="absolute left-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
-                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
-                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </div>
-            </button>
-            <button id="shop-modal-next" onclick="changeShopImage(1)"
-                class="absolute right-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
-                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
-                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </div>
-            </button>
-        </div>
-
-        <!-- Image Indicators -->
-        <div id="shop-modal-indicators" class="flex gap-2 mb-3 md:mb-4">
-            <!-- Indicators will be generated by JavaScript -->
-        </div>
-
-        <!-- Product Info & CTA -->
-        <div class="text-center">
-            <h3 id="shop-modal-title" class="text-xl md:text-2xl font-display font-bold text-white mb-2 md:mb-3"></h3>
-            <a id="shop-modal-link" href="#" target="_blank"
-                class="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 bg-toxicAccent text-white font-display font-bold text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 border-2 border-toxicAccent hover:border-white rounded-sm">
-                <span>ADD TO WALLET</span>
-                <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <button type="button" class="product-modal-prev" aria-label="Previous">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" />
                 </svg>
-            </a>
+            </button>
+            <button type="button" class="product-modal-next" aria-label="Next">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
         </div>
+
+        <p class="product-modal-counter"></p>
+        <h3 class="product-modal-title"></h3>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="product-modal-cta">Add to wallet</a>
     </div>
 </div>
 {% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+{% endblock %}
+
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
     (function () {
+        const heroSection = document.getElementById('hero');
         const tourSection = document.getElementById('tour');
         const latestSection = document.getElementById('latest');
         const merchSection = document.getElementById('merch');
+        const mainNav = document.getElementById('main-nav');
         const navLinks = document.getElementById('nav-links');
-        if (!navLinks) return;
 
         const heroLyrically = document.getElementById('hero-lyrically');
         const scrollIndicator = document.getElementById('scroll-indicator');
@@ -430,18 +414,46 @@
         const sections = [tourSection, latestSection, merchSection].filter(Boolean);
         const intersecting = new Set();
 
+        // Nav stays visible; add solid background when scrolled
+        function updateNavScrolled() {
+            if (mainNav) {
+                const scrolled = window.pageYOffset > 80;
+                mainNav.classList.toggle('nav-scrolled', scrolled);
+            }
+        }
+        updateNavScrolled();
+
+        function updateNavVisibility() {
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            var heroH = window.innerHeight;
+            var pastHero = scrollY >= heroH;
+            document.body.classList.toggle('nav-past-hero', pastHero);
+            if (!pastHero && navLinks) {
+                navLinks.style.visibility = '';
+                navLinks.style.opacity = '';
+                navLinks.style.pointerEvents = '';
+            }
+        }
+
+        window.addEventListener('hashchange', updateNavVisibility);
+        window.addEventListener('load', updateNavVisibility);
+
+        window.addEventListener('scroll', function () {
+            updateNavScrolled();
+            updateNavVisibility();
+        }, { passive: true });
+
+        updateNavVisibility();
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) intersecting.add(entry.target.id);
                 else intersecting.delete(entry.target.id);
             });
-            const anySectionInView = intersecting.size > 0;
-            const tourInView = intersecting.has('tour');
-            const latestInView = intersecting.has('latest');
-            navLinks.classList.toggle('nav-links--hidden', anySectionInView);
+            var tourInView = intersecting.has('tour');
+            var latestInView = intersecting.has('latest');
             if (heroLyrically) heroLyrically.classList.toggle('nav-links--hidden', tourInView);
             if (scrollIndicator) scrollIndicator.classList.toggle('nav-links--hidden', tourInView);
-            // Hide tour hint text when LATEST section is in view
             if (tourHintText) {
                 tourHintText.style.display = latestInView ? 'none' : '';
             }
@@ -501,6 +513,116 @@
         window.addEventListener('resize', updateHeroFade);
 
         sections.forEach(section => observer.observe(section));
+
+        // Product modal - Swiper carousel
+        (function () {
+            var modal = document.getElementById('product-modal');
+            var carousel = modal && modal.querySelector('.product-modal-carousel');
+            var swiperEl = modal && modal.querySelector('.product-modal-swiper');
+            var wrapper = swiperEl && swiperEl.querySelector('.swiper-wrapper');
+            var prevBtn = modal && modal.querySelector('.product-modal-prev');
+            var nextBtn = modal && modal.querySelector('.product-modal-next');
+            var counterEl = modal && modal.querySelector('.product-modal-counter');
+            var titleEl = modal && modal.querySelector('.product-modal-title');
+            var ctaEl = modal && modal.querySelector('.product-modal-cta');
+            var backdrop = modal && modal.querySelector('.product-modal-backdrop');
+            var closeBtn = modal && modal.querySelector('.product-modal-close');
+            var swiperInstance = null;
+
+            function hide() {
+                if (swiperInstance) {
+                    if (prevBtn) prevBtn.onclick = null;
+                    if (nextBtn) nextBtn.onclick = null;
+                    swiperInstance.destroy(true, true);
+                    swiperInstance = null;
+                }
+                wrapper.innerHTML = '';
+                modal.classList.remove('product-modal-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                var nav = document.getElementById('main-nav');
+                var menu = document.getElementById('mobile-menu');
+                if (nav) nav.style.display = '';
+                if (menu) menu.style.display = '';
+            }
+
+            function open(title, shopUrl, imgs) {
+                var urls = imgs && imgs.length ? imgs : [];
+                titleEl.textContent = title || '';
+                ctaEl.href = shopUrl || 'https://toxic.shop';
+
+                wrapper.innerHTML = '';
+                if (urls.length === 0) {
+                    var placeholder = document.createElement('div');
+                    placeholder.className = 'swiper-slide';
+                    placeholder.innerHTML = '<div class="product-modal-slide-placeholder">No image</div>';
+                    wrapper.appendChild(placeholder);
+                } else {
+                    urls.forEach(function (u) {
+                        var slide = document.createElement('div');
+                        slide.className = 'swiper-slide';
+                        var inner = document.createElement('div');
+                        inner.className = 'product-modal-slide-inner';
+                        var img = document.createElement('img');
+                        img.src = u;
+                        img.alt = title || 'Product';
+                        inner.appendChild(img);
+                        slide.appendChild(inner);
+                        wrapper.appendChild(slide);
+                    });
+                }
+
+                swiperInstance = new Swiper(swiperEl, {
+                    effect: 'slide',
+                    loop: urls.length > 1,
+                    speed: 300,
+                    zoom: false,
+                    allowTouchMove: true,
+                    grabCursor: false,
+                    observer: true,
+                    observeParents: true,
+                    pagination: { el: swiperEl.querySelector('.product-modal-pagination'), clickable: true },
+                    keyboard: { enabled: true },
+                    on: {
+                        activeIndexChange: function () {
+                            if (urls.length > 1) {
+                                var i = this.realIndex;
+                                counterEl.textContent = (i + 1) + ' / ' + urls.length;
+                            }
+                        }
+                    }
+                });
+
+                counterEl.textContent = urls.length > 1 ? '1 / ' + urls.length : '';
+                /* Carousel nav: use manual handlers since buttons are outside swiper */
+                if (prevBtn) prevBtn.onclick = function (e) { e.preventDefault(); if (swiperInstance) swiperInstance.slidePrev(); };
+                if (nextBtn) nextBtn.onclick = function (e) { e.preventDefault(); if (swiperInstance) swiperInstance.slideNext(); };
+                modal.classList.add('product-modal-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                var nav = document.getElementById('main-nav');
+                var menu = document.getElementById('mobile-menu');
+                if (nav) nav.style.display = 'none';
+                if (menu) menu.style.display = 'none';
+            }
+
+            closeBtn && closeBtn.addEventListener('click', hide);
+            backdrop && backdrop.addEventListener('click', hide);
+            document.addEventListener('keydown', function (e) {
+                if (!modal.classList.contains('product-modal-open')) return;
+                if (e.key === 'Escape') hide();
+            });
+
+            document.querySelectorAll('.shop-item-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var t = this.getAttribute('data-title');
+                    var shopUrl = this.getAttribute('data-link') || 'https://toxic.shop';
+                    var s = this.getAttribute('data-images') || '';
+                    var arr = s.split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+                    open(t, shopUrl, arr);
+                });
+            });
+        })();
 
         // Parallax effect on scroll
         const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
@@ -761,211 +883,5 @@
         }
     });
 
-    // Shop Modal Functionality
-    let shopModalImages = [];
-    let shopModalCurrentIndex = 0;
-    let shopModalLink = '';
-
-    // Initialize shop item buttons
-    document.querySelectorAll('.shop-item-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const title = this.getAttribute('data-item-title');
-            const link = this.getAttribute('data-item-link');
-            const imagesStr = this.getAttribute('data-item-images');
-            const images = imagesStr ? imagesStr.split(',').filter(url => url.trim()) : [];
-
-            openShopModal(title, link, images);
-        });
-    });
-
-    function openShopModal(title, shopLink, images) {
-        shopModalImages = images;
-        shopModalCurrentIndex = 0;
-        shopModalLink = shopLink;
-
-        const modal = document.getElementById('shop-modal');
-        const modalTitle = document.getElementById('shop-modal-title');
-        const modalLink = document.getElementById('shop-modal-link');
-        const modalImage = document.getElementById('shop-modal-image');
-        const indicators = document.getElementById('shop-modal-indicators');
-        const mainNav = document.getElementById('main-nav');
-
-        modalTitle.textContent = title;
-        modalLink.href = shopLink;
-
-        // Generate indicators
-        indicators.innerHTML = '';
-        shopModalImages.forEach((_, index) => {
-            const indicator = document.createElement('button');
-            indicator.className = `w-2 h-2 rounded-full transition-all ${index === 0 ? 'bg-toxicAccent w-8' : 'bg-white/30'}`;
-            indicator.onclick = () => goToShopImage(index);
-            indicators.appendChild(indicator);
-        });
-
-        // Show first image
-        updateShopModalImage();
-
-        // Show modal first
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-
-        // Hide navigation bar and mobile menu - use setTimeout to ensure it happens after modal is shown
-        setTimeout(() => {
-            const mainNav = document.getElementById('main-nav');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (mainNav) {
-                mainNav.style.display = 'none';
-                mainNav.style.opacity = '0';
-                mainNav.style.visibility = 'hidden';
-                mainNav.style.pointerEvents = 'none';
-                mainNav.style.zIndex = '0';
-            }
-            if (mobileMenu) {
-                mobileMenu.style.display = 'none';
-                mobileMenu.style.opacity = '0';
-                mobileMenu.style.visibility = 'hidden';
-                mobileMenu.style.pointerEvents = 'none';
-                mobileMenu.style.zIndex = '0';
-            }
-        }, 10);
-    }
-
-    function closeShopModal() {
-        const modal = document.getElementById('shop-modal');
-        const mainNav = document.getElementById('main-nav');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        // Hide modal first
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-
-        // Show navigation bar and mobile menu
-        setTimeout(() => {
-            if (mainNav) {
-                mainNav.style.display = '';
-                mainNav.style.opacity = '';
-                mainNav.style.visibility = '';
-                mainNav.style.pointerEvents = '';
-                mainNav.style.zIndex = '';
-            }
-            if (mobileMenu) {
-                mobileMenu.style.display = '';
-                mobileMenu.style.opacity = '';
-                mobileMenu.style.visibility = '';
-                mobileMenu.style.pointerEvents = '';
-                mobileMenu.style.zIndex = '';
-            }
-        }, 10);
-    }
-
-    function changeShopImage(direction) {
-        if (shopModalImages.length === 0) return;
-
-        shopModalCurrentIndex += direction;
-        if (shopModalCurrentIndex < 0) {
-            shopModalCurrentIndex = shopModalImages.length - 1;
-        } else if (shopModalCurrentIndex >= shopModalImages.length) {
-            shopModalCurrentIndex = 0;
-        }
-
-        updateShopModalImage();
-    }
-
-    function goToShopImage(index) {
-        shopModalCurrentIndex = index;
-        updateShopModalImage();
-    }
-
-    function updateShopModalImage() {
-        if (shopModalImages.length === 0) return;
-
-        const modalImage = document.getElementById('shop-modal-image');
-        const prevBtn = document.getElementById('shop-modal-prev');
-        const nextBtn = document.getElementById('shop-modal-next');
-        const indicators = document.getElementById('shop-modal-indicators');
-
-        modalImage.src = shopModalImages[shopModalCurrentIndex];
-        modalImage.alt = `Design ${shopModalCurrentIndex + 1}`;
-
-        // Update navigation buttons
-        if (shopModalImages.length <= 1) {
-            prevBtn.disabled = true;
-            nextBtn.disabled = true;
-        } else {
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
-        }
-
-        // Update indicators
-        const indicatorButtons = indicators.querySelectorAll('button');
-        indicatorButtons.forEach((btn, index) => {
-            if (index === shopModalCurrentIndex) {
-                btn.className = 'w-2 h-2 rounded-full transition-all bg-toxicAccent w-8';
-            } else {
-                btn.className = 'w-2 h-2 rounded-full transition-all bg-white/30';
-            }
-        });
-    }
-
-    // Close modal on escape key and navigation on arrow keys
-    document.addEventListener('keydown', function (e) {
-        const modal = document.getElementById('shop-modal');
-        if (modal && !modal.classList.contains('hidden')) {
-            if (e.key === 'Escape') {
-                closeShopModal();
-            } else if (e.key === 'ArrowRight') {
-                changeShopImage(1);
-            } else if (e.key === 'ArrowLeft') {
-                changeShopImage(-1);
-            }
-        }
-    });
-
-    // Close modal on background click
-    document.getElementById('shop-modal')?.addEventListener('click', function (e) {
-        if (e.target === this) {
-            closeShopModal();
-        }
-    });
-
-    // Observer to watch for modal visibility changes
-    const shopModal = document.getElementById('shop-modal');
-    if (shopModal) {
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    const isVisible = shopModal.classList.contains('flex') && !shopModal.classList.contains('hidden');
-                    const mainNav = document.getElementById('main-nav');
-                    const mobileMenu = document.getElementById('mobile-menu');
-
-                    if (isVisible) {
-                        // Hide nav when modal is visible
-                        if (mainNav) {
-                            mainNav.style.display = 'none';
-                        }
-                        if (mobileMenu) {
-                            mobileMenu.style.display = 'none';
-                        }
-                    } else {
-                        // Show nav when modal is hidden
-                        if (mainNav) {
-                            mainNav.style.display = '';
-                        }
-                        if (mobileMenu) {
-                            mobileMenu.style.display = '';
-                        }
-                    }
-                }
-            });
-        });
-
-        observer.observe(shopModal, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-    }
 </script>
 {% endblock %}

@@ -1,0 +1,1593 @@
+
+<!DOCTYPE html>
+<html lang="en" class="snap-page">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Core SEO Meta Tags -->
+    <title>TOXIC LYRICALLY | Official Site</title>
+    <meta name="description"
+        content="Official site for TOXIC LYRICALLY (MBOKADOBA) - Music, Tour Dates, Merch">
+    <meta name="keywords" content="TOXIC LYRICALLY, MBOKADOBA, music, hip hop">
+
+    <!-- Open Graph Data -->
+    <meta property="og:title" content="TOXIC LYRICALLY | Official Site">
+    <meta property="og:description"
+        content="Official site for TOXIC LYRICALLY - Music, Tour Dates, Merch">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://127.0.0.1:8000/">
+    
+    <meta property="og:image"
+        content="http://127.0.0.1:8000/static/images/section_one_hr.jpg">
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TOXIC LYRICALLY">
+    <meta name="twitter:description"
+        content="Official site for TOXIC LYRICALLY">
+    
+    <meta name="twitter:image"
+        content="http://127.0.0.1:8000/static/images/section_one_hr.jpg">
+    
+
+    <!-- Custom CSS (Tailwind Built) -->
+    <link href="/static/css/output.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#e11d48">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TOXIC">
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body class="bg-toxicBlack text-white min-h-screen flex flex-col" hx-boost="true">
+
+    <!-- Navigation (hidden on mobile when on music page to avoid obstructing content) -->
+    <div class="">
+        <nav id="main-nav"
+            class="fixed w-full z-50 py-6 transition-all duration-300 bg-gradient-to-b from-black/40 to-transparent">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-center relative">
+
+                    <!-- Back to Music - only on album detail page. On mobile: replace logo. On desktop: left -->
+                    
+
+                    <!-- Desktop Centered Menu (hidden on music, album detail, and tour pages) -->
+                    
+                    
+                    <div id="nav-links" class="hidden md:flex items-center space-x-12 transition-opacity duration-300">
+                        <a href="/tour/" hx-boost="false"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">SHOWS</a>
+                        <a href="https://shop.toxiclyrically.com" target="_blank" rel="noopener noreferrer"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">MERCH</a>
+                        <a href="/music/" hx-boost="false"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">MUSIC</a>
+                        <a href="/#latest"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:scale-110 text-xs font-bold tracking-[0.2em] transition-all uppercase font-display cursor-pointer">LATEST</a>
+                    </div>
+                    
+                    
+
+                    <!-- Mobile Logo (Left) and Hamburger (Right) -->
+                    <div class="md:hidden w-full flex justify-between items-center">
+                        
+                        <a href="/"
+                            class="text-sm font-display font-bold tracking-widest text-white/90">MBOKADOBA</a>
+                        
+                        <button type="button" class="text-white hover:text-toxicAccent focus:outline-none"
+                            onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="hidden md:hidden fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center space-y-8"
+                id="mobile-menu">
+                <button class="absolute top-6 right-6 text-white"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                
+                
+                
+                <a href="/tour/" hx-boost="false"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">SHOWS</a>
+                <a href="https://shop.toxiclyrically.com" target="_blank" rel="noopener noreferrer"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">MERCH</a>
+                <a href="/music/" hx-boost="false"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">MUSIC</a>
+                <a href="/#latest" hx-boost="false"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">LATEST</a>
+                
+                
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+<div class="snap-section relative w-full h-[100vh] bg-black overflow-hidden flex flex-col items-center justify-center"
+    style="z-index: 1;">
+
+    <!-- Hero Image (Centered Background) -->
+    <div id="hero-image-container" class="absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out">
+        <div class="w-full h-full relative">
+            <img src="/static/images/section_one_hr.jpg" alt="Toxic Lyrically"
+                class="parallax-bg w-full h-full object-cover object-center" data-parallax-speed="0.8">
+            <!-- Subtle gradient for text readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70"></div>
+        </div>
+    </div>
+
+    <!-- Hero Typography (Nas Style - Centered, Large, Solid White, Pushed Down) -->
+    <div class="parallax-content relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-end h-full pb-12"
+        data-parallax-speed="-0.4">
+
+        <!-- Main Artist Name -->
+        <div class="parallax-content relative group cursor-default text-center" data-parallax-speed="-0.5">
+            <h1
+                class="font-grandover text-[12vw] md:text-[8vw] leading-none tracking-tighter text-white select-none drop-shadow-2xl">
+                TOXIC
+            </h1>
+        </div>
+
+        <!-- Secondary Text -->
+        <div id="hero-lyrically"
+            class="parallax-content mt-4 flex flex-col items-center animate-fade-in-up transition-opacity duration-300"
+            data-parallax-speed="-0.3">
+            <h2 class="text-xl md:text-2xl font-light tracking-[0.5em] text-white/90 uppercase">
+                Lyrically
+            </h2>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div id="scroll-indicator"
+        class="absolute bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce z-50 transition-opacity duration-300">
+        <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+</div>
+
+<!-- TOUR SECTION -->
+<section id="tour"
+    class="snap-section relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black pt-8 md:pt-12"
+    style="z-index: 2;">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0 bg-black"></div>
+
+    <!-- Content Container -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col items-center justify-center text-center">
+        <!-- Details & CTA -->
+        
+        <!-- Stacked Tour Cards Container -->
+        <div id="tour-stack"
+            class="relative w-full max-w-7xl mx-auto mt-8 h-[500px] md:h-[450px] group perspective-1000">
+            
+            <!-- Ticket Card -->
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden transition-all duration-700 ease-out shadow-2xl origin-bottom select-none focus:outline-none focus:ring-0"
+                style="opacity: 1; visibility: visible;">
+
+                <!-- Ticket Visuals (Notches) -->
+                <!-- Top Notch -->
+                <div
+                    class="absolute top-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mt-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-b border-white/10">
+                </div>
+                <!-- Bottom Notch -->
+                <div
+                    class="absolute bottom-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mb-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-t border-white/10">
+                </div>
+                <!-- Dashed Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-4 bottom-4 left-[70%] w-px border-l-2 border-dashed border-white/10 -ml-px z-10">
+                </div>
+                <!-- Dashed Line (Mobile) -->
+                <div
+                    class="md:hidden absolute left-4 right-4 top-[70%] h-px border-t-2 border-dashed border-white/10 z-10">
+                </div>
+
+                <!-- Main Info Section (Left/Top) -->
+                <div
+                    class="relative flex-1 p-8 md:p-12 flex flex-col justify-center gap-6 md:gap-8 group-hover:bg-zinc-900/50 transition-colors">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -top-20 -left-20 w-96 h-96 bg-toxicAccent/10 rounded-full blur-[100px] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                        <!-- Huge Date -->
+                        <div class="flex flex-col leading-[0.8]">
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
+                        </div>
+
+                        <!-- Venue Details -->
+                        <div class="flex flex-col justify-center h-full pt-4">
+                            <span
+                                class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">TUPATANE</span>
+                            <h3
+                                class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                                The Alchemist
+                            </h3>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="w-12 h-0.5 bg-toxicAccent flex-shrink-0"></span>
+                                <p
+                                    class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
+                                    Nairobi, KE</p>
+                                <a href="https://maps.app.goo.gl/Y1mgMEWgY6sRPcbD7"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
+                                    aria-label="Get directions to The Alchemist">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stub/Action Section (Right/Bottom) -->
+                <div
+                    class="relative w-full md:w-[30%] bg-zinc-950/50 p-6 md:p-0 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-white/5">
+                    <!-- Vertical Text Texture (Desktop) -->
+                    <div
+                        class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/5 font-display font-bold text-9xl leading-none rotate-90 select-none pointer-events-none">
+                        ADMIT ONE</div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-4">
+                        <div class="text-center">
+                            <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
+                        </div>
+
+                        
+                        <a href="https://tickets.com" target="_blank" rel="noopener noreferrer"
+                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto focus:outline-none focus:ring-0">
+                            GET TICKETS
+                        </a>
+                        
+
+                        <!-- Barcode Visual -->
+                        <div class="h-8 md:h-12 w-full max-w-[120px] mt-4 opacity-30"
+                            style="background-image: repeating-linear-gradient(90deg, white, white 2px, transparent 2px, transparent 4px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ticket Card -->
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden transition-all duration-700 ease-out shadow-2xl origin-bottom select-none focus:outline-none focus:ring-0"
+                style="opacity: 1; visibility: visible;">
+
+                <!-- Ticket Visuals (Notches) -->
+                <!-- Top Notch -->
+                <div
+                    class="absolute top-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mt-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-b border-white/10">
+                </div>
+                <!-- Bottom Notch -->
+                <div
+                    class="absolute bottom-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mb-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-t border-white/10">
+                </div>
+                <!-- Dashed Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-4 bottom-4 left-[70%] w-px border-l-2 border-dashed border-white/10 -ml-px z-10">
+                </div>
+                <!-- Dashed Line (Mobile) -->
+                <div
+                    class="md:hidden absolute left-4 right-4 top-[70%] h-px border-t-2 border-dashed border-white/10 z-10">
+                </div>
+
+                <!-- Main Info Section (Left/Top) -->
+                <div
+                    class="relative flex-1 p-8 md:p-12 flex flex-col justify-center gap-6 md:gap-8 group-hover:bg-zinc-900/50 transition-colors">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -top-20 -left-20 w-96 h-96 bg-toxicAccent/10 rounded-full blur-[100px] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                        <!-- Huge Date -->
+                        <div class="flex flex-col leading-[0.8]">
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
+                        </div>
+
+                        <!-- Venue Details -->
+                        <div class="flex flex-col justify-center h-full pt-4">
+                            <span
+                                class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">TUPATANE</span>
+                            <h3
+                                class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                                The Alchemist Bar
+                            </h3>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="w-12 h-0.5 bg-toxicAccent flex-shrink-0"></span>
+                                <p
+                                    class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
+                                    Nairobi, KE</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=The%20Alchemist%20Bar+Nairobi%2C%20KE"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
+                                    aria-label="Get directions to The Alchemist Bar">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stub/Action Section (Right/Bottom) -->
+                <div
+                    class="relative w-full md:w-[30%] bg-zinc-950/50 p-6 md:p-0 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-white/5">
+                    <!-- Vertical Text Texture (Desktop) -->
+                    <div
+                        class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/5 font-display font-bold text-9xl leading-none rotate-90 select-none pointer-events-none">
+                        ADMIT ONE</div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-4">
+                        <div class="text-center">
+                            <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
+                        </div>
+
+                        
+                        <a href="https://mtickets.com/events/toxic-live" target="_blank" rel="noopener noreferrer"
+                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto focus:outline-none focus:ring-0">
+                            GET TICKETS
+                        </a>
+                        
+
+                        <!-- Barcode Visual -->
+                        <div class="h-8 md:h-12 w-full max-w-[120px] mt-4 opacity-30"
+                            style="background-image: repeating-linear-gradient(90deg, white, white 2px, transparent 2px, transparent 4px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ticket Card -->
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden transition-all duration-700 ease-out shadow-2xl origin-bottom select-none focus:outline-none focus:ring-0"
+                style="opacity: 1; visibility: visible;">
+
+                <!-- Ticket Visuals (Notches) -->
+                <!-- Top Notch -->
+                <div
+                    class="absolute top-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mt-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-b border-white/10">
+                </div>
+                <!-- Bottom Notch -->
+                <div
+                    class="absolute bottom-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mb-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-t border-white/10">
+                </div>
+                <!-- Dashed Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-4 bottom-4 left-[70%] w-px border-l-2 border-dashed border-white/10 -ml-px z-10">
+                </div>
+                <!-- Dashed Line (Mobile) -->
+                <div
+                    class="md:hidden absolute left-4 right-4 top-[70%] h-px border-t-2 border-dashed border-white/10 z-10">
+                </div>
+
+                <!-- Main Info Section (Left/Top) -->
+                <div
+                    class="relative flex-1 p-8 md:p-12 flex flex-col justify-center gap-6 md:gap-8 group-hover:bg-zinc-900/50 transition-colors">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -top-20 -left-20 w-96 h-96 bg-toxicAccent/10 rounded-full blur-[100px] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                        <!-- Huge Date -->
+                        <div class="flex flex-col leading-[0.8]">
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
+                        </div>
+
+                        <!-- Venue Details -->
+                        <div class="flex flex-col justify-center h-full pt-4">
+                            <span
+                                class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">TUPATANE</span>
+                            <h3
+                                class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                                Nyali Beach Hotel
+                            </h3>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="w-12 h-0.5 bg-toxicAccent flex-shrink-0"></span>
+                                <p
+                                    class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
+                                    Mombasa, KE</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Nyali%20Beach%20Hotel+Mombasa%2C%20KE"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
+                                    aria-label="Get directions to Nyali Beach Hotel">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stub/Action Section (Right/Bottom) -->
+                <div
+                    class="relative w-full md:w-[30%] bg-zinc-950/50 p-6 md:p-0 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-white/5">
+                    <!-- Vertical Text Texture (Desktop) -->
+                    <div
+                        class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/5 font-display font-bold text-9xl leading-none rotate-90 select-none pointer-events-none">
+                        ADMIT ONE</div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-4">
+                        <div class="text-center">
+                            <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
+                        </div>
+
+                        
+                        <a href="https://tickets.com/toxic-mombasa" target="_blank" rel="noopener noreferrer"
+                            class="inline-block px-8 py-4 bg-white text-black font-display font-bold text-lg md:text-xl uppercase tracking-[0.1em] hover:bg-toxicAccent hover:text-white transition-all duration-300 transform hover:scale-105 hover:rotate-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] md:mt-4 pointer-events-auto focus:outline-none focus:ring-0">
+                            GET TICKETS
+                        </a>
+                        
+
+                        <!-- Barcode Visual -->
+                        <div class="h-8 md:h-12 w-full max-w-[120px] mt-4 opacity-30"
+                            style="background-image: repeating-linear-gradient(90deg, white, white 2px, transparent 2px, transparent 4px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ticket Card -->
+            <div class="tour-card absolute inset-0 flex flex-col md:flex-row bg-zinc-900 border border-white/10 overflow-hidden transition-all duration-700 ease-out shadow-2xl origin-bottom select-none focus:outline-none focus:ring-0"
+                style="opacity: 1; visibility: visible;">
+
+                <!-- Ticket Visuals (Notches) -->
+                <!-- Top Notch -->
+                <div
+                    class="absolute top-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mt-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-b border-white/10">
+                </div>
+                <!-- Bottom Notch -->
+                <div
+                    class="absolute bottom-0 right-0 md:left-[70%] transform md:-translate-x-1/2 -mb-4 mr-4 md:mr-0 w-8 h-8 bg-black rounded-full z-20 border-t border-white/10">
+                </div>
+                <!-- Dashed Line (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-4 bottom-4 left-[70%] w-px border-l-2 border-dashed border-white/10 -ml-px z-10">
+                </div>
+                <!-- Dashed Line (Mobile) -->
+                <div
+                    class="md:hidden absolute left-4 right-4 top-[70%] h-px border-t-2 border-dashed border-white/10 z-10">
+                </div>
+
+                <!-- Main Info Section (Left/Top) -->
+                <div
+                    class="relative flex-1 p-8 md:p-12 flex flex-col justify-center gap-6 md:gap-8 group-hover:bg-zinc-900/50 transition-colors">
+                    <!-- Background Glow -->
+                    <div
+                        class="absolute -top-20 -left-20 w-96 h-96 bg-toxicAccent/10 rounded-full blur-[100px] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                        <!-- Huge Date -->
+                        <div class="flex flex-col leading-[0.8]">
+                            <span
+                                class="font-display font-bold text-[8rem] md:text-[10rem] text-white tracking-tighter">{{
+                                tour.date|localtime|date:"d" }}</span>
+                            <span
+                                class="font-display font-bold text-4xl md:text-5xl text-toxicAccent uppercase tracking-widest pl-2">{{
+                                tour.date|localtime|date:"M" }}</span>
+                        </div>
+
+                        <!-- Venue Details -->
+                        <div class="flex flex-col justify-center h-full pt-4">
+                            <span
+                                class="hidden md:inline-block px-3 py-1 mb-4 border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase text-white/50 w-fit">TUPATANE</span>
+                            <h3
+                                class="tour-card-venue text-4xl md:text-6xl font-display font-bold text-white uppercase tracking-tighter mb-2 leading-none group-hover:text-toxicAccent transition-colors duration-300">
+                                Unseen Nairobi
+                            </h3>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="w-12 h-0.5 bg-toxicAccent flex-shrink-0"></span>
+                                <p
+                                    class="tour-card-location text-white/80 tracking-[0.3em] uppercase text-sm md:text-lg font-bold">
+                                    Nairobi, KE</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Unseen%20Nairobi+Nairobi%2C%20KE"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-toxicAccent text-white/80 hover:text-white transition-all duration-300 flex-shrink-0"
+                                    aria-label="Get directions to Unseen Nairobi">
+                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stub/Action Section (Right/Bottom) -->
+                <div
+                    class="relative w-full md:w-[30%] bg-zinc-950/50 p-6 md:p-0 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-white/5">
+                    <!-- Vertical Text Texture (Desktop) -->
+                    <div
+                        class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/5 font-display font-bold text-9xl leading-none rotate-90 select-none pointer-events-none">
+                        ADMIT ONE</div>
+
+                    <div class="relative z-10 flex flex-col items-center gap-4">
+                        <div class="text-center">
+                            <span class="block text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Time</span>
+                            <span class="block text-white font-display text-2xl">{{ tour.date|localtime|date:"H:i"
+                                }}</span>
+                        </div>
+
+                        
+                        <span
+                            class="inline-block px-8 py-3 bg-transparent text-white/30 text-sm font-bold tracking-[0.2em] border-2 border-white/10 select-none rotate-0 md:-rotate-90 md:mt-8">
+                            SOLD OUT
+                        </span>
+                        
+
+                        <!-- Barcode Visual -->
+                        <div class="h-8 md:h-12 w-full max-w-[120px] mt-4 opacity-30"
+                            style="background-image: repeating-linear-gradient(90deg, white, white 2px, transparent 2px, transparent 4px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="mt-8 flex items-center justify-center gap-6 z-20 relative">
+            <button type="button" onclick="rotateTourCardPrev()"
+                class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-white/50 bg-black/50"
+                aria-label="Previous date">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <p id="tour-hint-text" class="text-white/40 text-xs tracking-[0.3em] uppercase select-none">Click to See
+                Next Show</p>
+            <button type="button" onclick="rotateTourCardNext()"
+                class="p-3 text-white/50 hover:text-white transition-colors hover:scale-110 border border-white/10 rounded-full hover:border-toxicAccent bg-black/50"
+                aria-label="Next date">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Home Button at Bottom -->
+        <div class="flex justify-center mt-12 mb-8 pb-8"
+            style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
+            <a href="/" hx-boost="false" data-no-boost
+                class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                HOME
+            </a>
+        </div>
+
+        
+    </div>
+</section>
+<div id="latest"
+    class="snap-section min-h-screen flex flex-col justify-start bg-black pb-12 md:pb-16 border-t border-white/10">
+    <style>
+        #latest .latest-spotify-btn:hover {
+            background-color: #1DB954;
+            border-color: #1DB954;
+        }
+    </style>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex items-end justify-between mb-8 md:mb-10">
+            <h2 class="text-3xl md:text-6xl font-display font-bold text-white tracking-tighter">LATEST</h2>
+            <a href="#"
+                class="hidden md:block text-sm text-gray-500 hover:text-white transition-colors tracking-widest uppercase mb-2">View
+                Archive</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            
+            <div class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer"
+                style="touch-action: manipulation;">
+                <a href="/music/4/" class="absolute inset-0 z-0" hx-boost="false"
+                    aria-label="View Bad Everyday"></a>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none">
+                </div>
+                
+                <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/covers/Screenshot_2026-02-19_195248.png" alt="Bad Everyday"
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60 pointer-events-none">
+                
+                <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20 pointer-events-none">
+                    <p class="text-toxicAccent text-xs font-bold tracking-widest mb-1 md:mb-2 uppercase">New Release</p>
+                    <h3 class="text-2xl md:text-3xl font-display text-white mb-3 md:mb-4">
+                        Bad Everyday</h3>
+                    <!-- Streaming Links - stopPropagation so they open in new tab instead of navigating card -->
+                    <div class="flex flex-wrap gap-2 md:gap-3 pointer-events-auto" onclick="event.stopPropagation()">
+                        
+                        
+                        <a href="https://www.youtube.com/watch?v=DrJ2yPlBTq8" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                            <span>YouTube</span>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="group relative aspect-video min-h-[180px] md:min-h-0 bg-gray-900 border border-white/5 hover:border-white/20 transition-colors overflow-hidden cursor-pointer"
+                style="touch-action: manipulation;">
+                <a href="/music/3/" class="absolute inset-0 z-0" hx-boost="false"
+                    aria-label="View Dumpsite"></a>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10 pointer-events-none">
+                </div>
+                
+                <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/covers/lumina-enhanced-1771487030934.png" alt="Dumpsite"
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-60 pointer-events-none">
+                
+                <div class="absolute bottom-0 left-0 p-4 md:p-6 w-full z-20 pointer-events-none">
+                    <p class="text-toxicAccent text-xs font-bold tracking-widest mb-1 md:mb-2 uppercase">New Release</p>
+                    <h3 class="text-2xl md:text-3xl font-display text-white mb-3 md:mb-4">
+                        Dumpsite</h3>
+                    <!-- Streaming Links - stopPropagation so they open in new tab instead of navigating card -->
+                    <div class="flex flex-wrap gap-2 md:gap-3 pointer-events-auto" onclick="event.stopPropagation()">
+                        
+                        <a href="https://open.spotify.com/album/3Sog79yWAUA8ozZ5L9fSVQ" target="_blank" rel="noopener noreferrer"
+                            class="latest-spotify-btn inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 border border-white/20 text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.36.24-.66.54-.779 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z" />
+                            </svg>
+                            <span>Spotify</span>
+                        </a>
+                        
+                        
+                        <a href="https://www.youtube.com/watch?v=EzxnWWQHhw4" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 bg-black/60 hover:bg-toxicAccent border border-white/20 hover:border-toxicAccent text-white text-xs md:text-sm font-medium uppercase tracking-wider transition-all duration-300">
+                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                            <span>YouTube</span>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- MERCH SECTION -->
+<div id="merch"
+    class="snap-section relative min-h-screen flex flex-col pt-6 md:pt-12 pb-12 md:pb-8 border-t border-white/5 overflow-hidden bg-black">
+    <!-- Background -->
+    <div class="absolute inset-0 bg-black flex items-start justify-center pt-6 md:pt-8">
+        <span
+            class="text-toxicAccent font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.25em] uppercase">SHOP
+            HERE</span>
+    </div>
+
+    <div class="parallax-content relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-40 sm:pt-32 md:pt-32 lg:pt-40 flex flex-col flex-grow"
+        data-parallax-speed="-0.25">
+        <!-- Product grid - aligned top, even spacing -->
+        <div
+            class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-10 items-start justify-items-center md:justify-items-start">
+            
+            <button type="button"
+                class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
+                data-item-id="2" data-item-title="Crewneck Sweatshirt" data-item-link="http://toxicshop.com/"
+                data-item-images="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/MOCKSHOP_Q7OIW9G.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/MOCKSHOP_QHQU9JB.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/MOCKSHOP_IGZPE7N_jABbiZB.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/MOCKSHOP_JRUHQJN.png">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/MOCKSHOP_Q7OIW9G.png" alt="Crewneck Sweatshirt"
+                        class="w-full h-full object-contain object-center">
+                    
+                </div>
+            </button>
+            
+            <button type="button"
+                class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
+                data-item-id="4" data-item-title="Lyrical Tshirt" data-item-link="http://toxicshop.com/"
+                data-item-images="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/MOCKSHOP_FF7769N.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/MOCKSHOP_L8WWH4C.png">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/MOCKSHOP_FF7769N.png" alt="Lyrical Tshirt"
+                        class="w-full h-full object-contain object-center">
+                    
+                </div>
+            </button>
+            
+            <button type="button"
+                class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
+                data-item-id="5" data-item-title="Yankees Mboka Doba" data-item-link="http://toxicshop.com/"
+                data-item-images="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/safisha-pro-restoration-1771547735391.jpeg,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/safisha-pro-restoration-1771547735391.jpeg,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/safisha-pro-restoration-1771547952252.jpeg,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/Screenshot_2026-02-20_031635.png">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/safisha-pro-restoration-1771547735391.jpeg" alt="Yankees Mboka Doba"
+                        class="w-full h-full object-contain object-center">
+                    
+                </div>
+            </button>
+            
+            <button type="button"
+                class="shop-item-btn group relative aspect-square w-full max-w-[280px] md:max-w-[380px] flex flex-col items-stretch justify-center transition-all duration-500 active:scale-105 md:hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(225,29,72,0.4)] cursor-pointer"
+                data-item-id="3" data-item-title="Mboka Doba Tshirts" data-item-link="http://toxicshop.com/"
+                data-item-images="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/safisha-pro-restoration-1771437212829.jpeg,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/safisha-pro-restoration-1771438181354.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/safisha-pro-restoration-1771547952252.jpeg,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/lumina-enhanced-1771437706728.png,https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/designs/safisha-pro-restoration-1771436941862.png">
+                <div
+                    class="absolute top-2 left-2 z-10 px-2 py-1 bg-transparent border border-toxicAccent text-toxicAccent group-active:bg-toxicAccent group-active:text-white md:group-hover:bg-toxicAccent md:group-hover:text-white transition-colors text-[8px] md:text-[9px] font-bold tracking-widest uppercase">
+                    Drop</div>
+                <div class="flex items-center justify-center w-full h-full p-2 md:p-3">
+                    
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/shop/safisha-pro-restoration-1771437212829.jpeg" alt="Mboka Doba Tshirts"
+                        class="w-full h-full object-contain object-center">
+                    
+                </div>
+            </button>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Shop Item Modal -->
+<div id="shop-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-sm">
+    <div class="relative w-full h-full max-w-5xl mx-auto px-4 py-4 md:py-6 flex flex-col items-center justify-center">
+        <!-- Close Button -->
+        <button onclick="closeShopModal()"
+            class="absolute top-2 right-2 md:top-4 md:right-4 z-50 text-white/80 hover:text-white transition-colors p-2">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Image Container -->
+        <div class="relative w-full max-w-3xl flex-1 flex items-center justify-center mb-3 md:mb-4">
+            <div id="shop-modal-image-container" class="relative w-full h-full flex items-center justify-center">
+                <img id="shop-modal-image" src="" alt="" class="max-w-full max-h-[55vh] md:max-h-[65vh] object-contain">
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button id="shop-modal-prev" onclick="changeShopImage(-1)"
+                class="absolute left-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
+                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
+                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
+            </button>
+            <button id="shop-modal-next" onclick="changeShopImage(1)"
+                class="absolute right-0 top-0 bottom-0 w-16 md:w-24 z-[110] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all disabled:opacity-0 disabled:pointer-events-none group">
+                <div class="p-2 rounded-full border border-white/10 group-hover:border-white/40 transition-colors">
+                    <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </button>
+        </div>
+
+        <!-- Image Indicators -->
+        <div id="shop-modal-indicators" class="flex gap-2 mb-3 md:mb-4">
+            <!-- Indicators will be generated by JavaScript -->
+        </div>
+
+        <!-- Product Info & CTA -->
+        <div class="text-center">
+            <h3 id="shop-modal-title" class="text-xl md:text-2xl font-display font-bold text-white mb-2 md:mb-3"></h3>
+            <a id="shop-modal-link" href="#" target="_blank"
+                class="inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 bg-toxicAccent text-white font-display font-bold text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 border-2 border-toxicAccent hover:border-white rounded-sm">
+                <span>ADD TO WALLET</span>
+                <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+    </main>
+
+    <!-- Footer - extra bottom padding on mobile for browser UI -->
+    <footer class="bg-black border-t border-white/10 pb-24 md:pb-16 relative z-[10] mt-8 md:mt-12">
+        
+        <!-- Upper section: featured image + LET'S CONNECT + optional YouTube embed -->
+        <div class="max-w-7xl mx-auto px-4 pt-8 md:pt-12">
+            <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-6 md:gap-10">
+                <!-- Left: optional featured image (album cover style) -->
+                
+                <div class="flex-shrink-0 flex justify-center w-full md:w-auto">
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/footer/lumina-enhanced-1771596851887_1_C61jDaK.png" alt="" class="w-auto object-contain rounded-sm shadow-lg"
+                        style="height: 400px; max-width: 100%;">
+                </div>
+                
+                <!-- Right: LET'S CONNECT text + YouTube embed -->
+                <div class="flex flex-col items-center md:items-start flex-1 min-w-0 max-w-2xl w-full">
+                    
+                    <span
+                        class="text-toxicAccent font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.25em] uppercase mb-4 block text-center md:text-left">
+                        LET&#x27;S CONNECT
+                    </span>
+                    
+                    
+                    <div class="w-full aspect-video rounded overflow-hidden bg-black">
+                        <iframe src="https://www.youtube.com/embed/OtwmNODXyW8?rel=0"
+                            title="YouTube video" class="w-full h-full border-0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen loading="lazy" frameborder="0"
+                            referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
+                    <p class="mt-2 text-center">
+                        <a href="https://www.youtube.com/watch?v=OtwmNODXyW8" target="_blank"
+                            rel="noopener noreferrer" class="text-white/60 hover:text-white text-xs underline">If the
+                            video doesn’t play, watch on YouTube</a>
+                    </p>
+                </div>
+                
+
+
+            </div>
+        </div>
+        </div>
+
+        <!-- Thin grey dividing line -->
+        <div class="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
+            <hr class="border-t border-gray-600">
+        </div>
+
+        <!-- Lower section: social icons + logo, copyright, tagline -->
+        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center space-y-6">
+            <!-- Social Media Icons + Logo (one row) -->
+            <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+                
+                <a href="https://www.instagram.com/_toxic_lyrikali/?hl=en" target="_blank" rel="noopener noreferrer"
+                    class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
+                    aria-label="Instagram">
+                    
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                    
+                </a>
+                
+                <a href="https://www.facebook.com/p/T%C3%B3xic-Lyrikali-100077999702139/" target="_blank" rel="noopener noreferrer"
+                    class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
+                    aria-label="Facebook">
+                    
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    
+                </a>
+                
+                <a href="https://www.youtube.com/@mbokadoba" target="_blank" rel="noopener noreferrer"
+                    class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
+                    aria-label="YouTube">
+                    
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                    
+                </a>
+                
+                <a href="https://music.apple.com/ke/artist/toxic-lyrikali/1667118048" target="_blank" rel="noopener noreferrer"
+                    class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
+                    aria-label="Music">
+                    
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                    </svg>
+                    
+                </a>
+                
+                <a href="mailto:bookings@toxiclyrikali.com" target="_blank" rel="noopener noreferrer"
+                    class="text-white/60 hover:text-white transition-colors flex items-center justify-center w-6 h-6 md:w-7 md:h-7"
+                    aria-label="Email">
+                    
+                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" stroke-width="1.5"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909A2.25 2.25 0 012.25 6.993V6.75m19.5 0v.243m0 0l-7.5 4.615m7.5-4.615v.243m0 0a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                    
+                </a>
+                
+                <!-- Artist Logo (next to icons) -->
+                
+                <div class="flex items-center shrink-0">
+                    <img src="https://storage.googleapis.com/gen-lang-client-0549116861-toxic-media/footer/GfuFL__XIAQrtSC.png" alt="MBOKADOBA"
+                        class="h-8 w-8 md:h-10 md:w-10 object-contain grayscale brightness-0 invert">
+                </div>
+                
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-white/50 text-xs md:text-sm tracking-wider uppercase mt-8 md:mt-10">
+                &copy; 2026 MBOKADOBA. ALL RIGHTS RESERVED
+            </p>
+
+            <!-- Tagline (e.g. TOXIC LYRICAL) -->
+            
+            <div class="text-white/60 text-sm md:text-base font-sans uppercase tracking-wider">
+                
+                Toxic Lyrically
+                
+            </div>
+            
+        </div>
+        
+    </footer>
+    <script>
+        (function () {
+            var footer = document.querySelector('footer');
+            var navLinks = document.getElementById('nav-links');
+            if (!footer || !navLinks) return;
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        navLinks.style.visibility = 'hidden';
+                        navLinks.style.opacity = '0';
+                        navLinks.style.pointerEvents = 'none';
+                    } else {
+                        navLinks.style.visibility = '';
+                        navLinks.style.opacity = '';
+                        navLinks.style.pointerEvents = '';
+                    }
+                });
+            }, { threshold: 0.1 });
+            observer.observe(footer);
+        })();
+    </script>
+    
+<script>
+    (function () {
+        const tourSection = document.getElementById('tour');
+        const latestSection = document.getElementById('latest');
+        const merchSection = document.getElementById('merch');
+        const navLinks = document.getElementById('nav-links');
+        if (!navLinks) return;
+
+        const heroLyrically = document.getElementById('hero-lyrically');
+        const scrollIndicator = document.getElementById('scroll-indicator');
+        const heroImageContainer = document.getElementById('hero-image-container');
+        const tourHintText = document.getElementById('tour-hint-text');
+
+        const sections = [tourSection, latestSection, merchSection].filter(Boolean);
+        const intersecting = new Set();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) intersecting.add(entry.target.id);
+                else intersecting.delete(entry.target.id);
+            });
+            const anySectionInView = intersecting.size > 0;
+            const tourInView = intersecting.has('tour');
+            const latestInView = intersecting.has('latest');
+            navLinks.classList.toggle('nav-links--hidden', anySectionInView);
+            if (heroLyrically) heroLyrically.classList.toggle('nav-links--hidden', tourInView);
+            if (scrollIndicator) scrollIndicator.classList.toggle('nav-links--hidden', tourInView);
+            // Hide tour hint text when LATEST section is in view
+            if (tourHintText) {
+                tourHintText.style.display = latestInView ? 'none' : '';
+            }
+        }, { threshold: 0.1 });
+
+        // Smooth fade out hero image based on scroll position
+        function updateHeroFade() {
+            if (!heroImageContainer || !tourSection) return;
+
+            const heroSection = document.querySelector('.snap-section:first-child');
+            if (!heroSection) return;
+
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const viewportHeight = window.innerHeight;
+            const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+            const tourTop = tourSection.offsetTop;
+
+            // Calculate fade progress: start fading when tour section starts entering viewport
+            const fadeStart = tourTop - viewportHeight;
+            const fadeEnd = tourTop;
+            const fadeRange = fadeEnd - fadeStart;
+
+            let opacity = 1;
+            if (scrollY >= fadeStart && scrollY <= fadeEnd) {
+                // Fade out gradually as tour section approaches
+                opacity = 1 - ((scrollY - fadeStart) / fadeRange);
+            } else if (scrollY > fadeEnd) {
+                // Fully faded out when tour section is in view
+                opacity = 0;
+            }
+
+            heroImageContainer.style.opacity = Math.max(0, Math.min(1, opacity));
+
+            // Add class when fully faded for pointer-events
+            if (opacity <= 0) {
+                heroImageContainer.classList.add('hero-fade-out');
+            } else {
+                heroImageContainer.classList.remove('hero-fade-out');
+            }
+        }
+
+        // Update hero fade on scroll
+        let fadeTicking = false;
+        function onHeroFadeScroll() {
+            if (!fadeTicking) {
+                window.requestAnimationFrame(() => {
+                    updateHeroFade();
+                    fadeTicking = false;
+                });
+                fadeTicking = true;
+            }
+        }
+
+        // Initial call
+        updateHeroFade();
+        window.addEventListener('scroll', onHeroFadeScroll, { passive: true });
+        window.addEventListener('resize', updateHeroFade);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Parallax effect on scroll
+        const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
+
+        if (parallaxElements.length > 0) {
+            function updateParallax() {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const viewportHeight = window.innerHeight;
+
+                parallaxElements.forEach(element => {
+                    const speed = parseFloat(element.getAttribute('data-parallax-speed')) || 0;
+                    const section = element.closest('.snap-section');
+
+                    if (section) {
+                        const sectionRect = section.getBoundingClientRect();
+                        const elementRect = element.getBoundingClientRect();
+
+                        // Calculate how much of the section is visible
+                        const sectionTop = sectionRect.top;
+                        const sectionBottom = sectionRect.bottom;
+                        const sectionHeight = sectionRect.height;
+
+                        // Calculate scroll progress within the section
+                        // When section enters viewport from bottom: progress starts at 0
+                        // When section exits viewport from top: progress ends at 1
+                        let progress = 0;
+                        if (sectionTop < viewportHeight && sectionBottom > 0) {
+                            // Section is visible
+                            const visibleHeight = Math.min(sectionBottom, viewportHeight) - Math.max(sectionTop, 0);
+                            const scrolledPast = viewportHeight - sectionTop;
+                            progress = Math.max(0, Math.min(1, scrolledPast / (sectionHeight + viewportHeight)));
+                        } else if (sectionTop >= viewportHeight) {
+                            // Section is below viewport
+                            progress = 0;
+                        } else {
+                            // Section is above viewport
+                            progress = 1;
+                        }
+
+                        // Apply parallax transform
+                        // Progress goes from 0 (entering) to 1 (exiting)
+                        // Center the effect around 0.5 (middle of viewport)
+                        // Increase multiplier for more pronounced effect
+                        const offset = (progress - 0.5) * speed * viewportHeight * 1.5;
+                        element.style.transform = `translate3d(0, ${offset}px, 0)`;
+                    }
+                });
+            }
+
+            // Throttle scroll events for performance
+            let ticking = false;
+            function onScroll() {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        updateParallax();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            // Initial call after page load
+            function initParallax() {
+                updateParallax();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initParallax);
+            } else {
+                initParallax();
+            }
+
+            // Listen to scroll events
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', updateParallax);
+
+            // Update parallax when sections come into view (for scroll-snap)
+            const parallaxObserver = new IntersectionObserver((entries) => {
+                entries.forEach(() => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            updateParallax();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }, {
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+                rootMargin: '0px'
+            });
+
+            // Observe all sections for parallax updates
+            document.querySelectorAll('.snap-section').forEach(section => {
+                parallaxObserver.observe(section);
+            });
+        }
+
+        // Stacked Cards Logic
+        function initTourStack() {
+            const stack = document.getElementById('tour-stack');
+            if (stack) {
+                const cards = Array.from(stack.getElementsByClassName('tour-card'));
+                if (cards.length > 0) {
+                    updateCardPositions(cards);
+                }
+            }
+        }
+
+        // Initialize tour stack when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initTourStack, 100);
+            });
+        } else {
+            setTimeout(initTourStack, 100);
+        }
+
+        function updateCardPositions(cards) {
+            const isMobile = window.innerWidth < 768;
+            cards.forEach((card, index) => {
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                if (index === 0) {
+                    card.style.zIndex = '30';
+                    card.style.opacity = '1';
+                    // On mobile, use translateY only (no scale) to prevent text distortion
+                    card.style.transform = isMobile ? 'translateX(0) translateY(0) rotate(0deg)' : 'scale(1) translateX(0) translateY(0) rotate(0deg)';
+                    card.style.pointerEvents = 'auto';
+                } else if (index === 1) {
+                    card.style.zIndex = '20';
+                    card.style.opacity = '0.7';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(20px) rotate(0deg)' : 'scale(0.95) translateX(0) translateY(20px) rotate(0deg)';
+                    card.style.pointerEvents = 'none';
+                } else if (index === 2) {
+                    card.style.zIndex = '10';
+                    card.style.opacity = '0.4';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(40px) rotate(0deg)' : 'scale(0.9) translateX(0) translateY(40px) rotate(0deg)';
+                    card.style.pointerEvents = 'none';
+                } else {
+                    card.style.zIndex = '0';
+                    card.style.opacity = '0';
+                    card.style.transform = isMobile ? 'translateX(0) translateY(60px) rotate(0deg)' : 'scale(0.85) translateX(0) translateY(60px) rotate(0deg)';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        let isAnimating = false;
+
+        window.rotateTourCardNext = function () {
+            if (isAnimating) return;
+            const stack = document.getElementById('tour-stack');
+            if (!stack || stack.children.length <= 1) return;
+
+            isAnimating = true;
+            const cards = Array.from(stack.getElementsByClassName('tour-card'));
+            const currentCard = cards[0];
+            const nextCard = cards[1];
+
+            const isMobile = window.innerWidth < 768;
+
+            // Animate current card out to the left with rotation
+            currentCard.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            currentCard.style.transform = isMobile ? 'translateX(-120%) rotate(-12deg) scale(0.9)' : 'translateX(-100%) rotate(-15deg) scale(0.85)';
+            currentCard.style.opacity = '0';
+            currentCard.style.pointerEvents = 'none';
+            currentCard.style.zIndex = '5';
+
+            // Animate next card coming in from the right
+            if (nextCard) {
+                nextCard.style.transition = 'none';
+                nextCard.style.transform = isMobile ? 'translateX(120%) rotate(12deg) scale(0.9)' : 'translateX(100%) rotate(15deg) scale(0.85)';
+                nextCard.style.opacity = '0';
+                nextCard.style.zIndex = '35';
+
+                // Force browser reflow
+                void nextCard.offsetWidth;
+
+                // Move current card to end
+                stack.appendChild(currentCard);
+
+                // Animate next card into position
+                setTimeout(() => {
+                    const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                    updateCardPositions(newOrder);
+                    setTimeout(() => { isAnimating = false; }, 500);
+                }, 50);
+            } else {
+                setTimeout(() => {
+                    stack.appendChild(currentCard);
+                    const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                    updateCardPositions(newOrder);
+                    setTimeout(() => { isAnimating = false; }, 500);
+                }, 500);
+            }
+        };
+
+        window.rotateTourCardPrev = function () {
+            if (isAnimating) return;
+            const stack = document.getElementById('tour-stack');
+            if (!stack || stack.children.length <= 1) return;
+
+            isAnimating = true;
+            const cards = Array.from(stack.getElementsByClassName('tour-card'));
+            const currentCard = cards[0];
+            const prevCard = cards[cards.length - 1];
+
+            const isMobile = window.innerWidth < 768;
+
+            // Animate current card out to the right
+            currentCard.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            currentCard.style.transform = isMobile ? 'translateX(120%) rotate(12deg) scale(0.9)' : 'translateX(100%) rotate(15deg) scale(0.85)';
+            currentCard.style.opacity = '0';
+            currentCard.style.pointerEvents = 'none';
+            currentCard.style.zIndex = '5';
+
+            // Set up previous card off-screen to the left
+            prevCard.style.transition = 'none';
+            prevCard.style.transform = isMobile ? 'translateX(-120%) rotate(-12deg) scale(0.9)' : 'translateX(-100%) rotate(-15deg) scale(0.85)';
+            prevCard.style.opacity = '0';
+            prevCard.style.zIndex = '35';
+
+            // Move it to the top of the stack
+            stack.insertBefore(prevCard, cards[0]);
+
+            // Force browser reflow to apply the transition="none" styles instantly
+            void prevCard.offsetWidth;
+
+            // Animate it back into the center
+            setTimeout(() => {
+                const newOrder = Array.from(stack.getElementsByClassName('tour-card'));
+                updateCardPositions(newOrder);
+                setTimeout(() => { isAnimating = false; }, 500);
+            }, 50);
+        };
+
+        // Tour stack initialization is handled above
+    })();
+
+    // Ensure home button links bypass HTMX and scroll to top
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle home button clicks
+        document.querySelectorAll('a[data-no-boost]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                // Force full page navigation
+                if (this.href) {
+                    window.location.href = this.href;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+        });
+
+        // Scroll to top on page load (in case we navigated here)
+        if (window.location.hash === '' || window.location.hash === '#') {
+            window.scrollTo(0, 0);
+        }
+    });
+
+    // Shop Modal Functionality
+    let shopModalImages = [];
+    let shopModalCurrentIndex = 0;
+    let shopModalLink = '';
+
+    // Initialize shop item buttons
+    document.querySelectorAll('.shop-item-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const title = this.getAttribute('data-item-title');
+            const link = this.getAttribute('data-item-link');
+            const imagesStr = this.getAttribute('data-item-images');
+            const images = imagesStr ? imagesStr.split(',').filter(url => url.trim()) : [];
+
+            openShopModal(title, link, images);
+        });
+    });
+
+    function openShopModal(title, shopLink, images) {
+        shopModalImages = images;
+        shopModalCurrentIndex = 0;
+        shopModalLink = shopLink;
+
+        const modal = document.getElementById('shop-modal');
+        const modalTitle = document.getElementById('shop-modal-title');
+        const modalLink = document.getElementById('shop-modal-link');
+        const modalImage = document.getElementById('shop-modal-image');
+        const indicators = document.getElementById('shop-modal-indicators');
+        const mainNav = document.getElementById('main-nav');
+
+        modalTitle.textContent = title;
+        modalLink.href = shopLink;
+
+        // Generate indicators
+        indicators.innerHTML = '';
+        shopModalImages.forEach((_, index) => {
+            const indicator = document.createElement('button');
+            indicator.className = `w-2 h-2 rounded-full transition-all ${index === 0 ? 'bg-toxicAccent w-8' : 'bg-white/30'}`;
+            indicator.onclick = () => goToShopImage(index);
+            indicators.appendChild(indicator);
+        });
+
+        // Show first image
+        updateShopModalImage();
+
+        // Show modal first
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+
+        // Hide navigation bar and mobile menu - use setTimeout to ensure it happens after modal is shown
+        setTimeout(() => {
+            const mainNav = document.getElementById('main-nav');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mainNav) {
+                mainNav.style.display = 'none';
+                mainNav.style.opacity = '0';
+                mainNav.style.visibility = 'hidden';
+                mainNav.style.pointerEvents = 'none';
+                mainNav.style.zIndex = '0';
+            }
+            if (mobileMenu) {
+                mobileMenu.style.display = 'none';
+                mobileMenu.style.opacity = '0';
+                mobileMenu.style.visibility = 'hidden';
+                mobileMenu.style.pointerEvents = 'none';
+                mobileMenu.style.zIndex = '0';
+            }
+        }, 10);
+    }
+
+    function closeShopModal() {
+        const modal = document.getElementById('shop-modal');
+        const mainNav = document.getElementById('main-nav');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Hide modal first
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+
+        // Show navigation bar and mobile menu
+        setTimeout(() => {
+            if (mainNav) {
+                mainNav.style.display = '';
+                mainNav.style.opacity = '';
+                mainNav.style.visibility = '';
+                mainNav.style.pointerEvents = '';
+                mainNav.style.zIndex = '';
+            }
+            if (mobileMenu) {
+                mobileMenu.style.display = '';
+                mobileMenu.style.opacity = '';
+                mobileMenu.style.visibility = '';
+                mobileMenu.style.pointerEvents = '';
+                mobileMenu.style.zIndex = '';
+            }
+        }, 10);
+    }
+
+    function changeShopImage(direction) {
+        if (shopModalImages.length === 0) return;
+
+        shopModalCurrentIndex += direction;
+        if (shopModalCurrentIndex < 0) {
+            shopModalCurrentIndex = shopModalImages.length - 1;
+        } else if (shopModalCurrentIndex >= shopModalImages.length) {
+            shopModalCurrentIndex = 0;
+        }
+
+        updateShopModalImage();
+    }
+
+    function goToShopImage(index) {
+        shopModalCurrentIndex = index;
+        updateShopModalImage();
+    }
+
+    function updateShopModalImage() {
+        if (shopModalImages.length === 0) return;
+
+        const modalImage = document.getElementById('shop-modal-image');
+        const prevBtn = document.getElementById('shop-modal-prev');
+        const nextBtn = document.getElementById('shop-modal-next');
+        const indicators = document.getElementById('shop-modal-indicators');
+
+        modalImage.src = shopModalImages[shopModalCurrentIndex];
+        modalImage.alt = `Design ${shopModalCurrentIndex + 1}`;
+
+        // Update navigation buttons
+        if (shopModalImages.length <= 1) {
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+        } else {
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+
+        // Update indicators
+        const indicatorButtons = indicators.querySelectorAll('button');
+        indicatorButtons.forEach((btn, index) => {
+            if (index === shopModalCurrentIndex) {
+                btn.className = 'w-2 h-2 rounded-full transition-all bg-toxicAccent w-8';
+            } else {
+                btn.className = 'w-2 h-2 rounded-full transition-all bg-white/30';
+            }
+        });
+    }
+
+    // Close modal on escape key and navigation on arrow keys
+    document.addEventListener('keydown', function (e) {
+        const modal = document.getElementById('shop-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            if (e.key === 'Escape') {
+                closeShopModal();
+            } else if (e.key === 'ArrowRight') {
+                changeShopImage(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeShopImage(-1);
+            }
+        }
+    });
+
+    // Close modal on background click
+    document.getElementById('shop-modal')?.addEventListener('click', function (e) {
+        if (e.target === this) {
+            closeShopModal();
+        }
+    });
+
+    // Observer to watch for modal visibility changes
+    const shopModal = document.getElementById('shop-modal');
+    if (shopModal) {
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const isVisible = shopModal.classList.contains('flex') && !shopModal.classList.contains('hidden');
+                    const mainNav = document.getElementById('main-nav');
+                    const mobileMenu = document.getElementById('mobile-menu');
+
+                    if (isVisible) {
+                        // Hide nav when modal is visible
+                        if (mainNav) {
+                            mainNav.style.display = 'none';
+                        }
+                        if (mobileMenu) {
+                            mobileMenu.style.display = 'none';
+                        }
+                    } else {
+                        // Show nav when modal is hidden
+                        if (mainNav) {
+                            mainNav.style.display = '';
+                        }
+                        if (mobileMenu) {
+                            mobileMenu.style.display = '';
+                        }
+                    }
+                }
+            });
+        });
+
+        observer.observe(shopModal, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+</script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function (reg) { console.log('SW registered:', reg.scope); })
+                    .catch(function (err) { console.log('SW registration failed:', err); });
+            });
+        }
+    </script>
+</body>
+
+</html>
