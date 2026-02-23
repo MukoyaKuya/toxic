@@ -1,0 +1,382 @@
+--- REMOTE BUILD OUTPUT ----
+starting build "cd671eab-fe50-4168-aaf2-0a8d9ee2ac8a"
+FETCHSOURCE
+Fetching storage object: gs://gen-lang-client-0549116861_cloudbuild/source/1771837022.771493-23b10a22083f4b4898e0721fdc4ef904.tgz#1771837265147347
+Copying gs://gen-lang-client-0549116861_cloudbuild/source/1771837022.771493-23b10a22083f4b4898e0721fdc4ef904.tgz#1771837265147347...
+/ [0 files][    0.0 B/ 29.1 MiB]                                                
+/ [1 files][ 29.1 MiB/ 29.1 MiB]
+Operation completed over 1 objects/29.1 MiB.
+BUILD
+Starting Step #0 - "build"
+Step #0 - "build": Already have image (with digest): gcr.io/cloud-builders/docker
+Step #0 - "build": Sending build context to Docker daemon  94.83MB
+Step #0 - "build": Step 1/24 : FROM node:20-slim AS node-builder
+Step #0 - "build": 20-slim: Pulling from library/node
+Step #0 - "build": 4831516dd0cb: Pulling fs layer
+Step #0 - "build": 9d66d95167c2: Pulling fs layer
+Step #0 - "build": 1a0393491048: Pulling fs layer
+Step #0 - "build": 786a2dcd5a59: Pulling fs layer
+Step #0 - "build": 7aa087727009: Pulling fs layer
+Step #0 - "build": 786a2dcd5a59: Verifying Checksum
+Step #0 - "build": 786a2dcd5a59: Download complete
+Step #0 - "build": 9d66d95167c2: Verifying Checksum
+Step #0 - "build": 9d66d95167c2: Download complete
+Step #0 - "build": 7aa087727009: Verifying Checksum
+Step #0 - "build": 7aa087727009: Download complete
+Step #0 - "build": 4831516dd0cb: Verifying Checksum
+Step #0 - "build": 4831516dd0cb: Download complete
+Step #0 - "build": 1a0393491048: Verifying Checksum
+Step #0 - "build": 1a0393491048: Download complete
+Step #0 - "build": 4831516dd0cb: Pull complete
+Step #0 - "build": 9d66d95167c2: Pull complete
+Step #0 - "build": 1a0393491048: Pull complete
+Step #0 - "build": 786a2dcd5a59: Pull complete
+Step #0 - "build": 7aa087727009: Pull complete
+Step #0 - "build": Digest: sha256:c6585df72c34172bebd8d36abed961e231d7d3b5cee2e01294c4495e8a03f687
+Step #0 - "build": Status: Downloaded newer image for node:20-slim
+Step #0 - "build":  1096d6b5560f
+Step #0 - "build": Step 2/24 : WORKDIR /app
+Step #0 - "build":  Running in d0668b899dc3
+Step #0 - "build": Removing intermediate container d0668b899dc3
+Step #0 - "build":  ce7da17bd983
+Step #0 - "build": Step 3/24 : COPY package.json .
+Step #0 - "build":  67dc33d49a3c
+Step #0 - "build": Step 4/24 : RUN npm install
+Step #0 - "build":  Running in c7fa3fa0b052
+Step #0 - "build":
+Step #0 - "build": added 72 packages, and audited 73 packages in 2s
+Step #0 - "build":
+Step #0 - "build": 18 packages are looking for funding
+Step #0 - "build":   run `npm fund` for details
+Step #0 - "build":
+Step #0 - "build": found 0 vulnerabilities
+Step #0 - "build": [91mnpm notice
+Step #0 - "build": npm notice New major version of npm available! 10.8.2 -> 11.10.1
+Step #0 - "build": npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.10.1
+Step #0 - "build": npm notice To update run: npm install -g npm@11.10.1
+Step #0 - "build": npm notice
+Step #0 - "build": [0mRemoving intermediate container c7fa3fa0b052
+Step #0 - "build":  cdef5be717a2
+Step #0 - "build": Step 5/24 : COPY tailwind.config.js .
+Step #0 - "build":  920136bfe4c2
+Step #0 - "build": Step 6/24 : COPY web/static/css/input.css ./web/static/css/
+Step #0 - "build":  07e72b29711a
+Step #0 - "build": Step 7/24 : COPY templates ./templates
+Step #0 - "build":  8901032a3451
+Step #0 - "build": Step 8/24 : COPY toxic_project ./toxic_project
+Step #0 - "build":  3ed99f28eb81
+Step #0 - "build": Step 9/24 : COPY web ./web
+Step #0 - "build":  475a604f0f7a
+Step #0 - "build": Step 10/24 : RUN npm run build
+Step #0 - "build":  Running in ab15b90e50f3
+Step #0 - "build":
+Step #0 - "build": > toxic-web@1.0.0 build
+Step #0 - "build": > tailwindcss -i ./web/static/css/input.css -o ./web/static/css/output.css --minify
+Step #0 - "build":
+Step #0 - "build": [91mBrowserslist: caniuse-lite is outdated. Please run:
+Step #0 - "build":   npx update-browserslist-db@latest
+Step #0 - "build":   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Step #0 - "build": [0m[91m
+Step #0 - "build": Rebuilding...
+Step #0 - "build": [0m[91m
+Step #0 - "build": Done in 573ms.
+Step #0 - "build": [0mRemoving intermediate container ab15b90e50f3
+Step #0 - "build":  61b73dd0e96e
+Step #0 - "build": Step 11/24 : FROM python:3.12-slim
+Step #0 - "build": 3.12-slim: Pulling from library/python
+Step #0 - "build": 0c8d55a45c0d: Already exists
+Step #0 - "build": 690eaffcf0e9: Pulling fs layer
+Step #0 - "build": 9395e1d7be50: Pulling fs layer
+Step #0 - "build": 4948ee383266: Pulling fs layer
+Step #0 - "build": 690eaffcf0e9: Verifying Checksum
+Step #0 - "build": 690eaffcf0e9: Download complete
+Step #0 - "build": 4948ee383266: Verifying Checksum
+Step #0 - "build": 4948ee383266: Download complete
+Step #0 - "build": 9395e1d7be50: Verifying Checksum
+Step #0 - "build": 9395e1d7be50: Download complete
+Step #0 - "build": 690eaffcf0e9: Pull complete
+Step #0 - "build": 9395e1d7be50: Pull complete
+Step #0 - "build": 4948ee383266: Pull complete
+Step #0 - "build": Digest: sha256:9e01bf1ae5db7649a236da7be1e94ffbbbdd7a93f867dd0d8d5720d9e1f89fab
+Step #0 - "build": Status: Downloaded newer image for python:3.12-slim
+Step #0 - "build":  b3b92273ebb4
+Step #0 - "build": Step 12/24 : WORKDIR /app
+Step #0 - "build":  Running in 80880f89f3d7
+Step #0 - "build": Removing intermediate container 80880f89f3d7
+Step #0 - "build":  6c90a3ee2fd9
+Step #0 - "build": Step 13/24 : ENV PYTHONDONTWRITEBYTECODE 1
+Step #0 - "build":  Running in 1e04ef5f50d1
+Step #0 - "build": Removing intermediate container 1e04ef5f50d1
+Step #0 - "build":  5a5c909936b1
+Step #0 - "build": Step 14/24 : ENV PYTHONUNBUFFERED 1
+Step #0 - "build":  Running in 70886e0c352b
+Step #0 - "build": Removing intermediate container 70886e0c352b
+Step #0 - "build":  a7ab7ef1bba7
+Step #0 - "build": Step 15/24 : COPY requirements.txt .
+Step #0 - "build":  2831dccecf7c
+Step #0 - "build": Step 16/24 : RUN pip install --no-cache-dir -r requirements.txt
+Step #0 - "build":  Running in 7044bc0c63d9
+Step #0 - "build": Collecting django<6.0,>=5.0 (from -r requirements.txt (line 1))
+Step #0 - "build":   Downloading django-5.2.11-py3-none-any.whl.metadata (4.1 kB)
+Step #0 - "build": Collecting django-csp>=3.8 (from -r requirements.txt (line 2))
+Step #0 - "build":   Downloading django_csp-4.0-py3-none-any.whl.metadata (3.6 kB)
+Step #0 - "build": Collecting psycopg2-binary>=2.9 (from -r requirements.txt (line 3))
+Step #0 - "build":   Downloading psycopg2_binary-2.9.11-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Step #0 - "build": Collecting django-htmx>=1.17 (from -r requirements.txt (line 4))
+Step #0 - "build":   Downloading django_htmx-1.27.0-py3-none-any.whl.metadata (2.7 kB)
+Step #0 - "build": Collecting django-unfold>=0.30.0 (from -r requirements.txt (line 5))
+Step #0 - "build":   Downloading django_unfold-0.80.2-py3-none-any.whl.metadata (10 kB)
+Step #0 - "build": Collecting redis>=5.0 (from -r requirements.txt (line 6))
+Step #0 - "build":   Downloading redis-7.2.0-py3-none-any.whl.metadata (12 kB)
+Step #0 - "build": Collecting gunicorn>=21.2 (from -r requirements.txt (line 7))
+Step #0 - "build":   Downloading gunicorn-25.1.0-py3-none-any.whl.metadata (5.5 kB)
+Step #0 - "build": Collecting whitenoise>=6.6 (from -r requirements.txt (line 8))
+Step #0 - "build":   Downloading whitenoise-6.11.0-py3-none-any.whl.metadata (3.7 kB)
+Step #0 - "build": Collecting dj-database-url>=2.1 (from -r requirements.txt (line 9))
+Step #0 - "build":   Downloading dj_database_url-3.1.2-py3-none-any.whl.metadata (13 kB)
+Step #0 - "build": Collecting Pillow>=10.0 (from -r requirements.txt (line 10))
+Step #0 - "build":   Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Step #0 - "build": Collecting django-storages>=1.14 (from django-storages[google]>=1.14->-r requirements.txt (line 12))
+Step #0 - "build":   Downloading django_storages-1.14.6-py3-none-any.whl.metadata (4.7 kB)
+Step #0 - "build": Collecting google-cloud-storage>=2.10 (from -r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_cloud_storage-3.9.0-py3-none-any.whl.metadata (15 kB)
+Step #0 - "build": Collecting python-dotenv>=1.0.0 (from -r requirements.txt (line 16))
+Step #0 - "build":   Downloading python_dotenv-1.2.1-py3-none-any.whl.metadata (25 kB)
+Step #0 - "build": Collecting asgiref>=3.8.1 (from django<6.0,>=5.0->-r requirements.txt (line 1))
+Step #0 - "build":   Downloading asgiref-3.11.1-py3-none-any.whl.metadata (9.3 kB)
+Step #0 - "build": Collecting sqlparse>=0.3.1 (from django<6.0,>=5.0->-r requirements.txt (line 1))
+Step #0 - "build":   Downloading sqlparse-0.5.5-py3-none-any.whl.metadata (4.7 kB)
+Step #0 - "build": Collecting packaging (from django-csp>=3.8->-r requirements.txt (line 2))
+Step #0 - "build":   Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+Step #0 - "build": Collecting google-auth<3.0.0,>=2.26.1 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_auth-2.48.0-py3-none-any.whl.metadata (6.2 kB)
+Step #0 - "build": Collecting google-api-core<3.0.0,>=2.27.0 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_api_core-2.30.0-py3-none-any.whl.metadata (3.1 kB)
+Step #0 - "build": Collecting google-cloud-core<3.0.0,>=2.4.2 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_cloud_core-2.5.0-py3-none-any.whl.metadata (3.1 kB)
+Step #0 - "build": Collecting google-resumable-media<3.0.0,>=2.7.2 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_resumable_media-2.8.0-py3-none-any.whl.metadata (2.6 kB)
+Step #0 - "build": Collecting requests<3.0.0,>=2.22.0 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Step #0 - "build": Collecting google-crc32c<2.0.0,>=1.1.3 (from google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading google_crc32c-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (1.7 kB)
+Step #0 - "build": Collecting googleapis-common-protos<2.0.0,>=1.56.3 (from google-api-core<3.0.0,>=2.27.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading googleapis_common_protos-1.72.0-py3-none-any.whl.metadata (9.4 kB)
+Step #0 - "build": Collecting protobuf<7.0.0,>=4.25.8 (from google-api-core<3.0.0,>=2.27.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+Step #0 - "build": Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core<3.0.0,>=2.27.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading proto_plus-1.27.1-py3-none-any.whl.metadata (2.2 kB)
+Step #0 - "build": Collecting pyasn1-modules>=0.2.1 (from google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+Step #0 - "build": Collecting cryptography>=38.0.3 (from google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+Step #0 - "build": Collecting rsa<5,>=3.1.4 (from google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+Step #0 - "build": Collecting charset_normalizer<4,>=2 (from requests<3.0.0,>=2.22.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+Step #0 - "build": Collecting idna<4,>=2.5 (from requests<3.0.0,>=2.22.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Step #0 - "build": Collecting urllib3<3,>=1.21.1 (from requests<3.0.0,>=2.22.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+Step #0 - "build": Collecting certifi>=2017.4.17 (from requests<3.0.0,>=2.22.0->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading certifi-2026.1.4-py3-none-any.whl.metadata (2.5 kB)
+Step #0 - "build": Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading cffi-2.0.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+Step #0 - "build": Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading pyasn1-0.6.2-py3-none-any.whl.metadata (8.4 kB)
+Step #0 - "build": Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth<3.0.0,>=2.26.1->google-cloud-storage>=2.10->-r requirements.txt (line 13))
+Step #0 - "build":   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+Step #0 - "build": Downloading django-5.2.11-py3-none-any.whl (8.3 MB)
+Step #0 - "build":    ???????????????????????????????????????? 8.3/8.3 MB 209.9 MB/s eta 0:00:00
+Step #0 - "build": Downloading django_csp-4.0-py3-none-any.whl (25 kB)
+Step #0 - "build": Downloading psycopg2_binary-2.9.11-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.2 MB)
+Step #0 - "build":    ???????????????????????????????????????? 4.2/4.2 MB 260.2 MB/s eta 0:00:00
+Step #0 - "build": Downloading django_htmx-1.27.0-py3-none-any.whl (62 kB)
+Step #0 - "build": Downloading django_unfold-0.80.2-py3-none-any.whl (1.2 MB)
+Step #0 - "build":    ???????????????????????????????????????? 1.2/1.2 MB 426.2 MB/s eta 0:00:00
+Step #0 - "build": Downloading redis-7.2.0-py3-none-any.whl (394 kB)
+Step #0 - "build": Downloading gunicorn-25.1.0-py3-none-any.whl (197 kB)
+Step #0 - "build": Downloading whitenoise-6.11.0-py3-none-any.whl (20 kB)
+Step #0 - "build": Downloading dj_database_url-3.1.2-py3-none-any.whl (9.0 kB)
+Step #0 - "build": Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+Step #0 - "build":    ???????????????????????????????????????? 7.0/7.0 MB 258.8 MB/s eta 0:00:00
+Step #0 - "build": Downloading django_storages-1.14.6-py3-none-any.whl (33 kB)
+Step #0 - "build": Downloading google_cloud_storage-3.9.0-py3-none-any.whl (321 kB)
+Step #0 - "build": Downloading python_dotenv-1.2.1-py3-none-any.whl (21 kB)
+Step #0 - "build": Downloading asgiref-3.11.1-py3-none-any.whl (24 kB)
+Step #0 - "build": Downloading google_api_core-2.30.0-py3-none-any.whl (173 kB)
+Step #0 - "build": Downloading google_auth-2.48.0-py3-none-any.whl (236 kB)
+Step #0 - "build": Downloading google_cloud_core-2.5.0-py3-none-any.whl (29 kB)
+Step #0 - "build": Downloading google_crc32c-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (33 kB)
+Step #0 - "build": Downloading google_resumable_media-2.8.0-py3-none-any.whl (81 kB)
+Step #0 - "build": Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+Step #0 - "build": Downloading sqlparse-0.5.5-py3-none-any.whl (46 kB)
+Step #0 - "build": Downloading packaging-26.0-py3-none-any.whl (74 kB)
+Step #0 - "build": Downloading certifi-2026.1.4-py3-none-any.whl (152 kB)
+Step #0 - "build": Downloading charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (153 kB)
+Step #0 - "build": Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl (4.5 MB)
+Step #0 - "build":    ???????????????????????????????????????? 4.5/4.5 MB 455.1 MB/s eta 0:00:00
+Step #0 - "build": Downloading googleapis_common_protos-1.72.0-py3-none-any.whl (297 kB)
+Step #0 - "build": Downloading idna-3.11-py3-none-any.whl (71 kB)
+Step #0 - "build": Downloading proto_plus-1.27.1-py3-none-any.whl (50 kB)
+Step #0 - "build": Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl (323 kB)
+Step #0 - "build": Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+Step #0 - "build": Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+Step #0 - "build": Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+Step #0 - "build": Downloading cffi-2.0.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (219 kB)
+Step #0 - "build": Downloading pyasn1-0.6.2-py3-none-any.whl (83 kB)
+Step #0 - "build": Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+Step #0 - "build": Installing collected packages: whitenoise, urllib3, sqlparse, redis, python-dotenv, pycparser, pyasn1, psycopg2-binary, protobuf, Pillow, packaging, idna, google-crc32c, charset_normalizer, certifi, asgiref, rsa, requests, pyasn1-modules, proto-plus, gunicorn, googleapis-common-protos, google-resumable-media, django, cffi, django-unfold, django-storages, django-htmx, django-csp, dj-database-url, cryptography, google-auth, google-api-core, google-cloud-core, google-cloud-storage
+Step #0 - "build": Successfully installed Pillow-12.1.1 asgiref-3.11.1 certifi-2026.1.4 cffi-2.0.0 charset_normalizer-3.4.4 cryptography-46.0.5 dj-database-url-3.1.2 django-5.2.11 django-csp-4.0 django-htmx-1.27.0 django-storages-1.14.6 django-unfold-0.80.2 google-api-core-2.30.0 google-auth-2.48.0 google-cloud-core-2.5.0 google-cloud-storage-3.9.0 google-crc32c-1.8.0 google-resumable-media-2.8.0 googleapis-common-protos-1.72.0 gunicorn-25.1.0 idna-3.11 packaging-26.0 proto-plus-1.27.1 protobuf-6.33.5 psycopg2-binary-2.9.11 pyasn1-0.6.2 pyasn1-modules-0.4.2 pycparser-3.0 python-dotenv-1.2.1 redis-7.2.0 requests-2.32.5 rsa-4.9.1 sqlparse-0.5.5 urllib3-2.6.3 whitenoise-6.11.0
+Step #0 - "build": [91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Step #0 - "build": [0m[91m
+Step #0 - "build": [notice] A new release of pip is available: 25.0.1 -> 26.0.1
+Step #0 - "build": [notice] To update, run: pip install --upgrade pip
+Step #0 - "build": [0mRemoving intermediate container 7044bc0c63d9
+Step #0 - "build":  24e65e608a9b
+Step #0 - "build": Step 17/24 : RUN mkdir -p /app/logs
+Step #0 - "build":  Running in 44bd5028eda6
+Step #0 - "build": Removing intermediate container 44bd5028eda6
+Step #0 - "build":  826f8b6d1b95
+Step #0 - "build": Step 18/24 : COPY . .
+Step #0 - "build":  9c80ec2bcc80
+Step #0 - "build": Step 19/24 : COPY docker-entrypoint.sh /docker-entrypoint.sh
+Step #0 - "build":  3e0696340885
+Step #0 - "build": Step 20/24 : RUN chmod +x /docker-entrypoint.sh
+Step #0 - "build":  Running in cf884671a12e
+Step #0 - "build": Removing intermediate container cf884671a12e
+Step #0 - "build":  91538bd2631b
+Step #0 - "build": Step 21/24 : COPY --from=node-builder /app/web/static/css/output.css ./web/static/css/output.css
+Step #0 - "build":  8eeec1ac0198
+Step #0 - "build": Step 22/24 : ARG BUILD_SECRET_KEY=build-time-placeholder-key-not-used-in-prod
+Step #0 - "build":  Running in f180b9e0d683
+Step #0 - "build": Removing intermediate container f180b9e0d683
+Step #0 - "build":  5a4bb9ceac44
+Step #0 - "build": Step 23/24 : RUN SECRET_KEY=${BUILD_SECRET_KEY}     DATABASE_URL=sqlite:////tmp/db.sqlite3     ALLOWED_HOSTS=localhost     DEBUG=0     python manage.py collectstatic --noinput
+Step #0 - "build":  Running in 978a772a5828
+Step #0 - "build": Found another file with the destination path 'admin/js/actions.js'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'admin/js/inlines.js'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'admin/js/admin/RelatedObjectLookups.js'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'manifest.json'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'sw.js'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'icons/icon-512.png'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'icons/apple-touch-icon.png'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'icons/icon-192.png'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'css/input.css'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build": Found another file with the destination path 'css/output.css'. It will be ignored since only the first encountered file is collected. If this is not what you want, make sure every static file has a unique path.
+Step #0 - "build":
+Step #0 - "build": 166 static files copied to '/app/staticfiles', 156 post-processed.
+Step #0 - "build": Removing intermediate container 978a772a5828
+Step #0 - "build":  f0db341d5899
+Step #0 - "build": Step 24/24 : ENTRYPOINT ["/docker-entrypoint.sh"]
+Step #0 - "build":  Running in 4f57c786e24f
+Step #0 - "build": Removing intermediate container 4f57c786e24f
+Step #0 - "build":  34a19260a5e1
+Step #0 - "build": Successfully built 34a19260a5e1
+Step #0 - "build": Successfully tagged us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:cd671eab-fe50-4168-aaf2-0a8d9ee2ac8a
+Step #0 - "build": Successfully tagged us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:latest
+Finished Step #0 - "build"
+Starting Step #1 - "push"
+Step #1 - "push": Already have image (with digest): gcr.io/cloud-builders/docker
+Step #1 - "push": The push refers to repository [us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic]
+Step #1 - "push": 9e55acc5e44b: Preparing
+Step #1 - "push": 27516aae3da6: Preparing
+Step #1 - "push": a9068435ac59: Preparing
+Step #1 - "push": 8b252ef56902: Preparing
+Step #1 - "push": bc4cf26a671d: Preparing
+Step #1 - "push": 21a5a5ec3fbf: Preparing
+Step #1 - "push": 786ad6fcc3af: Preparing
+Step #1 - "push": 27191e1f1f01: Preparing
+Step #1 - "push": 6572d8eb9b3a: Preparing
+Step #1 - "push": e606afe81a9a: Preparing
+Step #1 - "push": 50b7356375f2: Preparing
+Step #1 - "push": 2cb59db770d1: Preparing
+Step #1 - "push": a8ff6f8cbdfd: Preparing
+Step #1 - "push": a8ff6f8cbdfd: Waiting
+Step #1 - "push": 2cb59db770d1: Waiting
+Step #1 - "push": 50b7356375f2: Waiting
+Step #1 - "push": e606afe81a9a: Layer already exists
+Step #1 - "push": 50b7356375f2: Layer already exists
+Step #1 - "push": a9068435ac59: Pushed
+Step #1 - "push": 2cb59db770d1: Layer already exists
+Step #1 - "push": 8b252ef56902: Pushed
+Step #1 - "push": 27516aae3da6: Pushed
+Step #1 - "push": 21a5a5ec3fbf: Pushed
+Step #1 - "push": 27191e1f1f01: Pushed
+Step #1 - "push": 6572d8eb9b3a: Pushed
+Step #1 - "push": 9e55acc5e44b: Pushed
+Step #1 - "push": bc4cf26a671d: Pushed
+Step #1 - "push": a8ff6f8cbdfd: Pushed
+Step #1 - "push": 786ad6fcc3af: Pushed
+Step #1 - "push": cd671eab-fe50-4168-aaf2-0a8d9ee2ac8a: digest: sha256:1c518a9d739a4ec77cfc359a511b9d4ec8b35df705757d3c3e1fa1f75c87bfb3 size: 3037
+Step #1 - "push": 9e55acc5e44b: Preparing
+Step #1 - "push": 27516aae3da6: Preparing
+Step #1 - "push": a9068435ac59: Preparing
+Step #1 - "push": 8b252ef56902: Preparing
+Step #1 - "push": bc4cf26a671d: Preparing
+Step #1 - "push": 21a5a5ec3fbf: Preparing
+Step #1 - "push": 786ad6fcc3af: Preparing
+Step #1 - "push": 27191e1f1f01: Preparing
+Step #1 - "push": 6572d8eb9b3a: Preparing
+Step #1 - "push": e606afe81a9a: Preparing
+Step #1 - "push": 50b7356375f2: Preparing
+Step #1 - "push": 2cb59db770d1: Preparing
+Step #1 - "push": a8ff6f8cbdfd: Preparing
+Step #1 - "push": a9068435ac59: Layer already exists
+Step #1 - "push": 9e55acc5e44b: Layer already exists
+Step #1 - "push": 8b252ef56902: Layer already exists
+Step #1 - "push": 6572d8eb9b3a: Layer already exists
+Step #1 - "push": bc4cf26a671d: Layer already exists
+Step #1 - "push": e606afe81a9a: Layer already exists
+Step #1 - "push": 21a5a5ec3fbf: Layer already exists
+Step #1 - "push": 50b7356375f2: Layer already exists
+Step #1 - "push": 786ad6fcc3af: Layer already exists
+Step #1 - "push": 2cb59db770d1: Waiting
+Step #1 - "push": a8ff6f8cbdfd: Waiting
+Step #1 - "push": a8ff6f8cbdfd: Layer already exists
+Step #1 - "push": 2cb59db770d1: Layer already exists
+Step #1 - "push": 27191e1f1f01: Layer already exists
+Step #1 - "push": 27516aae3da6: Layer already exists
+Step #1 - "push": latest: digest: sha256:1c518a9d739a4ec77cfc359a511b9d4ec8b35df705757d3c3e1fa1f75c87bfb3 size: 3037
+Finished Step #1 - "push"
+Starting Step #2 - "deploy"
+Step #2 - "deploy": Pulling image: gcr.io/google.com/cloudsdktool/cloud-sdk
+Step #2 - "deploy": Using default tag: latest
+Step #2 - "deploy": latest: Pulling from google.com/cloudsdktool/cloud-sdk
+Step #2 - "deploy": 6bc9f599b3ef: Already exists
+Step #2 - "deploy": 625caf988bdd: Pulling fs layer
+Step #2 - "deploy": af44e508a374: Pulling fs layer
+Step #2 - "deploy": c0b851003699: Pulling fs layer
+Step #2 - "deploy": 639f5578dcee: Pulling fs layer
+Step #2 - "deploy": c34266747ed6: Pulling fs layer
+Step #2 - "deploy": 639f5578dcee: Verifying Checksum
+Step #2 - "deploy": 639f5578dcee: Download complete
+Step #2 - "deploy": c34266747ed6: Verifying Checksum
+Step #2 - "deploy": c34266747ed6: Download complete
+Step #2 - "deploy": 625caf988bdd: Verifying Checksum
+Step #2 - "deploy": 625caf988bdd: Download complete
+Step #2 - "deploy": 625caf988bdd: Pull complete
+Step #2 - "deploy": c0b851003699: Verifying Checksum
+Step #2 - "deploy": c0b851003699: Download complete
+Step #2 - "deploy": af44e508a374: Verifying Checksum
+Step #2 - "deploy": af44e508a374: Download complete
+Step #2 - "deploy": af44e508a374: Pull complete
+Step #2 - "deploy": c0b851003699: Pull complete
+Step #2 - "deploy": 639f5578dcee: Pull complete
+Step #2 - "deploy": c34266747ed6: Pull complete
+Step #2 - "deploy": Digest: sha256:06a9a05427015a2bb57aa718ba10e116d7dbe9e19c6930f677c2fa85c327e7db
+Step #2 - "deploy": Status: Downloaded newer image for gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+Step #2 - "deploy": gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+Step #2 - "deploy": Deploying container to Cloud Run service [toxic] in project [gen-lang-client-0549116861] region [europe-west1]
+Step #2 - "deploy": Deploying...
+Step #2 - "deploy": Setting IAM Policy..............................done
+Step #2 - "deploy": Creating Revision...............................................................................................failed
+Step #2 - "deploy": Deployment failed
+Step #2 - "deploy": ERROR: (gcloud.run.deploy) The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.
+Step #2 - "deploy":
+Step #2 - "deploy": Logs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22
+Step #2 - "deploy": For more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start
+Finished Step #2 - "deploy"
+ERROR
+ERROR: build step 2 "gcr.io/google.com/cloudsdktool/cloud-sdk" failed: step exited with non-zero status: 1
+----------------------------

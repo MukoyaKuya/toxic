@@ -1,0 +1,2054 @@
+[
+  {
+    "insertId": "tr31e2dc08q",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/gen-lang-client-0549116861/services/toxic",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Service",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "557.0.0",
+            "run.googleapis.com/ingress": "all",
+            "run.googleapis.com/ingress-status": "all",
+            "run.googleapis.com/maxScale": "20",
+            "run.googleapis.com/operation-id": "059b8213-7437-43a5-9553-dae03f48438a",
+            "run.googleapis.com/urls": "[\"https://toxic-1073897174388.europe-west1.run.app\",\"https://toxic-gyosnq7vca-ew.a.run.app\"]",
+            "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com",
+            "serving.knative.dev/lastModifier": "1073897174388-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-02-21T23:51:00.649680Z",
+          "generation": 7,
+          "labels": {
+            "cloud.googleapis.com/location": "europe-west1"
+          },
+          "name": "toxic",
+          "namespace": "1073897174388",
+          "resourceVersion": "AAZLegvoF2w",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/services/toxic",
+          "uid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+        },
+        "spec": {
+          "template": {
+            "metadata": {
+              "annotations": {
+                "autoscaling.knative.dev/maxScale": "10",
+                "run.googleapis.com/client-name": "gcloud",
+                "run.googleapis.com/client-version": "557.0.0",
+                "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+                "run.googleapis.com/startup-cpu-boost": "true"
+              },
+              "labels": {
+                "client.knative.dev/nonce": "psoznflxgf",
+                "run.googleapis.com/startupProbeType": "Default"
+              }
+            },
+            "spec": {
+              "containerConcurrency": 80,
+              "containers": [
+                {
+                  "env": [
+                    {
+                      "name": "DEBUG",
+                      "value": "0"
+                    },
+                    {
+                      "name": "GCS_BUCKET_NAME",
+                      "value": "gen-lang-client-0549116861-toxic-media"
+                    },
+                    {
+                      "name": "ALLOWED_HOSTS",
+                      "value": "toxic-1073897174388.europe-west1.run.app"
+                    },
+                    {
+                      "name": "SECRET_KEY",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "django-secret-key"
+                        }
+                      }
+                    },
+                    {
+                      "name": "DATABASE_URL",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "django-db-url"
+                        }
+                      }
+                    }
+                  ],
+                  "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:cd671eab-fe50-4168-aaf2-0a8d9ee2ac8a",
+                  "ports": [
+                    {
+                      "containerPort": 8000,
+                      "name": "http1"
+                    }
+                  ],
+                  "resources": {
+                    "limits": {
+                      "cpu": "1",
+                      "memory": "512Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 1,
+                    "periodSeconds": 240,
+                    "tcpSocket": {
+                      "port": 8000
+                    },
+                    "timeoutSeconds": 240
+                  }
+                }
+              ],
+              "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+              "timeoutSeconds": 300
+            }
+          },
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100
+            }
+          ]
+        },
+        "status": {
+          "address": {
+            "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+          },
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-02-23T09:03:38.091116Z",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "reason": "HealthCheckContainerError",
+              "status": "False",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:38.091116Z",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "reason": "HealthCheckContainerError",
+              "status": "False",
+              "type": "ConfigurationsReady"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:35.174974Z",
+              "message": "Provisioning revision instances to receive traffic.",
+              "status": "Unknown",
+              "type": "RoutesReady"
+            }
+          ],
+          "latestCreatedRevisionName": "toxic-00007-r5x",
+          "latestReadyRevisionName": "toxic-00006-zlj",
+          "observedGeneration": 7,
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100,
+              "revisionName": "toxic-00006-zlj"
+            }
+          ],
+          "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "code": 9,
+        "message": "Ready condition status changed to False for Service toxic with message: The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"
+      }
+    },
+    "receiveTimestamp": "2026-02-23T09:03:38.237946875Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-02-23T09:03:38.126253Z"
+  },
+  {
+    "insertId": "-6vv1wndgk8i",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/gen-lang-client-0549116861/revisions/toxic-00007-r5x",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "557.0.0",
+            "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+            "run.googleapis.com/operation-id": "059b8213-7437-43a5-9553-dae03f48438a",
+            "run.googleapis.com/startup-cpu-boost": "true",
+            "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-02-23T09:03:26.814012Z",
+          "generation": 1,
+          "labels": {
+            "client.knative.dev/nonce": "psoznflxgf",
+            "cloud.googleapis.com/location": "europe-west1",
+            "run.googleapis.com/startupProbeType": "Default",
+            "serving.knative.dev/configuration": "toxic",
+            "serving.knative.dev/configurationGeneration": "7",
+            "serving.knative.dev/route": "toxic",
+            "serving.knative.dev/service": "toxic",
+            "serving.knative.dev/serviceUid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+          },
+          "name": "toxic-00007-r5x",
+          "namespace": "1073897174388",
+          "ownerReferences": [
+            {
+              "apiVersion": "serving.knative.dev/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Configuration",
+              "name": "toxic",
+              "uid": "a250f290-5889-497e-ab84-4791d1a760f4"
+            }
+          ],
+          "resourceVersion": "AAZLegvnVQw",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/revisions/toxic-00007-r5x",
+          "uid": "2475f85c-f760-4293-a1e3-01d4d3975eaa"
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "DEBUG",
+                  "value": "0"
+                },
+                {
+                  "name": "GCS_BUCKET_NAME",
+                  "value": "gen-lang-client-0549116861-toxic-media"
+                },
+                {
+                  "name": "ALLOWED_HOSTS",
+                  "value": "toxic-1073897174388.europe-west1.run.app"
+                },
+                {
+                  "name": "SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "django-secret-key"
+                    }
+                  }
+                },
+                {
+                  "name": "DATABASE_URL",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "django-db-url"
+                    }
+                  }
+                }
+              ],
+              "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:1c518a9d739a4ec77cfc359a511b9d4ec8b35df705757d3c3e1fa1f75c87bfb3",
+              "name": "toxic-1",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "512Mi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8000
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-02-23T09:03:38.067212Z",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "reason": "HealthCheckContainerError",
+              "status": "False",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:38.067212Z",
+              "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+              "reason": "HealthCheckContainerError",
+              "status": "False",
+              "type": "ContainerHealthy"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:35.041229Z",
+              "message": "Container image import completed in 7.19s.",
+              "status": "True",
+              "type": "ContainerReady"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:37.550216Z",
+              "message": "Provisioning imported containers completed in 2.51s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "status": "True",
+              "type": "ResourcesAvailable"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T09:03:37.550216Z",
+              "message": "System will retry after 00:00 from lastTransitionTime for attempt 0.",
+              "reason": "ImmediateRetry",
+              "severity": "Info",
+              "status": "True",
+              "type": "Retry"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "imageDigest": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:1c518a9d739a4ec77cfc359a511b9d4ec8b35df705757d3c3e1fa1f75c87bfb3",
+              "name": "toxic-1"
+            }
+          ],
+          "imageDigest": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:1c518a9d739a4ec77cfc359a511b9d4ec8b35df705757d3c3e1fa1f75c87bfb3",
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22",
+          "observedGeneration": 1
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "code": 9,
+        "message": "Ready condition status changed to False for Revision toxic-00007-r5x with message: The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00007-r5x&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00007-r5x%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"
+      }
+    },
+    "receiveTimestamp": "2026-02-23T09:03:38.587738716Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00007-r5x",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-02-23T09:03:38.073759Z"
+  },
+  {
+    "insertId": "699c17ea000101ac783a728f",
+    "labels": {
+      "instanceId": "00da6cd2c4a10db4c04bdf912c2d6ddbbb8fb344eab275971245b7450dc638761e0e9ce69ffbcd121bc8079fbada2d1ea1d0acc07ef78fe21372c5a529113d40426e97e155d1b913df673f0c30a9aa"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T09:03:38.317097388Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00007-r5x",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "textPayload": "Default STARTUP TCP probe failed 1 time consecutively for container \"toxic-1\" on port 8000. The instance was not started.\nConnection failed with status CANCELLED.",
+    "timestamp": "2026-02-23T09:03:38.065964Z"
+  },
+  {
+    "insertId": "699c17e9000edd05c07c5a22",
+    "labels": {
+      "container_name": "toxic-1",
+      "instanceId": "00da6cd2c4a10db4c04bdf912c2d6ddbbb8fb344eab275971245b7450dc638761e0e9ce69ffbcd121bc8079fbada2d1ea1d0acc07ef78fe21372c5a529113d40426e97e155d1b913df673f0c30a9aa"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T09:03:37.985974871Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00007-r5x",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "textPayload": "Application exec likely failed",
+    "timestamp": "2026-02-23T09:03:37.974084476Z"
+  },
+  {
+    "insertId": "699c17e9000edcff6fbf805e",
+    "labels": {
+      "instanceId": "00da6cd2c4a10db4c04bdf912c2d6ddbbb8fb344eab275971245b7450dc638761e0e9ce69ffbcd121bc8079fbada2d1ea1d0acc07ef78fe21372c5a529113d40426e97e155d1b913df673f0c30a9aa"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T09:03:37.985974871Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00007-r5x",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "textPayload": "terminated: Application failed to start: failed to load /docker-entrypoint.sh: no such file or directory",
+    "timestamp": "2026-02-23T09:03:37.974065956Z"
+  },
+  {
+    "insertId": "699c17e90009df8e35f3d183",
+    "labels": {
+      "instanceId": "00da6cd2c4a10db4c04bdf912c2d6ddbbb8fb344eab275971245b7450dc638761e0e9ce69ffbcd121bc8079fbada2d1ea1d0acc07ef78fe21372c5a529113d40426e97e155d1b913df673f0c30a9aa",
+      "scaling_reason": "DEPLOYMENT_ROLLOUT"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T09:03:37.652549809Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00007-r5x",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: DEPLOYMENT_ROLLOUT - Instance started due to traffic shifting between revisions due to deployment, traffic split adjustment, or deployment health check.",
+    "timestamp": "2026-02-23T09:03:37.647054Z"
+  },
+  {
+    "insertId": "16gossjd8lna",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "101407584883188086356"
+        },
+        "principalEmail": "1073897174388-compute@developer.gserviceaccount.com",
+        "principalSubject": "serviceAccount:1073897174388-compute@developer.gserviceaccount.com"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/gen-lang-client-0549116861/services/toxic",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/gen-lang-client-0549116861/services/toxic",
+          "resourceAttributes": {
+            "name": "namespaces/gen-lang-client-0549116861/services/toxic",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/gen-lang-client-0549116861/services/toxic",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "557.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "20",
+              "run.googleapis.com/operation-id": "f7c45825-1cbd-4926-ac3d-73988a19b9fd",
+              "run.googleapis.com/urls": "[\"https://toxic-1073897174388.europe-west1.run.app\",\"https://toxic-gyosnq7vca-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com",
+              "serving.knative.dev/lastModifier": "1073897174388-compute@developer.gserviceaccount.com"
+            },
+            "creationTimestamp": "2026-02-21T23:51:00.649680Z",
+            "generation": 6,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "toxic",
+            "namespace": "1073897174388",
+            "resourceVersion": "AAZLefbEbRQ",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/services/toxic",
+            "uid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "10",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "557.0.0",
+                  "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "psoznflxgf",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:cd671eab-fe50-4168-aaf2-0a8d9ee2ac8a",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-02-23T08:57:43.458068Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-02-23T08:57:29.859466Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-02-23T08:57:43.429123Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "toxic-00006-zlj",
+            "latestReadyRevisionName": "toxic-00006-zlj",
+            "observedGeneration": 6,
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100,
+                "revisionName": "toxic-00006-zlj"
+              }
+            ],
+            "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerIp": "34.127.115.254",
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/557.0.0 command/gcloud.run.deploy invocation-id/e11f8a53b9344225abca1b364c84cf83 environment/GCE environment-version/None client-os/LINUX client-os-ver/5.10.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.13.10 term/  (Linux 5.10.0-32-cloud-amd64),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-02-23T09:03:26.779152Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/gen-lang-client-0549116861/services/toxic",
+      "serviceName": "run.googleapis.com"
+    },
+    "receiveTimestamp": "2026-02-23T09:03:27.135224867Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-02-23T09:03:26.250372Z"
+  },
+  {
+    "insertId": "699c174a00069a3249f29031",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T09:00:58.535491762Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 09:00:58 +0000] [1] [INFO] Shutting down: Master",
+    "timestamp": "2026-02-23T09:00:58.432690Z"
+  },
+  {
+    "insertId": "699c174900083318336e7c57",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T09:00:57.874882386Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 09:00:57 +0000] [5] [INFO] Worker exiting (pid: 5)",
+    "timestamp": "2026-02-23T09:00:57.537368Z"
+  },
+  {
+    "insertId": "699c17490008330c35dcca15",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T09:00:57.874882386Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 09:00:57 +0000] [4] [INFO] Worker exiting (pid: 4)",
+    "timestamp": "2026-02-23T09:00:57.537356Z"
+  },
+  {
+    "insertId": "699c174900081ec620a81549",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T09:00:57.536246676Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 09:00:57 +0000] [1] [INFO] Handling signal: term",
+    "timestamp": "2026-02-23T09:00:57.532166Z"
+  },
+  {
+    "insertId": "699c168f0002becdfe49a758",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:51.322104718Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:50 +0000] [5] [INFO] Booting worker with pid: 5",
+    "timestamp": "2026-02-23T08:57:51.179917Z"
+  },
+  {
+    "insertId": "699c168a000d6bfdd89b8af0",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:46.994684744Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:46 +0000] [4] [INFO] Booting worker with pid: 4",
+    "timestamp": "2026-02-23T08:57:46.879613Z"
+  },
+  {
+    "insertId": "-j4a1rsdd7gk",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/gen-lang-client-0549116861/services/toxic",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Service",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "557.0.0",
+            "run.googleapis.com/ingress": "all",
+            "run.googleapis.com/ingress-status": "all",
+            "run.googleapis.com/maxScale": "20",
+            "run.googleapis.com/operation-id": "f7c45825-1cbd-4926-ac3d-73988a19b9fd",
+            "run.googleapis.com/urls": "[\"https://toxic-1073897174388.europe-west1.run.app\",\"https://toxic-gyosnq7vca-ew.a.run.app\"]",
+            "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com",
+            "serving.knative.dev/lastModifier": "1073897174388-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-02-21T23:51:00.649680Z",
+          "generation": 6,
+          "labels": {
+            "cloud.googleapis.com/location": "europe-west1"
+          },
+          "name": "toxic",
+          "namespace": "1073897174388",
+          "resourceVersion": "AAZLefbEbRQ",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/services/toxic",
+          "uid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+        },
+        "spec": {
+          "template": {
+            "metadata": {
+              "annotations": {
+                "autoscaling.knative.dev/maxScale": "10",
+                "run.googleapis.com/client-name": "gcloud",
+                "run.googleapis.com/client-version": "557.0.0",
+                "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+                "run.googleapis.com/startup-cpu-boost": "true"
+              },
+              "labels": {
+                "client.knative.dev/nonce": "vfplxeqese",
+                "run.googleapis.com/startupProbeType": "Default"
+              }
+            },
+            "spec": {
+              "containerConcurrency": 80,
+              "containers": [
+                {
+                  "env": [
+                    {
+                      "name": "DEBUG",
+                      "value": "0"
+                    },
+                    {
+                      "name": "GCS_BUCKET_NAME",
+                      "value": "gen-lang-client-0549116861-toxic-media"
+                    },
+                    {
+                      "name": "ALLOWED_HOSTS",
+                      "value": "toxic-1073897174388.europe-west1.run.app"
+                    },
+                    {
+                      "name": "SECRET_KEY",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "django-secret-key"
+                        }
+                      }
+                    },
+                    {
+                      "name": "DATABASE_URL",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "django-db-url"
+                        }
+                      }
+                    }
+                  ],
+                  "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:e4f55b31-332b-4c9c-8770-90444e76ddc6",
+                  "ports": [
+                    {
+                      "containerPort": 8000,
+                      "name": "http1"
+                    }
+                  ],
+                  "resources": {
+                    "limits": {
+                      "cpu": "1",
+                      "memory": "512Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 1,
+                    "periodSeconds": 240,
+                    "tcpSocket": {
+                      "port": 8000
+                    },
+                    "timeoutSeconds": 240
+                  }
+                }
+              ],
+              "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+              "timeoutSeconds": 300
+            }
+          },
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100
+            }
+          ]
+        },
+        "status": {
+          "address": {
+            "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+          },
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-02-23T08:57:43.458068Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T08:57:29.859466Z",
+              "status": "True",
+              "type": "ConfigurationsReady"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T08:57:43.429123Z",
+              "status": "True",
+              "type": "RoutesReady"
+            }
+          ],
+          "latestCreatedRevisionName": "toxic-00006-zlj",
+          "latestReadyRevisionName": "toxic-00006-zlj",
+          "observedGeneration": 6,
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100,
+              "revisionName": "toxic-00006-zlj"
+            }
+          ],
+          "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "message": "Ready condition status changed to True for Service toxic."
+      }
+    },
+    "receiveTimestamp": "2026-02-23T08:57:44.346425079Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-02-23T08:57:43.471089Z"
+  },
+  {
+    "insertId": "699c1686000be7479bf0c2a1",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:42.999850450Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:42 +0000] [1] [INFO] Control socket listening at /app/gunicorn.ctl",
+    "timestamp": "2026-02-23T08:57:42.780103Z"
+  },
+  {
+    "insertId": "4qy5etda2gq",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/gen-lang-client-0549116861/revisions/toxic-00006-zlj",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "557.0.0",
+            "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+            "run.googleapis.com/operation-id": "f7c45825-1cbd-4926-ac3d-73988a19b9fd",
+            "run.googleapis.com/startup-cpu-boost": "true",
+            "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-02-23T08:57:23.625449Z",
+          "generation": 1,
+          "labels": {
+            "client.knative.dev/nonce": "vfplxeqese",
+            "cloud.googleapis.com/location": "europe-west1",
+            "run.googleapis.com/startupProbeType": "Default",
+            "serving.knative.dev/configuration": "toxic",
+            "serving.knative.dev/configurationGeneration": "6",
+            "serving.knative.dev/route": "toxic",
+            "serving.knative.dev/service": "toxic",
+            "serving.knative.dev/serviceUid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+          },
+          "name": "toxic-00006-zlj",
+          "namespace": "1073897174388",
+          "ownerReferences": [
+            {
+              "apiVersion": "serving.knative.dev/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Configuration",
+              "name": "toxic",
+              "uid": "a250f290-5889-497e-ab84-4791d1a760f4"
+            }
+          ],
+          "resourceVersion": "AAZLefafv8A",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/revisions/toxic-00006-zlj",
+          "uid": "85809706-d590-4fde-8325-8b1d5e81e48b"
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "DEBUG",
+                  "value": "0"
+                },
+                {
+                  "name": "GCS_BUCKET_NAME",
+                  "value": "gen-lang-client-0549116861-toxic-media"
+                },
+                {
+                  "name": "ALLOWED_HOSTS",
+                  "value": "toxic-1073897174388.europe-west1.run.app"
+                },
+                {
+                  "name": "SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "django-secret-key"
+                    }
+                  }
+                },
+                {
+                  "name": "DATABASE_URL",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "django-db-url"
+                    }
+                  }
+                }
+              ],
+              "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:ea773f2224904568e95bf014d47f9acacf2ce8523d48b1578264e51f2abc8fbd",
+              "name": "toxic-1",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "512Mi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8000
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-02-23T08:57:41.054400Z",
+              "message": "Deploying revision succeeded in 17.43s.",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T08:57:41.015502Z",
+              "message": "Containers became healthy in 9.57s.",
+              "status": "True",
+              "type": "ContainerHealthy"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T08:57:29.794674Z",
+              "message": "Container image import completed in 5.15s.",
+              "status": "True",
+              "type": "ContainerReady"
+            },
+            {
+              "lastTransitionTime": "2026-02-23T08:57:31.171417Z",
+              "message": "Provisioning imported containers completed in 1.37s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "status": "True",
+              "type": "ResourcesAvailable"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "imageDigest": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:ea773f2224904568e95bf014d47f9acacf2ce8523d48b1578264e51f2abc8fbd",
+              "name": "toxic-1"
+            }
+          ],
+          "imageDigest": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic@sha256:ea773f2224904568e95bf014d47f9acacf2ce8523d48b1578264e51f2abc8fbd",
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=gen-lang-client-0549116861&resource=cloud_run_revision/service_name/toxic/revision_name/toxic-00006-zlj&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22toxic%22%0Aresource.labels.revision_name%3D%22toxic-00006-zlj%22",
+          "observedGeneration": 1
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "message": "Ready condition status changed to True for Revision toxic-00006-zlj with message: Deploying revision succeeded in 17.43s."
+      }
+    },
+    "receiveTimestamp": "2026-02-23T08:57:41.987375023Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-02-23T08:57:41.064433Z"
+  },
+  {
+    "insertId": "699c168500000c34ef9a670c",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T08:57:41.242521517Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"toxic-1\" on port 8000.",
+    "timestamp": "2026-02-23T08:57:41.003124Z"
+  },
+  {
+    "insertId": "699c1684000f39860529863c",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:41.334646348Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:40 +0000] [1] [INFO] Using worker: sync",
+    "timestamp": "2026-02-23T08:57:40.997766Z"
+  },
+  {
+    "insertId": "699c1684000f3914897d7318",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:41.334646348Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:40 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)",
+    "timestamp": "2026-02-23T08:57:40.997652Z"
+  },
+  {
+    "insertId": "699c1684000f345d8b5d186e",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:57:40.999660893Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:57:40 +0000] [1] [INFO] Starting gunicorn 25.1.0",
+    "timestamp": "2026-02-23T08:57:40.996445Z"
+  },
+  {
+    "insertId": "699c168000085868b6db5489",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-23T08:57:36.863555628Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  No migrations to apply.",
+    "timestamp": "2026-02-23T08:57:36.546920Z"
+  },
+  {
+    "insertId": "699c16800008585f6a25fa48",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-23T08:57:36.863555628Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "Running migrations:",
+    "timestamp": "2026-02-23T08:57:36.546911Z"
+  },
+  {
+    "insertId": "699c1680000807928440f540",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-23T08:57:36.530339190Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  Apply all migrations: admin, auth, contenttypes, sessions, web",
+    "timestamp": "2026-02-23T08:57:36.526226Z"
+  },
+  {
+    "insertId": "699c168000080784c5399b61",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-02-23T08:57:36.530339190Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "Operations to perform:",
+    "timestamp": "2026-02-23T08:57:36.526212Z"
+  },
+  {
+    "insertId": "699c167b0003cbe565f21339",
+    "labels": {
+      "instanceId": "00da6cd2c49f51b9d7075d5fcf3db79941ecc039cd98c3a89b823f554f7673dd8151923023c0738778a465cb90c06f646e087f70032d95252487cdae53b1f6dedf27e909757d664003a16f0df84271",
+      "scaling_reason": "DEPLOYMENT_ROLLOUT"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-02-23T08:57:31.252195766Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00006-zlj",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: DEPLOYMENT_ROLLOUT - Instance started due to traffic shifting between revisions due to deployment, traffic split adjustment, or deployment health check.",
+    "timestamp": "2026-02-23T08:57:31.248805Z"
+  },
+  {
+    "insertId": "3vvu7ddahz8",
+    "logName": "projects/gen-lang-client-0549116861/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "101407584883188086356"
+        },
+        "principalEmail": "1073897174388-compute@developer.gserviceaccount.com",
+        "principalSubject": "serviceAccount:1073897174388-compute@developer.gserviceaccount.com"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/gen-lang-client-0549116861/services/toxic",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/gen-lang-client-0549116861/services/toxic",
+          "resourceAttributes": {
+            "name": "namespaces/gen-lang-client-0549116861/services/toxic",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/gen-lang-client-0549116861/services/toxic",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "557.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "20",
+              "run.googleapis.com/operation-id": "394cc713-a917-45a5-bdfd-f48f8f7d98c5",
+              "run.googleapis.com/urls": "[\"https://toxic-1073897174388.europe-west1.run.app\",\"https://toxic-gyosnq7vca-ew.a.run.app\"]",
+              "serving.knative.dev/creator": "1073897174388-compute@developer.gserviceaccount.com",
+              "serving.knative.dev/lastModifier": "1073897174388-compute@developer.gserviceaccount.com"
+            },
+            "creationTimestamp": "2026-02-21T23:51:00.649680Z",
+            "generation": 5,
+            "labels": {
+              "cloud.googleapis.com/location": "europe-west1"
+            },
+            "name": "toxic",
+            "namespace": "1073897174388",
+            "resourceVersion": "AAZLecldHfY",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/1073897174388/services/toxic",
+            "uid": "8a01b4d9-5b29-4e7c-879a-2fdbfb64eab1"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "10",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "557.0.0",
+                  "run.googleapis.com/cloudsql-instances": "gen-lang-client-0549116861:us-central1:toxic-db",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "vfplxeqese",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "us-central1-docker.pkg.dev/gen-lang-client-0549116861/toxic-repo/toxic:e4f55b31-332b-4c9c-8770-90444e76ddc6",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "1073897174388-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-02-23T08:45:01.712886Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-02-23T08:44:48.104480Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-02-23T08:45:01.682869Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "toxic-00005-wvr",
+            "latestReadyRevisionName": "toxic-00005-wvr",
+            "observedGeneration": 5,
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100,
+                "revisionName": "toxic-00005-wvr"
+              }
+            ],
+            "url": "https://toxic-gyosnq7vca-ew.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerIp": "104.197.118.226",
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/557.0.0 command/gcloud.run.deploy invocation-id/a2a0ee0228ce4e1e80e5dc59786a74fa environment/GCE environment-version/None client-os/LINUX client-os-ver/5.10.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.13.10 term/  (Linux 5.10.0-32-cloud-amd64),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-02-23T08:57:23.587280Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "europe-west1"
+        ]
+      },
+      "resourceName": "namespaces/gen-lang-client-0549116861/services/toxic",
+      "serviceName": "run.googleapis.com"
+    },
+    "receiveTimestamp": "2026-02-23T08:57:23.971056236Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-02-23T08:57:22.992150Z"
+  },
+  {
+    "insertId": "699c161b0007afcc72035175",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:55.680492583Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:55.503756Z"
+  },
+  {
+    "insertId": "699c161b0007afb7996d53c9",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:55.680492583Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:index:v4:2026-02-22 11:51:46.984000+00:00'",
+    "timestamp": "2026-02-23T08:55:55.503735Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.010513297s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "684",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/static/icons/icon-512.png",
+      "responseSize": "90508",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c161a0001ff6492de3f8e",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:54.438772940Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "b205f684b23c3487",
+    "timestamp": "2026-02-23T08:55:54.118488Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/b463c339681e0b6f4f6aa0630cffeda6"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.007495408s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "766",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/static/icons/icon-192.png",
+      "responseSize": "24348",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c161a0001683c881f1aa5",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:54.106889110Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "1ddcbe6dd6954f58",
+    "timestamp": "2026-02-23T08:55:54.082734Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/4960534ead7b15454f6aa0630cffe6cd",
+    "traceSampled": true
+  },
+  {
+    "insertId": "699c1619000749c583335748",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:53.661846055Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:53.477637Z"
+  },
+  {
+    "insertId": "699c1619000749b5e15530c7",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:53.661846055Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:index:v4:2026-02-22 11:51:46.984000+00:00'",
+    "timestamp": "2026-02-23T08:55:53.477621Z"
+  },
+  {
+    "insertId": "699c16180008fda09cfe676a",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:52.662991028Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:52.589216Z"
+  },
+  {
+    "insertId": "699c16180008fd8c3260fb69",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:52.662991028Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:music:1:2026-02-20 17:46:01.013000+00:00'",
+    "timestamp": "2026-02-23T08:55:52.589196Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "1.386525942s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "681",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/static/css/output.css",
+      "responseSize": "8582",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c1619000dc1ffdae7ae89",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:54.106889110Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "7bd2c92321eb6364",
+    "timestamp": "2026-02-23T08:55:52.513342Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/d86bdc673a8ccb4b4f6aa0630cffe332"
+  },
+  {
+    "insertId": "699c1617000f39ba342cc213",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:52.330243876Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:51.997818Z"
+  },
+  {
+    "insertId": "699c1617000f39a6dc79be78",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:52.330243876Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:tour:2026-02-21 21:50:30.097000+00:00:full'",
+    "timestamp": "2026-02-23T08:55:51.997798Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "2.046052806s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "666",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/music/",
+      "responseSize": "29755",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c1619000db1292a4c95e7",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:54.106889110Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "b3a13afeed39b6a2",
+    "timestamp": "2026-02-23T08:55:51.849687Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/8227e23b5f8a3b764f6aa0630cffe9d2"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.453026936s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "664",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/tour/",
+      "responseSize": "30422",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c16180004a086e9af3c13",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:52.440592944Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "7ffcf3b0c71db100",
+    "timestamp": "2026-02-23T08:55:51.848298Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/67e7ac3c5c6394694f6aa0630cffe050"
+  },
+  {
+    "httpRequest": {
+      "latency": "3.655625806s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "659",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/",
+      "responseSize": "90671",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c161b0007b66384f6ffd7",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:55.770217697Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "2f685f4b6f1a70d2",
+    "timestamp": "2026-02-23T08:55:51.847800Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/db1c3bb033c569c24f6aa0630cffeb8f"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.007314927s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "729",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/sw.js",
+      "responseSize": "3112",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c16170009c146bcbe8e4c",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:51.776634440Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "9aa3e890d1c87658",
+    "timestamp": "2026-02-23T08:55:51.630359Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/04343f93fe63f36ff11d6741d8005fca"
+  },
+  {
+    "insertId": "699c16160002cabd8a6c1e59",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:50.333884213Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "WARNING 2026-02-23 08:55:50,183 log Not Found: /favicon.ico",
+    "timestamp": "2026-02-23T08:55:50.182973Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "0.155241622s",
+      "protocol": "HTTP/1.1",
+      "referer": "https://toxic-1073897174388.europe-west1.run.app/",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "861",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/favicon.ico",
+      "responseSize": "20283",
+      "serverIp": "34.143.79.2",
+      "status": 404,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c16160002cf76e7a7774d",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:50.442227388Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "WARNING",
+    "spanId": "6475b242265df756",
+    "timestamp": "2026-02-23T08:55:50.027485Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/5fd07d553e54cff9f11d6741d8005dad"
+  },
+  {
+    "insertId": "699c161500019c2fee5fe1d7",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:49.332966220Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:49.105519Z"
+  },
+  {
+    "insertId": "699c161500019c1b885a9cbd",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:49.332966220Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:index:v4:2026-02-22 11:51:46.984000+00:00'",
+    "timestamp": "2026-02-23T08:55:49.105499Z"
+  },
+  {
+    "insertId": "699c1611000f40a60f34f5c7",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:46.002374929Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  warnings.warn(warning, CacheKeyWarning)",
+    "timestamp": "2026-02-23T08:55:45.999590Z"
+  },
+  {
+    "insertId": "699c1611000f408eb0a28e27",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:55:46.002374929Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "/usr/local/lib/python3.12/site-packages/django/core/cache/backends/base.py:119: CacheKeyWarning: Cache key contains characters that will cause errors if used with memcached: ':1:web:index:v4:2026-02-22 11:51:46.984000+00:00'",
+    "timestamp": "2026-02-23T08:55:45.999566Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "5.237487107s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "102.219.210.150",
+      "requestMethod": "GET",
+      "requestSize": "940",
+      "requestUrl": "https://toxic-1073897174388.europe-west1.run.app/",
+      "responseSize": "90671",
+      "serverIp": "34.143.79.2",
+      "status": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "insertId": "699c16150001a3852b95b58e",
+    "labels": {
+      "instanceId": "00da6cd2c44e99c4fa575bbf722bb4028c20857ac4d6f22a963ef344692bc2f2c71d89b3387dacc17811a0338c8fb1877d69c11d1e3ac7780d3ce5c47d74fbb49eea5560ebd62f0855af47bd53cd"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-02-23T08:55:49.111449732Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00005-wvr",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "d4c40c629d0558f6",
+    "timestamp": "2026-02-23T08:55:43.863404Z",
+    "trace": "projects/gen-lang-client-0549116861/traces/998415951624f44d306294fba7776a03",
+    "traceSampled": true
+  },
+  {
+    "insertId": "699c13d00005168641008ff6",
+    "labels": {
+      "instanceId": "00da6cd2c4371c34632cec6b8b444ef9cbb03e85aa43118b50f2c37e5fee12609be4c10d484209d684df9fc5747b545e7665ec07d6cfe608dfb2b0ced2755d119698aeb92f3dadaf909cb5d63893"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:46:08.351127188Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00004-tpf",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:46:08 +0000] [1] [INFO] Shutting down: Master",
+    "timestamp": "2026-02-23T08:46:08.333446Z"
+  },
+  {
+    "insertId": "699c13cf000a6d7c7ffdce6b",
+    "labels": {
+      "instanceId": "00da6cd2c4371c34632cec6b8b444ef9cbb03e85aa43118b50f2c37e5fee12609be4c10d484209d684df9fc5747b545e7665ec07d6cfe608dfb2b0ced2755d119698aeb92f3dadaf909cb5d63893"
+    },
+    "logName": "projects/gen-lang-client-0549116861/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-02-23T08:46:08.015830568Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "toxic",
+        "location": "europe-west1",
+        "project_id": "gen-lang-client-0549116861",
+        "revision_name": "toxic-00004-tpf",
+        "service_name": "toxic"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[2026-02-23 08:46:07 +0000] [4] [INFO] Worker exiting (pid: 4)",
+    "timestamp": "2026-02-23T08:46:07.683388Z"
+  }
+]

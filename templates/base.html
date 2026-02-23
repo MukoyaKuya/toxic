@@ -35,19 +35,49 @@
 
     <!-- Critical nav CSS - prevents FOUC / concatenated links when main CSS loads late -->
     <style>
-        #nav-links { display: none; }
-        @media (min-width: 768px) {
-            #nav-links { display: flex; align-items: center; gap: 2.5rem; }
+        #nav-links {
+            display: none;
         }
-        /* Hide nav when past hero (snap-page index only) */
-        body.nav-past-hero #nav-wrapper {
+
+        @media (min-width: 768px) {
+            #nav-links {
+                display: flex;
+                align-items: center;
+                gap: 2.5rem;
+            }
+        }
+
+        /* Homepage: header always visible on all sections including hero */
+        html.snap-page #nav-wrapper {
+            display: block !important;
+            visibility: visible !important;
+        }
+        html.snap-page #main-nav {
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        /* Hide entire header on homepage when in tour, latest, or merch section */
+        html.snap-page #nav-wrapper.nav-hidden {
+            display: none !important;
+        }
+        html.snap-page #main-nav.nav-hidden {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-100%) !important;
+            pointer-events: none !important;
+        }
+        /* Hide HOME link in header when on homepage and in hero section */
+        html.snap-page body:not(.nav-past-hero) #nav-link-home,
+        html.snap-page body:not(.nav-past-hero) #nav-link-home-mobile {
             display: none !important;
         }
     </style>
     <!-- Custom CSS (Tailwind Built) -->
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (performance hints) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;600;700&display=swap"
         rel="stylesheet">
@@ -60,15 +90,16 @@
     <meta name="apple-mobile-web-app-title" content="TOXIC">
     <link rel="apple-touch-icon" href="{% static 'icons/apple-touch-icon.png' %}">
 
-    <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- HTMX (deferred so it doesn't block first paint) -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
     {% block extra_head %}{% endblock %}
 </head>
 
 <body class="bg-toxicBlack text-white min-h-screen flex flex-col" hx-boost="true">
 
-    <!-- Navigation (hidden on mobile when on music page to avoid obstructing content) -->
-    <div id="nav-wrapper" class="{% if request.resolver_match.url_name == 'music' %}hidden md:block{% endif %}">
+    <!-- Navigation (only on homepage and album detail; hidden on tour/latest/merch sections via JS on index) -->
+    {% if request.resolver_match.url_name == 'index' or request.resolver_match.url_name == 'album_detail' %}
+    <div id="nav-wrapper">
         <nav id="main-nav"
             class="fixed w-full z-50 py-4 md:py-5 transition-all duration-300 bg-gradient-to-b from-black/60 to-transparent">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,9 +119,15 @@
 
                     <!-- Desktop Centered Menu -->
                     {% with view=request.resolver_match.url_name %}
-                    {% if view != 'music' and view != 'album_detail' and view != 'tour' %}
-                    <div id="nav-links" class="hidden md:flex items-center space-x-10 lg:space-x-14 transition-opacity duration-300">
-                        <a href="https://toxiclyrikali.com/" class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">BOOKINGS</a>
+                    {% if view != 'album_detail' %}
+                    <div id="nav-links"
+                        class="hidden md:flex items-center space-x-10 lg:space-x-14 transition-opacity duration-300">
+                        <a id="nav-link-home" href="/#hero"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">HOME</a>
+                        {% if view == 'index' %}
+                        <a href="https://toxiclyrikali.com/" hx-boost="false"
+                            class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">BOOKINGS</a>
+                        {% endif %}
                         <a href="{% url 'tour' %}" hx-boost="false"
                             class="py-3 min-h-[44px] flex items-center text-white/80 hover:text-white hover:text-toxicAccent transition-colors text-xs font-bold tracking-[0.2em] uppercase font-display cursor-pointer">SHOWS</a>
                         <a href="{% url 'index' %}#merch"
@@ -145,14 +182,19 @@
                     class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Music</a>
                 {% elif request.resolver_match.url_name == 'tour' %}
-                <a href="https://toxiclyrikali.com/"
-                    class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Bookings</a>
+                <a href="/#hero" class="text-3xl font-display font-bold tracking-widest hover:text-toxicAccent"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">← Back to Home</a>
                 {% endif %}
                 {% with view=request.resolver_match.url_name %}
-                {% if view != 'music' and view != 'album_detail' and view != 'tour' %}
-                <a href="https://toxiclyrikali.com/" class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                {% if view != 'album_detail' %}
+                <a id="nav-link-home-mobile" href="/#hero"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
+                    onclick="document.getElementById('mobile-menu').classList.add('hidden')">HOME</a>
+                {% if view == 'index' %}
+                <a href="https://toxiclyrikali.com/" hx-boost="false"
+                    class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">BOOKINGS</a>
+                {% endif %}
                 <a href="{% url 'tour' %}" hx-boost="false"
                     class="block py-4 min-h-[48px] text-3xl font-display font-bold tracking-widest hover:text-toxicAccent active:opacity-80 cursor-pointer"
                     onclick="document.getElementById('mobile-menu').classList.add('hidden')">SHOWS</a>
@@ -170,6 +212,7 @@
             </div>
         </nav>
     </div>
+    {% endif %}
 
     <!-- Main Content -->
     <main class="flex-grow">
@@ -185,7 +228,8 @@
                 <!-- Left: optional featured image (album cover style) -->
                 {% if footer.featured_image %}
                 <div class="flex-shrink-0 flex justify-center w-full md:w-auto">
-                    <img src="{{ footer.featured_image.url }}" alt="" loading="lazy" class="w-auto object-contain rounded-sm shadow-lg"
+                    <img src="{{ footer.featured_image.url }}" alt="" loading="lazy"
+                        class="w-auto object-contain rounded-sm shadow-lg"
                         style="height: {{ footer.featured_image_height|default:400 }}px; max-width: 100%;">
                 </div>
                 {% endif %}
@@ -340,7 +384,7 @@
             }, { threshold: 0.1 });
             observer.observe(footer);
             if (isIndex) {
-                window.addEventListener('scroll', function() {
+                window.addEventListener('scroll', function () {
                     var sy = window.pageYOffset || document.documentElement.scrollTop;
                     if (sy < window.innerHeight * 0.6) {
                         navLinks.style.visibility = '';

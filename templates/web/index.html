@@ -192,13 +192,13 @@
 
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="https://toxiclyrikali.com/" hx-boost="false" data-no-boost
+            <a href="/#hero" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                BOOKINGS
+                HOME
             </a>
         </div>
 
@@ -211,16 +211,16 @@
                 View Past Archives
             </a>
         </div>
-        <!-- Booking Button at Bottom (when no tours) -->
+        <!-- Home Button at Bottom (when no tours) -->
         <div class="flex justify-center mt-12 mb-8 pb-8"
             style="padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));">
-            <a href="https://toxiclyrikali.com/" hx-boost="false" data-no-boost
+            <a href="/#hero" hx-boost="false" data-no-boost
                 class="inline-flex items-center gap-2 px-6 py-3 bg-toxicAccent hover:bg-white text-white hover:text-black font-display font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                BOOKINGS
+                HOME
             </a>
         </div>
         {% endif %}
@@ -390,6 +390,7 @@
 {% endblock %}
 
 {% block extra_head %}
+<link rel="preload" as="image" href="{% static 'images/section_one_hr.jpg' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 {% endblock %}
 
@@ -402,6 +403,7 @@
         const latestSection = document.getElementById('latest');
         const merchSection = document.getElementById('merch');
         const mainNav = document.getElementById('main-nav');
+        const navWrapper = document.getElementById('nav-wrapper');
         const navLinks = document.getElementById('nav-links');
 
         const heroLyrically = document.getElementById('hero-lyrically');
@@ -450,12 +452,32 @@
             });
             var tourInView = intersecting.has('tour');
             var latestInView = intersecting.has('latest');
+            var merchInView = intersecting.has('merch');
+            var hideMainNav = tourInView || latestInView || merchInView;
+            if (mainNav) mainNav.classList.toggle('nav-hidden', hideMainNav);
+            if (navWrapper) navWrapper.classList.toggle('nav-hidden', hideMainNav);
             if (heroLyrically) heroLyrically.classList.toggle('nav-links--hidden', tourInView);
             if (scrollIndicator) scrollIndicator.classList.toggle('nav-links--hidden', tourInView);
             if (tourHintText) {
                 tourHintText.style.display = latestInView ? 'none' : '';
             }
         }, { threshold: 0.1 });
+
+        function setHeaderHiddenForSections() {
+            var hide = false;
+            sections.forEach(function (section) {
+                if (!section) return;
+                var r = section.getBoundingClientRect();
+                var inView = r.top < window.innerHeight * 0.5 && r.bottom > window.innerHeight * 0.2;
+                if (inView) hide = true;
+            });
+            if (mainNav) mainNav.classList.toggle('nav-hidden', hide);
+            if (navWrapper) navWrapper.classList.toggle('nav-hidden', hide);
+        }
+
+        setHeaderHiddenForSections();
+        window.addEventListener('load', setHeaderHiddenForSections);
+        window.addEventListener('hashchange', function () { setTimeout(setHeaderHiddenForSections, 50); });
 
         // Smooth fade out hero image based on scroll position
         function updateHeroFade() {
