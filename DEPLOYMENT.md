@@ -1,4 +1,4 @@
-# Deployment Guide
+To deploy
 
 ## Database Content (Albums, Shop, Footer, Tour, etc.)
 
