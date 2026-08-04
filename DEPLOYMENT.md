@@ -5,7 +5,7 @@ To deploy
 To push your local content (albums, shop items, footer settings, tour dates, etc.) to production:
 
 ### 1. Export from Local Dev
-z
+ 
 Run from your project root:
 
 ```powershell
