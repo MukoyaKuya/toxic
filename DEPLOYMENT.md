@@ -6,7 +6,7 @@ To push your local content (albums, shop items, footer settings, tour dates, etc
 
 ### 1. Export from Local Dev
  
-Run from your project root:
+Run from your project root: 
 
 ```powershell
 python manage.py export_production_data
