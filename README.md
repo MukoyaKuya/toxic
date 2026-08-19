@@ -9,7 +9,7 @@ Django web application for **TOXIC LYRICALLY** (MBOKADOBA): music catalog, tour 
 - **Merch** — Shop items with image galleries, linking to external shop
 - **Footer** — Configurable social links, logo, and YouTube embed (admin singleton)
 - Responsive layout (Tailwind CSS), HTMX for dynamic updates, parallax and scroll effects
-
+ 
 ## Tech Stack
 
 - **Backend:** Django 5.x, PostgreSQL (prod) / SQLite (local)
