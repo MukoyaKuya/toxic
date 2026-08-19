@@ -1,7 +1,7 @@
 # TOXIC LYRICALLY — Official Site
 
 Django web application for **TOXIC LYRICALLY** (MBOKADOBA): music catalog, tour dates, merch, and artist portfolio..
-
+ 
 ## Features
 
 - **Music** — Albums and tracks with YouTube embeds and streaming links
