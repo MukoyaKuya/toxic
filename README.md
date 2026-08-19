@@ -2,7 +2,7 @@
 
 Django web application for **TOXIC LYRICALLY** (MBOKADOBA): music catalog, tour dates, merch, and artist portfolio..
  
-## Features
+## Features 
 
 - **Music** — Albums and tracks with YouTube embeds and streaming links
 - **Shows** — Tour dates with venues and ticket links
